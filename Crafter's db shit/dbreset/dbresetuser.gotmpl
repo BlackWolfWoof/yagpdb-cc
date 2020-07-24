@@ -1,0 +1,53 @@
+{{/*
+	Trigger: dbresetkey
+	Trigger Type: Command
+
+	Usage:
+	dbresetuser ID/Mention
+
+	Made by TheHDCrafter#0001
+*/}}
+{{$perms := "Administrator"}}
+{{/*The bot will check if the user has this permission.
+Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+
+{{if not .ExecData}}
+	{{if (reFind $perms (index (reFindAllSubmatches `.*\n\x60\d+\x60\n(.*)` (exec "viewperms")) 0 1))}}
+		{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
+		{{$args := parseArgs 0 (print $prefix "dbresetuser <UserID/Code>")
+			(carg "string" "<UserID/Code>")}}
+		{{$db := dbGet .User.ID "dbresetuser"}}
+		{{if not $db}}{{$db = cslice "dbnil"}}{{else}}{{$db = cslice.AppendSlice $db.Value}}{{end}}
+		{{if eq (str ($args.Get 0)) (index $db 0)}}
+			{{if eq (str ($args.Get 0)) (index $db 0)}}
+				{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This will take a while...") "description" "Please wait untill the command is done running.\n**Do not run this command multiple times at the same time**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+				{{execCC .CCID nil 5 (sdict "user" (index $db 1) "id" $x)}}
+				{{dbDel .User.ID "dbresetuser"}}
+			{{else}}
+				{{sendMessage nil "Wrong code provided. Use `" $prefix "dbresetuser <UserID/Code>` to get a new code"}}
+			{{end}}
+		{{else if and (str ($args.Get 0)) (reFind `\d+` (str ($args.Get 0)))}}
+			{{$cslice := shuffle (cslice "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z")}}
+			{{$random := ""}}{{range (seq 0 10)}}{{$r := index (shuffle (cslice 0 1)) 0}}{{if eq $r 1}}{{$random = print $random (upper (index $cslice .))}}{{else}}{{$random = print $random (index $cslice .)}}{{end}}{{end}}
+			{{dbSetExpire .User.ID "dbresetuser" (cslice $random (index (reFindAll `\d+` (str ($args.Get 0))) 0)) 60}}
+			{{sendMessage nil (cembed "title" "Hold up!" "description" (print "**YOU ARE ABOUT TO DELETE ALL KEYS WITH THE USERID `" (index (reFindAll `\d+` (str ($args.Get 0))) 0) "` ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back if you reset it❗**\n\nIf you are 100% sure type `" $prefix "dbresetuser " $random "`") "footer" (sdict "text" "The code will expire in one minute") "color" 0xBE1931 "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png"))}}
+		{{else}}
+			{{sendMessage nil "Wrong code provided. Use `" $prefix "dbresetuser <UserID/Code>` to get a new code"}}
+		{{end}}
+	{{else}}
+		{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
+	{{end}}
+{{else}}
+	{{$c := 0}}
+	{{if .IsPremium}}
+		{{range (dbGetPattern (toInt .ExecData.user) "%" 49 0)}}{{$c = add $c 1}}{{dbDel .UserID .Key}}{{end}}
+	{{else}}
+		{{range (dbGetPattern (toInt .ExecData.user) "%" 9 0)}}{{$c = add $c 1}}{{dbDel .UserID .Key}}{{end}}
+	{{end}}
+	{{if ne $c 0}}
+		{{execCC .CCID nil 10 .ExecData}}
+	{{else}}
+		{{sendMessage nil (print .User.Mention " <:wolfyey:664130162023202816> I am done resetting the database!")}}
+		{{deleteMessage nil .ExecData.id 0}}
+	{{end}}
+{{end}}
