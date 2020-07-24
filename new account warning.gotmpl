@@ -1,0 +1,29 @@
+{{/*
+	Trigger: mod
+	Trigger Type: Command
+
+	Usage:
+	mod @user
+
+	Made by TheHDCrafter#0001
+*/}}
+{{$roleid := 605874249084829719}}
+{{/*This will be the role that gets pinged. MAKE SURE YOU CHANGE OUT THE ID WITH YOURS!*/}}
+{{$age := 43829}}
+{{/*Account age in minutes 43829 = one month*/}}
+{{$channel := nil}}
+{{/*Channel to send it in. Use nil for the current channel*/}}
+
+{{if lt (currentUserAgeMinutes) $age}}
+	{{if not (dbGet .User.ID "warningcooldown")}}
+		{{$embed := sdict "author" (sdict "icon_url" (.User.AvatarURL "1024") "name" "New user with new account joined!") "fields" (cslice (sdict "name" "**• User:**" "value" (print .User.Mention " `" .User.String "`") "inline" true) (sdict "name" "**• ID:**" "value" (print .User.ID) "inline" true) (sdict "name" "**• Age:**" "value" (humanizeDurationSeconds (currentTime.Sub currentUserCreated)) "inline" true)) "footer" (sdict "text" (print .User.String " joined")) "timestamp"  currentTime "color" 16426522}}
+		{{if lt (currentUserAgeMinutes) 1440}}
+			{{$embed.Set "fields" (($embed.Get "fields").Append (sdict "name" "**• WARNING:**" "value" "This account is probably an alt or a spam / raid account‼" "inline" true))}}
+			{{$embed.Set "color" 15158332}}
+			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "❗WARNING: User with extremely " (mentionRoleID $roleid) " joined!"))}}
+		{{else}}
+			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "⚠️User with " (mentionRoleID $roleid) " joined!"))}}
+		{{end}}
+		{{dbSet .User.ID "warningcooldown" true 86400}}
+	{{end}}
+{{end}}
