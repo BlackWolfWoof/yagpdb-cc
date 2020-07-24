@@ -1,4 +1,4 @@
-# WORK IN PROGRESS
+# THIS README IS WORK IN PROGRESS
 
 Hello,
 thanks for using my database custom commands.
