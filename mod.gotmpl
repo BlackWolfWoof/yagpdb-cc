@@ -1,3 +1,13 @@
+{{/*
+	Trigger: mod
+	Trigger Type: Command
+
+	Usage:
+	mod @user
+
+	Made by TheHDCrafter#0001
+*/}}
+
 {{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
 {{$args := parseArgs 1 (print $prefix "mod <UserID/Mention>") (carg "userid" "User")}}
 {{if reFind `\d+` .StrippedMsg}}
