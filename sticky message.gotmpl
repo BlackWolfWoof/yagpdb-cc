@@ -1,0 +1,20 @@
+{{/*
+	Trigger. .*
+	Trigger Type: Regex
+
+	Usage:
+	Just type :)
+
+	Made by TheHDCrafter#0001
+*/}}
+
+{{$message := cembed "title" "This is a sticky message" "description" "You can change this text" "color" 0xF47FFF}}
+{{$db := dbGet .Channel.ID "stickymessage"}}
+{{if $db}}
+	{{deleteMessage nil (toInt $db.Value) 0}}
+	{{$id := sendMessageRetID nil $message}}
+	{{dbSet .Channel.ID "stickymessage" (str $id)}}
+{{else}}
+	{{$id := sendMessageRetID nil $message}}
+	{{dbSet .Channel.ID "stickymessage" (str $id)}}
+{{end}}
