@@ -9,12 +9,12 @@ If you visited this repo without knowing about [my website](https://www.thehdcra
 
 ---
 ##### Other custom command repositories:
-[Joe's Repo](https://github.com/jo3-l/yagpdb-cc): This is the biggest repo of custom commands I know of.
+[Joe's Repo](https://github.com/jo3-l/yagpdb-cc): This is the biggest repo of custom commands I know of.  
 [Pedros Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of Joe's repo but with an amazing ticket system.
 
 ---
 ##### Other links:
-[YAGPDB Community & Support](https://discord.gg/4uY54rw) Official support server
-[Chill and Play ❤](https://discord.gg/GRns3fg) My server :)
-[YAGPDB Documentation](https://docs.yagpdb.xyz/reference/templates) Official documentation
+[YAGPDB Community & Support](https://discord.gg/4uY54rw) Official support server  
+[Chill and Play ❤](https://discord.gg/GRns3fg) My server :)  
+[YAGPDB Documentation](https://docs.yagpdb.xyz/reference/templates) Official documentation  
 [YAGPDB Learning page](https://learn.yagpdb.xyz/) Official learning page
