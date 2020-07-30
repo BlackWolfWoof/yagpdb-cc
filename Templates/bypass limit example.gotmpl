@@ -21,7 +21,7 @@
 {{$c := 0}}
 {{range $void, $out := $users}}
 	{{if gt 5 $c}}
-	{{execAdmin "giverep" $out.Username}}
+	{{sendMessage nil (execAdmin "giverep" $out.Username)}}
 	{{$c = add $c 1}}
 	{{/*Removes the users from the sdict that already got rep*/}}
 	{{$users.Del $void}}
