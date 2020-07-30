@@ -7,6 +7,46 @@
 ##### My website:
 If you visited this repo without knowing about [my website](https://www.thehdcraftergaming.tk/yagpdb) you should probably check it out because I explain my custom commands with pictures, a description and the trigger and trigger type there.
 
+--- 
+##### List of custom commands
+
+<summary>List of Custom Commands</summary>
+
++ [Database manupulation](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit)
+	+ [Basic](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/basic)
+		+ `dball` - Shows all entries
+		+ `dbdel` - Deletes an entry
+		+ `dbget` - Gets an entry
+		+ `dbkey` - Shows all entries from a specified key
+		+ `dbset` - Sets the value of an entry
+		+ `dbuser` - Shows all entries from a specified user
+	+ [Map](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/map)
+		+ `dballmap` - 
+		+ `dbdelmap` - 
+		+ `dbgetmap` - 
+		+ `dbsetmap` - 
+	+ [Reset](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/reset)
+		+ `dbresetall` - 
+		+ `dbresetkey` - 
+		+ `dbresetuser` - 
+
++ [Moderation menu](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Moderation%20menu)
+	+ `reaction` - 
+	+ `setup` - 
+
++ [Templates](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)
+	+ `bypass limit` - 
+	+ `bypass limit example` - 
+	+ `rolecolor` - 
+
++ `avatar` - 
++ `cloneroles` - 
++ `fakeban` - 
++ `message link` - 
++ `new account warning` - 
++ `snowflake converter` - 
++ `sticky message` - 
+
 ---
 ##### Other custom command repositories:
 [Joe's Repo](https://github.com/jo3-l/yagpdb-cc): This is the biggest repo of custom commands I know of.  
