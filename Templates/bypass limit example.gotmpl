@@ -1,0 +1,34 @@
+{{/*
+	Usage:
+	test Mention/ID Mention/ID...
+
+	This is a code example for https://github.com/TheHDCrafter/yagpdb-cc/blob/master/Templates/bypass%20limit.gotmpl
+	It will give every user reputation that are mentioned in the custom command.
+
+	Made by TheHDCrafter#0001
+*/}}
+
+
+{{$users := sdict}}
+{{if not .ExecData}}
+	{{/*Getting all mentioned users and setting them into a sdict*/}}
+	{{range .Message.Mentions}}
+		{{$users.Set (str .ID) .}}
+	{{end}}
+{{else}}
+	{{$users = sdict .ExecData.users}}
+{{end}}
+{{$c := 0}}
+{{range $void, $out := $users}}
+	{{if gt 5 $c}}
+	{{execAdmin "giverep" $out.Username}}
+	{{$c = add $c 1}}
+	{{/*Removes the users from the sdict that already got rep*/}}
+	{{$users.Del $void}}
+	{{end}}
+{{end}}
+{{if ne $c 0}}
+	{{execCC .CCID nil 10 (sdict "users" $users "empty" "empty")}}
+{{else}}
+	{{sendMessage nil "Done!"}}
+{{end}}
