@@ -9,7 +9,7 @@ If you visited this repo without knowing about [my website](https://www.thehdcra
 
 --- 
 ##### List of custom commands
-
+WORK IN PROGRESS
 <summary>List of Custom Commands</summary>
 
 + [Database manupulation](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit)
