@@ -22,7 +22,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{$t1 := (dbGet ($args.Get 0) ($args.Get 1))}}
 	{{if $t1}}
 		{{$db := sdict $t1.Value}}
-		{{if $db.Get ($args.Get 2)}}
+		{{if kindOf ($db.Get ($args.Get 2))}}
 			{{$db.Del ($args.Get 2)}}
 			{{dbSet ($args.Get 0) ($args.Get 1) $db}}
 			{{$embed := sdict "color" 0x00D66C "title" "\\🗑️ deleted database map entry" "description" (print "<:checkmark:705738821425299527> Deleted `" ($args.Get 2) "` in `" ($args.Get 1) "` from " $userm ".")}}
