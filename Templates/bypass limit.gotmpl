@@ -11,6 +11,7 @@
 
 
 {{$skip := 0}}{{$count := 0}}
+{{if .ExecData}}
 	{{$skip = .ExecData.skip}}
 {{end}}
 {{range (dbTopEntries "test" 10 $skip)}}
