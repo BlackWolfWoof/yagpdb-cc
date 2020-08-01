@@ -12,14 +12,14 @@
 		"description" "This some text you can change"
 		"color" 0xde2e43)}}
 		{{deleteAllMessageReactions $cid $mid}}
-		{{addMessageReactions $cid $mid "❌" }}
+		{{addMessageReactions $cid $mid "❌"}}
 	{{else if (eq $en "💡")}}
 		{{editMessage $cid $mid (cembed
 		"title" "💡 Example2"
 		"description" "Idk what to type here so i typed this"
 		"color" 0xffd984)}}
 		{{deleteAllMessageReactions $cid $mid}}
-		{{addMessageReactions $cid $mid "❌" }}
+		{{addMessageReactions $cid $mid "❌"}}
 	{{else if (eq $en "🛡️")}}
 		{{editMessage $cid $mid (cembed
 		"title" "🛡️ Example3"
