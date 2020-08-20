@@ -16,7 +16,12 @@
 {{$first := div ($args.Get 0) 4194304 | mult 1000000 | toDuration}}
 {{$second := div ($args.Get 1) 4194304 | mult 1000000 | toDuration}}
 {{if not ($args.Get 1)}}
-{{sendMessage nil (cembed "title" "Snowflake 2 Timestamp" "fields" (cslice (sdict "name" "How long ago the snowflake was created" "value" (humanizeDurationSeconds (currentTime.Sub ($first | .DiscordEpoch.Add))) "inline" true)) "footer" (sdict "text" "Date of the snowflake") "color" 0xffff00 "timestamp" ($first | .DiscordEpoch.Add))}}
+{{sendMessage nil (cembed
+	"title" "Snowflake 2 Timestamp"
+	"fields" (cslice (sdict "name" "How long ago the snowflake was created" "value" (humanizeDurationSeconds (currentTime.Sub ($first | .DiscordEpoch.Add))) "inline" true))
+	"footer" (sdict "text" "Date of the snowflake")
+	"color" 0xffff00
+	"timestamp" ($first | .DiscordEpoch.Add))}}
 {{else}}
 	{{$smaller := $first}}
 	{{$bigger := $second}}
@@ -32,11 +37,11 @@
 		"color" 0xffff00
 		"timestamp" ($first | .DiscordEpoch.Add))}}
 	{{sendMessage nil (cembed
-	"title" "Snowflake 2 Timestamp"
-	"fields" (cslice
-		(sdict "name" "Second Snowflake" "value" (print "`" ($args.Get 1) "`\nAge: " (humanizeDurationSeconds (currentTime.Sub ($second | .DiscordEpoch.Add)))) "inline" true)
-		(sdict "name" "Calc" "value" (print "Time between these two snowflakes:\n" (humanizeDurationSeconds (($bigger | .DiscordEpoch.Add).Sub ($smaller | .DiscordEpoch.Add)))) "inline" false))
-	"footer" (sdict "text" "Date of the snowflake")
-	"color" 0xffff00
-	"timestamp" ($second | .DiscordEpoch.Add))}}
+		"title" "Snowflake 2 Timestamp"
+		"fields" (cslice
+			(sdict "name" "Second Snowflake" "value" (print "`" ($args.Get 1) "`\nAge: " (humanizeDurationSeconds (currentTime.Sub ($second | .DiscordEpoch.Add)))) "inline" true)
+			(sdict "name" "Calc" "value" (print "Time between these two snowflakes:\n" (humanizeDurationSeconds (($bigger | .DiscordEpoch.Add).Sub ($smaller | .DiscordEpoch.Add)))) "inline" false))
+		"footer" (sdict "text" "Date of the snowflake")
+		"color" 0xffff00
+		"timestamp" ($second | .DiscordEpoch.Add))}}
 {{end}}
