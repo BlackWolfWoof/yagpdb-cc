@@ -44,7 +44,7 @@ WORK IN PROGRESS
 + `fakeban` - 
 + `message link` - 
 + `new account warning` - 
-+ `snowflake converter` - 
++ `snowflake converter` - Converts a user mention or snowflake (id) into a readable format
 + `sticky message` - 
 
 ---
