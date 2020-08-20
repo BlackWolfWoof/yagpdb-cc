@@ -18,7 +18,7 @@
 		"color" 0x36393F
 		"footer" (sdict
 			"text" (print "Command triggered by " .Message.Author.String ". Message from"))
-		"timestamp" ((newDate 1970 1 1 0 0 0).Add (toDuration (mult (fdiv (toInt64 (round (add (fdiv (toInt64 (index $m 0 3)) 4194304) 1420070400000))) 1000) .TimeSecond))))}}
+		"timestamp" (div (index $m 0 3) 4194304 | mult 1000000 | toDuration | .DiscordEpoch.Add))}}
 {{else}}
 	{{$msg := getMessage (index $m 0 2) (index $m 0 3)}}
 	{{$mc := reReplace `(?:https?://)?(?:www\.)?(discord(?:app)?\.gg(?:/|\\+/+)|discord(?:app)?\.com(?:/|\\+/+)(?:invite/))\w{2,}|(?:https?://)?(?:www\.)?discord(?:app)?\.(?:io|me|li)(?:/|\\+/+)[A-z+0-9]{2,}` $msg.Content "[Invite Removed](https://example.com/)"}}

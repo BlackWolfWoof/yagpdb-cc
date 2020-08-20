@@ -42,7 +42,7 @@ WORK IN PROGRESS
 + `avatar` - 
 + `cloneroles` - 
 + `fakeban` - 
-+ `message link` - 
++ `message link` - Quotes the message using using the message link as input
 + `new account warning` - 
 + `snowflake converter` - Converts a user mention or snowflake (id) into a readable format
 + `sticky message` - 
