@@ -37,9 +37,9 @@ WORK IN PROGRESS
 + [Templates](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)
 	+ `bypass limit` - 
 	+ `bypass limit example` - 
-	+ `rolecolor` - 
+	+ `rolecolor` - Outputs the role color of the highest role the current user has
 
-+ `avatar` - 
++ `avatar` - Shows the avatar of the given or current user
 + `cloneroles` - 
 + `fakeban` - 
 + `message link` - Quotes the message using using the message link as input
