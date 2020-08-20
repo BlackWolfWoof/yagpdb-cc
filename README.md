@@ -5,7 +5,8 @@
 
 ---
 ##### My website:
-If you visited this repo without knowing about [my website](https://www.thehdcraftergaming.tk/yagpdb) you should probably check it out because I explain my custom commands with pictures, a description and the trigger and trigger type there.
+If you visited this repo without knowing about [my website](https://www.thehdcraftergaming.tk/yagpdb) and my [discord server](/https://discord.gg/GRns3f) it would be nice if you could check it out. *There you can also find more stuff and code that is not shown here on github ;)*  
+Thank you :)  
 
 --- 
 ##### List of custom commands
