@@ -43,9 +43,9 @@ WORK IN PROGRESS
 + `cloneroles` - Clones roles from user a to user b
 + `fakeban` - Fakes a ban message from yagpdb to troll your friends
 + `message link` - Quotes the message using using the message link as input
-+ `new account warning` - 
++ `new account warning` - Put this into the join message and it will start warning you about brand new discord accounts
 + `snowflake converter` - Converts a user mention or snowflake (id) into a readable format
-+ `sticky message` - 
++ `sticky message` - A message that always stays visible in the channel
 
 ---
 ##### Other custom command repositories:
