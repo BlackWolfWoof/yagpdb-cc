@@ -26,22 +26,22 @@ WORK IN PROGRESS
 		+ `dbgetmap` - 
 		+ `dbsetmap` - 
 	+ [Reset](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/reset)
-		+ `dbresetall` - 
-		+ `dbresetkey` - 
-		+ `dbresetuser` - 
+		+ `dbresetall` - Resets the entire database on the server
+		+ `dbresetkey` - Deletes all specified database keys
+		+ `dbresetuser` - Deletes all keys from a specified user
 
 + [Moderation menu](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Moderation%20menu)
-	+ `reaction` - 
-	+ `setup` - 
+	+ `reaction` - Reaction code that edits the embed on reaction
+	+ `setup` - Command that displays the pain page of the controllable embed
 
 + [Templates](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)
-	+ `bypass limit` - 
-	+ `bypass limit example` - 
+	+ `bypass limit` - This template shows how you will be able to bypass the X uses per CC limits on some functions
+	+ `bypass limit example` - This code is an example that bypasses the execAdmin limit (5 per cc)
 	+ `rolecolor` - Outputs the role color of the highest role the current user has
 
 + `avatar` - Shows the avatar of the given or current user
-+ `cloneroles` - 
-+ `fakeban` - 
++ `cloneroles` - Clones roles from user a to user b
++ `fakeban` - Fakes a ban message from yagpdb to troll your friends
 + `message link` - Quotes the message using using the message link as input
 + `new account warning` - 
 + `snowflake converter` - Converts a user mention or snowflake (id) into a readable format
