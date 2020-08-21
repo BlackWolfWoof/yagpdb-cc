@@ -1,0 +1,31 @@
+{{/*
+	Trigger: 10 Minutes
+	Trigger Type: Interval
+
+	Note: If if the command runs for the first time it will output a preview / example on how it will look.
+	That means if it ran once it will work afterwards.
+
+	Made by TheHDCrafter#0001
+*/}}
+{{$utcoffset := 2}}
+{{/*Input your UTC time zone. Example is Germany with +2 hours*/}}
+{{$channel := .Channel.ID}}
+{{/*The channel it should be sending the message in, .Channel.ID = current channel*/}}
+
+{{$version := index (reFindAllSubmatches `YAGPDB Status, version (.+)` (index (exec "yagstatus")).Title) 0 1}}
+{{$yagversion := sdict}}{{with dbGet 204255221017214977 "yagversion"}}{{$yagversion = sdict .Value}}{{end}}
+{{$firsttime := ""}}
+{{if not $yagversion.version}}
+	{{$yagversion = sdict "version" "No old versions recorded" "last_update" currentTime}}{{$firsttime = " - ❗Example❗ "}}
+{{end}}
+{{if not (eq $yagversion.version $version)}}
+	{{sendMessage $channel (cembed
+		"fields" (cslice
+			(sdict "name" "**• Version:**" "value" (print "Old: \u2004\u200A`" $yagversion.version "`\nNew: `" $version "`") "inline" true)
+			(sdict "name" "**• Time:**" "value" (print "Last update:\n" ($yagversion.last_update.UTC.Format "📅**02.01.06** ⌚15:04") "\nTime passed since last update: **" (humanizeDurationHours ($yagversion.last_update.Sub currentTime)) "**") "inline" true))
+		"author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/708214342067421215.png" "name" (print "YAGPDB updated" $firsttime))
+		"color" 0x738BD7
+		"footer" (sdict "text" "Current update")
+		"timestamp" currentTime)}}
+	{{dbSet 204255221017214977 "yagversion" (sdict "version" $version "last_update" (currentTime.Add (toDuration (mult $utcoffset .TimeHour))))}}
+{{end}}
