@@ -16,7 +16,7 @@
 {{$yagversion := sdict}}{{with dbGet 204255221017214977 "yagversion"}}{{$yagversion = sdict .Value}}{{end}}
 {{$firsttime := ""}}
 {{if not $yagversion.version}}
-	{{$yagversion = sdict "version" "No old versions recorded" "last_update" currentTime}}{{$firsttime = " - ❗Example❗ "}}
+	{{$yagversion = sdict "version" "No old versions recorded" "last_update" (currentTime.Add (toDuration (mult $utcoffset .TimeHour)))}}{{$firsttime = " - ❗Example❗ "}}
 {{end}}
 {{if not (eq $yagversion.version $version)}}
 	{{sendMessage $channel (cembed
