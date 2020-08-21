@@ -47,6 +47,7 @@ WORK IN PROGRESS
 + `new account warning` - Put this into the join message and it will start warning you about brand new discord accounts
 + `snowflake converter` - Converts a user mention or snowflake (id) into a readable format
 + `sticky message` - A message that always stays visible in the channel
++ `yagpdb update` - Tells you when yagpdb was updated. Also shows additional info like when the last update was
 
 ---
 ##### Other custom command repositories:
