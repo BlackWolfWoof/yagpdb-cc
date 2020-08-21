@@ -5,7 +5,7 @@
 
 ---
 ##### Important:
-Remember that you can will get updates for custom commands if you join my [discord server](/https://discord.gg/GRns3f) and __follow__ my announcement channel or give yourself the role that pings you for any updates  
+Remember that you can get update notifications for my custom commands if you join my [discord server](/https://discord.gg/GRns3f) and __follow__ my announcement channel or give yourself the role that pings you for any updates  
   
 If you visited this repo without knowing about [my website](https://www.thehdcraftergaming.tk/yagpdb) and my [discord server](/https://discord.gg/GRns3f) it would be nice if you could check it out. *There you can also find more stuff and code that is not shown here on github ;)*  
 Thank you :)  
