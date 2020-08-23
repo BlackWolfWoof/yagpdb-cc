@@ -46,7 +46,7 @@
 				{{$e.Set "footer" $fo}}
 				{{$e.Set "timestamp" $ti}}
 			{{end}}
-			{{if (reFind `(?i)\.(jpg|jpeg|png|gif|tif|tiff)$` .Filename)}}
+			{{if (reFind `(?i)\.(jpg|jpeg|png|gif|tif|tiff|webp)$` .Filename)}}
 				{{$e.Set "image" (sdict "url" .URL)}}
 				{{sendMessage nil (cembed $e)}}
 			{{else}}
