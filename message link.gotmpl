@@ -14,8 +14,8 @@
 		"author" (sdict
 			"name" "Unknown User"
 			"icon_url" "https://i.imgur.com/jNz2Dwp.png")
-		"description" (print "\n\n**[Message](" (index $m 0 0) "/) in <#" (index $m 0 2) ">**\n" "❗This message is from different server so the content and other infos couldn't be displayed❗")
-		"color" 0x36393F
+		"description" (print "\n\n**[Message](" (index $m 0 0) "/) in <#" (index $m 0 2) ">**\n" "<:excl:565142262401728512> Unknown Message")
+		"color" 0xF04747
 		"footer" (sdict
 			"text" (print "Command triggered by " .Message.Author.String ". Message from"))
 		"timestamp" (div (index $m 0 3) 4194304 | mult 1000000 | toDuration | .DiscordEpoch.Add))}}
@@ -26,11 +26,11 @@
 		"author" (sdict
 			"name" (print $msg.Author.String " (ID " $msg.Author.ID ")")
 			"icon_url" ($msg.Author.AvatarURL "1024"))
-		"color" 3553599
+		"color" 0x36393F
 		"footer" (sdict
 			"text" (print "Command triggered by " .User.String ". Message from"))
 		"timestamp" $msg.Timestamp}}
-	{{if $msg.Content}}
+	{{if and $msg.Content (not $msg.Embeds)}}
 		{{$e.Set "description" (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
 	{{end}}
 	{{$fo := $e.Get "footer"}}
@@ -61,16 +61,16 @@
 			{{$e.Del "author"}}
 		{{end}}
 	{{else}}
-		{{if $msg.Content}}
+		{{if and $msg.Content (not $msg.Embeds)}}
 			{{sendMessage nil (cembed $e)}}
 		{{end}}
 	{{end}}
 	{{if $msg.Embeds}}
-		{{$e.Set "description" (print "**[Embed](" (index $m 0 0) ") in <#" $msg.ChannelID ">**")}}
-		{{sendMessage nil (index $msg.Embeds 0)}}
+		{{$e.Set "description" (print "**[Embed Link](" (index $m 0 0) ") to <#" $msg.ChannelID ">**")}}
+		{{sendMessage nil (complexMessage "embed" (index $msg.Embeds 0) "content" $msg.Content)}}
 		{{sendMessage nil (cembed $e)}}
 	{{end}}
 {{end}}
 {{if eq (len (index $m 0 0)) (len .Message.Content)}}
-	{{deleteTrigger 0}}
+	{{deleteTrigger 1}}
 {{end}}
