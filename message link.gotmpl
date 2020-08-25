@@ -8,7 +8,7 @@
 	Made by TheHDCrafter#0001
 */}}
 
-{{$m := reFindAllSubmatches `https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}
+{{$m := reFindAllSubmatches `https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}{{$reminder := true}}{{$content := .Message.Content}}
 {{if not (eq (toInt64 (index $m 0 1)) .Guild.ID)}}
 	{{sendMessage nil (cembed
 		"author" (sdict
@@ -60,6 +60,7 @@
 			{{$e.Del "description"}}
 			{{$e.Del "author"}}
 		{{end}}
+		{{$reminder = false}}{{$content = ""}}
 	{{else}}
 		{{if and $msg.Content (not $msg.Embeds)}}
 			{{sendMessage nil (cembed $e)}}
@@ -67,8 +68,10 @@
 	{{end}}
 	{{if $msg.Embeds}}
 		{{$e.Set "description" (print "**[Embed Link](" (index $m 0 0) ") to <#" $msg.ChannelID ">**")}}
-		{{sendMessage nil (complexMessage "embed" (index $msg.Embeds 0) "content" $msg.Content)}}
-		{{sendMessage nil (cembed $e)}}
+		{{sendMessage nil (complexMessage "embed" (index $msg.Embeds 0) "content" $content)}}
+		{{if $reminder}}
+			{{sendMessage nil (cembed $e)}}
+		{{end}}
 	{{end}}
 {{end}}
 {{if eq (len (index $m 0 0)) (len .Message.Content)}}
