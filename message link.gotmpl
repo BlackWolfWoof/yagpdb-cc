@@ -8,7 +8,7 @@
 	Made by TheHDCrafter#0001
 */}}
 
-{{$m := reFindAllSubmatches `https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}{{$reminder := true}}{{$content := .Message.Content}}
+{{$m := reFindAllSubmatches `https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}{{$reminder := true}}
 {{if not (eq (toInt64 (index $m 0 1)) .Guild.ID)}}
 	{{sendMessage nil (cembed
 		"author" (sdict
@@ -20,7 +20,7 @@
 			"text" (print "Command triggered by " .Message.Author.String ". Message from"))
 		"timestamp" (div (index $m 0 3) 4194304 | mult 1000000 | toDuration | .DiscordEpoch.Add))}}
 {{else}}
-	{{$msg := getMessage (index $m 0 2) (index $m 0 3)}}
+	{{$msg := getMessage (index $m 0 2) (index $m 0 3)}}{{$content := $msg.Content}}
 	{{$mc := reReplace `(?:https?://)?(?:www\.)?(discord(?:app)?\.gg(?:/|\\+/+)|discord(?:app)?\.com(?:/|\\+/+)(?:invite/))\w{2,}|(?:https?://)?(?:www\.)?discord(?:app)?\.(?:io|me|li)(?:/|\\+/+)[A-z+0-9]{2,}` $msg.Content "[Invite Removed](https://example.com/)"}}
 	{{$e := sdict
 		"author" (sdict
@@ -35,32 +35,42 @@
 	{{end}}
 	{{$fo := $e.Get "footer"}}
 	{{$ti := $msg.Timestamp}}
-	{{if $msg.Attachments}}
-		{{range $c,$ma := $msg.Attachments}}
-			{{$e.Del "footer"}}
-			{{$e.Del "timestamp"}}
-			{{if eq $c 0}}
-				{{$e.Set "description" (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
+	{{if or $msg.Attachments $msg.Embeds}}
+		{{range $c,$ma := (or $msg.Attachments $msg.Embeds)}}
+			{{$filename := ""}}{{$count := ""}}
+			{{if eq (printf "%T" .) "*discordgo.MessageAttachment"}}
+				{{$filename = .Filename}}{{$count = len $msg.Attachments}}
+			{{else if eq (printf "%T" .) "*discordgo.MessageEmbed"}}
+				{{if eq .Type "image"}}
+					{{$filename = .URL}}{{$count = len $msg.Embeds}}
+				{{end}}
 			{{end}}
-			{{if eq (len $msg.Attachments) (add $c 1)}}
-				{{$e.Set "footer" $fo}}
-				{{$e.Set "timestamp" $ti}}
+			{{if ne $filename ""}}
+				{{$e.Del "footer"}}
+				{{$e.Del "timestamp"}}
+				{{if eq $c 0}}
+					{{$e.Set "description" (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
+				{{end}}
+				{{if eq $count (add $c 1)}}
+					{{$e.Set "footer" $fo}}
+					{{$e.Set "timestamp" $ti}}
+				{{end}}
+				{{if (reFind `(?i)\.(jpg|jpeg|png|gif|tif|tiff|webp)$` $filename)}}
+					{{$e.Set "image" (sdict "url" .URL)}}
+					{{sendMessage nil (cembed $e)}}
+				{{else}}
+					{{$e.Set "fields" (cslice
+						(sdict "name" "File Name" "value" (print "`" $filename "`") "inline" true)
+						(sdict "name" "URL" "value" (print "[File Link](" .URL ")") "inline" true))}}
+					{{sendMessage nil (cembed $e)}}
+				{{end}}
+				{{$e.Del "fields"}}
+				{{$e.Del "image"}}
+				{{$e.Del "description"}}
+				{{$e.Del "author"}}
+				{{$reminder = false}}{{$content = ""}}
 			{{end}}
-			{{if (reFind `(?i)\.(jpg|jpeg|png|gif|tif|tiff|webp)$` .Filename)}}
-				{{$e.Set "image" (sdict "url" .URL)}}
-				{{sendMessage nil (cembed $e)}}
-			{{else}}
-				{{$e.Set "fields" (cslice
-					(sdict "name" "File Name" "value" (print "`" .Filename "`") "inline" true)
-					(sdict "name" "URL" "value" (print "[File Link](" .URL ")") "inline" true))}}
-				{{sendMessage nil (cembed $e)}}
-			{{end}}
-			{{$e.Del "fields"}}
-			{{$e.Del "image"}}
-			{{$e.Del "description"}}
-			{{$e.Del "author"}}
 		{{end}}
-		{{$reminder = false}}{{$content = ""}}
 	{{else}}
 		{{if and $msg.Content (not $msg.Embeds)}}
 			{{sendMessage nil (cembed $e)}}
@@ -68,8 +78,8 @@
 	{{end}}
 	{{if $msg.Embeds}}
 		{{$e.Set "description" (print "**[Embed Link](" (index $m 0 0) ") to <#" $msg.ChannelID ">**")}}
-		{{sendMessage nil (complexMessage "embed" (index $msg.Embeds 0) "content" $content)}}
 		{{if $reminder}}
+			{{sendMessage nil (complexMessage "embed" (index $msg.Embeds 0) "content" $content)}}
 			{{sendMessage nil (cembed $e)}}
 		{{end}}
 	{{end}}
