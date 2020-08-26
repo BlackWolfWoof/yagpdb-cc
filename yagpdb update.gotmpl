@@ -22,7 +22,7 @@
 	{{sendMessage $channel (cembed
 		"fields" (cslice
 			(sdict "name" "**• Version:**" "value" (print "Old: \u2004\u200A`" $yagversion.version "`\nNew: `" $version "`") "inline" true)
-			(sdict "name" "**• Time:**" "value" (print "Last update:\n" ($yagversion.last_update.UTC.Format "📅**02.01.06** ⌚15:04") "\nTime passed since last update: **" (humanizeDurationHours ($yagversion.last_update.Sub currentTime)) "**") "inline" true))
+			(sdict "name" "**• Time:**" "value" (print "Last update:\n" ($yagversion.last_update.UTC.Format "📅**02.01.06** ⌚15:04") "\nTime passed since last update: **" (humanizeDurationHours (currentTime.Sub $yagversion.last_update)) "**") "inline" true))
 		"author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/708214342067421215.png" "name" (print "YAGPDB updated" $firsttime))
 		"color" 0x738BD7
 		"footer" (sdict "text" "Current update")
