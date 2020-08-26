@@ -77,10 +77,13 @@
 		{{end}}
 	{{end}}
 	{{if $msg.Embeds}}
-		{{if $reminder}}
+		{{if $reminder}}{{$embed2 := ""}}
 			{{if eq (index $msg.Embeds 0).Type "rich"}}
-				{{sendMessage nil (complexMessage "embed" (index $msg.Embeds 0) "content" $content)}}
-			{{end}}
+			    {{$embed2 = index $msg.Embeds 0}}
+			    {{sendMessage nil (complexMessage "embed" $embed2 "content" $content)}}
+			{{else}}
+	            {{sendMessage nil  $content}}
+	        {{end}}
 			{{$e.Set "description" (print "**[Embed Link](" (index $m 0 0) ") to <#" $msg.ChannelID ">**")}}
 			{{sendMessage nil (cembed $e)}}
 		{{end}}
