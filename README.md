@@ -44,13 +44,13 @@ WORK IN PROGRESS
 
 + `avatar` - Shows the avatar of the given or current user
 + `cloneroles` - Clones roles from user a to user b
++ `downtime announcement` - It will notify you after YAGPDB had some downtime. It will tell you when it was offline and for how long
 + `fakeban` - Fakes a ban message from yagpdb to troll your friends
 + `message link` - Quotes the message using using the message link as input
 + `new account warning` - Put this into the join message and it will start warning you about brand new discord accounts
 + `snowflake converter` - Converts a user mention or snowflake (id) into a readable format
 + `sticky message` - A message that always stays visible in the channel
 + `yagpdb update` - Tells you when yagpdb was updated. Also shows additional info like when the last update was
-+ `downtime announcement` - It will notify you after YAGPDB had some downtime. It will tell you when it was offline and for how long
 
 ---
 ##### Other custom command repositories:
