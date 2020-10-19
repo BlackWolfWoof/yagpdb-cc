@@ -1,0 +1,37 @@
+{{/*
+	YAGPDB Downtime Announcement
+
+	Trigger: 5 Minutes
+	Trigger Type: Interval
+
+	Note: If you set this up for the first time it will create an example downtime announcement so you can see if it works.
+		  Also make sure you set up the 'Channel' when you are using an interval or else it will not work!
+
+	Made by TheHDCrafter#0001
+*/}}
+{{$utcoffset := +2}}
+{{/*Input your UTC time zone. Example is Germany with +2 hours*/}}
+
+
+{{/*1 Minute Interval*/}}
+{{if not .ExecData}}
+	{{execCC .CCID nil 60 (sdict "key" "8rwj7sft" "seconds" 0)}}
+{{else}}
+	{{if lt .ExecData.seconds 180}}
+		{{execCC .CCID nil 60 (sdict "key" "8rwj7sft" "seconds" (add 60 .ExecData.seconds))}}
+	{{end}}
+{{end}}
+
+{{/*Downtime*/}}
+{{$dbtime := (dbGet 204255221017214977 "downtime").Value.UTC}}{{$ctime := currentTime.UTC}}{{$firsttime := ""}}
+{{if not $dbtime}}
+	{{$firsttime = " - ❗Example❗"}}
+	{{$dbtime = ($ctime.UTC.Add (toDuration (mult -3510 .TimeSecond)))}}
+{{end}}
+{{if $dbtime.Before ($ctime.Add (toDuration (mult -3 .TimeMinute)))}}
+	{{sendMessage nil (cembed
+	"author" (sdict "url" "https://yagpdb.xyz/status/" "icon_url" "https://cdn.discordapp.com/emojis/705738821110595607.png" "name" (print "YAGPDB Downtime Announcement" $firsttime))
+	"description" (print "YAGPDB was down for the last **≈ " (humanizeDurationSeconds (($ctime.Add (toDuration (mult 30 .TimeSecond))).Sub $dbtime)) "**\n\nFrom: " (($dbtime.Add (toDuration (mult $utcoffset .TimeHour))).Format "📅`02.1.06` ⌚`15:04:05`") "\nTo:\u2003\u200A\u2005" (($ctime.Add (toDuration (mult $utcoffset .TimeHour))).Format "📅`02.1.06` ⌚`15:04:05`")) "color" 0xbf172e "timestamp" $ctime "footer" (sdict "text" (print "The time is calculated in UTC" $utcoffset)))}}
+{{end}}
+{{$dbtime := ($ctime.Add (toDuration (mult 90 .TimeSecond)))}}
+{{dbSet 204255221017214977 "downtime" $dbtime}}
