@@ -50,6 +50,7 @@ WORK IN PROGRESS
 + `snowflake converter` - Converts a user mention or snowflake (id) into a readable format
 + `sticky message` - A message that always stays visible in the channel
 + `yagpdb update` - Tells you when yagpdb was updated. Also shows additional info like when the last update was
++ `downtime announcement` - It will notify you after YAGPDB had some downtime. It will tell you when it was offline and for how long
 
 ---
 ##### Other custom command repositories:
