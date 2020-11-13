@@ -9,12 +9,10 @@
 */}}
 
 {{$message := cembed "title" "This is a sticky message" "description" "You can change this text" "color" 0xF47FFF}}
-{{$db := dbGet .Channel.ID "stickymessage"}}
-{{if $db}}
+
+{{/* do not edit below */}}
+{{if $db := dbGet .Channel.ID "stickymessage"}}
 	{{deleteMessage nil (toInt $db.Value) 0}}
-	{{$id := sendMessageRetID nil $message}}
-	{{dbSet .Channel.ID "stickymessage" (str $id)}}
-{{else}}
-	{{$id := sendMessageRetID nil $message}}
-	{{dbSet .Channel.ID "stickymessage" (str $id)}}
 {{end}}
+{{$id := sendMessageRetID nil $message}}
+{{dbSet .Channel.ID "stickymessage" (str $id)}}
