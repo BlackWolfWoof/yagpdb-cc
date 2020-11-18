@@ -7,8 +7,8 @@
 {{/*This will be the role that gets pinged. MAKE SURE YOU CHANGE OUT THE ID WITH YOURS!*/}}
 {{$age := 43829}}
 {{/*Account age in minutes 43829 = one month*/}}
-{{$channel := nil}}
-{{/*Channel to send it in. Use nil for the current channel*/}}
+{{$channel := .Channel.ID}}
+{{/*Channel to send message in. Use .Channel.ID for the current channel or replace with channel ID*/}}
 
 {{if lt (currentUserAgeMinutes) $age}}
 	{{if not (dbGet .User.ID "warningcooldown")}}
