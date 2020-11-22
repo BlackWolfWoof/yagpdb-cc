@@ -74,8 +74,8 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 		{{/*Output*/}}
 		{{$id := sendMessageRetID nil (cembed "thumbnail" (sdict "url" (print $icon (reReplace `\s` (print "?type=" $type "?group=" $group "?page=" $page "?max=" $max) `%20`))) "author" (sdict "name" (print "Custom Commands - " .Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" .Guild.ID "/customcommands/")) "description" ($sdict.Get (str $page)) "color" 7864168 "footer" (sdict "text" (print "Page: " $page "/" $max)) "fields" (cslice (sdict "name" "**• More Info**" "value" (print "Usage: " $prefix "cc page <Number>, " $prefix "cc group <GroupName>, " $prefix "cc type <Regex/cmd...>, " $prefix "cc name <CCID/Trigger/Name>\n\nCustom Commands: **" (len (split (exec "cc") "\n`#")) "/" $ccc "**"))))}}
-		{{if eq $page 1}}{{addMessageReactions nil $id "blank:656125423247425557" "▶️"}}{{end}}
-		{{if eq $page $max}}{{addMessageReactions nil $id "◀️" "blank:656125423247425557"}}{{end}}
+		{{if and (ne $page $max) (eq $page 1)}}{{addMessageReactions nil $id "blank:656125423247425557" "▶️"}}{{end}}
+		{{if and (ne $page 1) (eq $page $max)}}{{addMessageReactions nil $id "◀️" "blank:656125423247425557"}}{{end}}
 		{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil $id "◀️" "▶️"}}{{end}}
 	{{else}}
 		{{$cc := exec "cc" $trigger}}

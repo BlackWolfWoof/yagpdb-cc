@@ -59,9 +59,9 @@
 		{{/*Output*/}}
 		{{editMessage nil .Message.ID (cembed "thumbnail" (sdict "url" (print $icon (reReplace `\s` (print "?type=" $type "?group=" $group "?page=" $page "?max=" $max) `%20`))) "author" (sdict "name" (print "Custom Commands - " .Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" .Guild.ID "/customcommands/")) "description" ($sdict.Get (str $page)) "color" 7864168 "footer" (sdict "text" (print "Page: " $page "/" $max)))}}
 		{{deleteAllMessageReactions nil .Message.ID}}
-		{{if eq $page 1}}{{addMessageReactions nil .Message.ID "blank:656125423247425557" "▶️"}}{{end}}
-		{{if eq $page $max}}{{addMessageReactions nil .Message.ID "◀️" "blank:656125423247425557"}}{{end}}
-		{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil .Message.ID "◀️" "▶️"}}{{end}}
+		{{if and (ne $page $max) (eq $page 1)}}{{addMessageReactions nil $id "blank:656125423247425557" "▶️"}}{{end}}
+		{{if and (ne $page 1) (eq $page $max)}}{{addMessageReactions nil $id "◀️" "blank:656125423247425557"}}{{end}}
+		{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil $id "◀️" "▶️"}}{{end}}
 	{{else}}
 		{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
 	{{end}}
