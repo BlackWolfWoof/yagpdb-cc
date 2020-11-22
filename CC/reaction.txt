@@ -1,0 +1,68 @@
+{{/*
+	Trigger Type: Reaction added
+
+	Note: If you enable this custom command make sure to disable the original CustomCommands command. If you do not know how to do so please watch this tutorial https://i.imgur.com/eAvOR2N.gif
+	MAKE SURE TO SET THE SAME PERMISSION AS IN THE COMMAND PART!
+
+	MAKE SURE THAT NO MORE THAN 4 REACTION CUSTOM COMMANDS ARE RUNNING AT THE SAME TIME OR ELSE iT MIGHT NOT WORK!!!
+
+	Made by TheHDCrafter#0001
+*/}}
+
+{{$perms := "Administrator"}}
+	{{/*The bot will check if the user has this permission.
+	Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+
+{{if eq .Reaction.Emoji.Name "◀️" "▶️"}}
+
+	{{if (reFind $perms (index (reFindAllSubmatches `.*\n\x60\d+\x60\n(.*)` (exec "viewperms")) 0 1))}}
+		{{$grab := ""}}{{$sdict := sdict}}
+		{{$input := (reFindAllSubmatches `\?type=(.+)\?group=(.+)\?page=(.+)\?max=(.+)$` (reReplace `%20` (index .Message.Embeds 0).Thumbnail.URL " "))}}
+		
+		{{$type := index $input 0 1}}
+		{{$group := index $input 0 2}}
+		{{$page := toInt (index $input 0 3)}}{{if eq .Reaction.Emoji.Name "◀️"}}{{$page = add $page -1}}{{else}}{{$page = add $page 1}}{{end}}
+		{{/*$max := toInt (index $input 0 4)*/}}
+		{{$max := 0}}
+		
+		{{/*Guild Icon*/}}
+		{{$ex := "png"}}{{if reFind "a_" .Guild.Icon}}{{$ex = "gif"}}{{end}}{{$icon := print "https://cdn.discordapp.com/icons/" .Guild.ID "/" .Guild.Icon "." $ex "?size=1024"}}
+
+		{{/*Splitting exec cc output and filtering / compiling output*/}}
+		{{range (split (exec "cc") "\n`#")}}
+			{{- range (reFindAllSubmatches `\s*(\d+):\x60 (?:\x60(.+)\x60: )?(.*) - Group: \x60(.+)\x60` .) -}}
+				{{$out := ""}}
+				{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**\n<:sendmessage:704342789172887672>Trigger: `" (or (index . 2) "❌") "`\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "None") "**\n<:cc_group:779859070122721320>Group: **" (or (index . 4) "❌") "**\n\n" -}}
+				{{- if ne $group "false" -}}
+					{{if eq (lower (index . 4)) (lower $group)}}
+						{{$out = $t1}}
+					{{end}}
+				{{else if ne $type "false"}}
+					{{if eq (or (index . 3) "None") $type}}
+						{{$out = $t1}}
+					{{end}}
+				{{else}}
+					{{- $out = print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**\n<:sendmessage:704342789172887672>Trigger: `" (or (index . 2) "❌") "`\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "None") "**\n<:cc_group:779859070122721320>Group: **" (or (index . 4) "❌") "**\n\n" -}}
+				{{end}}
+				{{- if ge (add (len $grab) (len $out)) 2000 -}}
+					{{- $max = add $max 1 -}}
+					{{- $sdict.Set (str $max) $grab -}}
+					{{- $grab = $out -}}
+				{{- else -}}
+					{{- $grab = print $grab $out -}}
+				{{- end -}}
+			{{- end -}}
+		{{end}}
+		{{$max = add $max 1}}
+		{{$sdict.Set (str $max) $grab}}
+
+		{{/*Output*/}}
+		{{editMessage nil .Message.ID (cembed "thumbnail" (sdict "url" (print $icon (reReplace `\s` (print "?type=" $type "?group=" $group "?page=" $page "?max=" $max) `%20`))) "author" (sdict "name" (print "Custom Commands - " .Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" .Guild.ID "/customcommands/")) "description" ($sdict.Get (str $page)) "color" 7864168 "footer" (sdict "text" (print "Page: " $page "/" $max)))}}
+		{{deleteAllMessageReactions nil .Message.ID}}
+		{{if eq $page 1}}{{addMessageReactions nil .Message.ID "blank:656125423247425557" "▶️"}}{{end}}
+		{{if eq $page $max}}{{addMessageReactions nil .Message.ID "◀️" "blank:656125423247425557"}}{{end}}
+		{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil .Message.ID "◀️" "▶️"}}{{end}}
+	{{else}}
+		{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
+	{{end}}
+{{end}}
