@@ -11,7 +11,7 @@
 {{$input := 0}}
 {{with .Message.Embeds}}{{if $:=(index . 0).Thumbnail}}{{$input = (reFindAllSubmatches `\?type=(.+)\?group=(.+)\?page=(.+)\?max=(.+)\?perms=(.+)$` (reReplace `%20` $.URL " "))}}{{end}}{{end}}
 {{if and (eq .Reaction.Emoji.Name "◀️" "▶️") $input}}
-    {{$perms := index $input 0 5}}{{$grab := ""}}{{$sdict := sdict}}
+	{{$perms := index $input 0 5}}{{$grab := ""}}{{$sdict := sdict}}
 	{{if in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms}}
 		
 		{{$type := index $input 0 1}}
