@@ -13,7 +13,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 {{if not .ExecData}}
 	{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
-	{{if (reFind $perms (index (reFindAllSubmatches `.*\n\x60\d+\x60\n(.*)` (exec "viewperms")) 0 1))}}
+	{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
 		{{if eq (len .CmdArgs) 0}}
 			{{$cslice := shuffle (cslice "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z")}}
 			{{$random := ""}}{{range (seq 0 10)}}{{$r := index (shuffle (cslice 0 1)) 0}}{{if eq $r 1}}{{$random = print $random (upper (index $cslice .))}}{{else}}{{$random = print $random (index $cslice .)}}{{end}}{{end}}

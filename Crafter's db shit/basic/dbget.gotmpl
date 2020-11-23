@@ -13,7 +13,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 {{$utcoffset := 2}}
 {{/*Input your UTC time zone. Example is Germany with +2 hours*/}}
 
-{{if (reFind $perms (index (reFindAllSubmatches `.*\n\x60\d+\x60\n(.*)` (exec "viewperms")) 0 1))}}
+{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
 	{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
 	{{$args := parseArgs 2 (print $prefix "dbget <ID/Mention> <Key>")
 		(carg "userid" "id")

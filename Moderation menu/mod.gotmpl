@@ -26,19 +26,19 @@
 			"icon_url" $usera)
 		"description" "<a:bongoban:636572687124398081> - Ban, 👢 - Kick, <:servermute:711553322225500201> - Mute, 🔊 - Unmute, ❌ - Close Menu")}}
 	{{/*Permission Check*/}}
-	{{$var1 := index (index (reFindAllSubmatches `.*\n\x60\d+\x60\n(.*)` (exec "viewperms")) 0) 1}}
+	{{$var1 := split (index (split (exec "viewperms") "\n") 2) ", "}}
 	{{/*Ban*/}}
-	{{if (reFind `BanMembers` $var1)}}
+	{{if (in $var1 "BanMembers")}}
 		{{addMessageReactions nil $x "a:bongoban:636572687124398081"}}
 	{{end}}
 	{{/*Kick*/}}
-	{{if (reFind `KickMembers` $var1)}}
+	{{if (in $var1 "KickMembers")}}
 		{{if $user}}
 			{{addMessageReactions nil $x "👢"}}
 		{{end}}
 	{{end}}
 	{{/*Mute*/}}
-	{{if (reFind `ManageRoles` $var1)}}
+	{{if (in $var1 "ManageRoles")}}
 		{{if $user}}
 			{{addMessageReactions nil $x "servermute:711553322225500201" "🔊"}}
 		{{end}}
