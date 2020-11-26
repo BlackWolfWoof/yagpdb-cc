@@ -2,6 +2,7 @@
 	Trigger Type: Join Messsage (server)
 
 	Made by TheHDCrafter#0001
+	Need help or you found a bug? Join https://discord.gg/GRns3fg or report it on GitHub.
 */}}
 {{$roleid := 605874249084829719}}
 {{/*This will be the role that gets pinged. MAKE SURE YOU CHANGE OUT THE ID WITH YOURS!*/}}
@@ -20,6 +21,6 @@
 		{{else}}
 			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "⚠️User with " (mentionRoleID $roleid) " joined!"))}}
 		{{end}}
-		{{dbSet .User.ID "warningcooldown" true 86400}}
+		{{dbSetExpire .User.ID "warningcooldown" true 86400}}
 	{{end}}
 {{end}}
