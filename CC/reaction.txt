@@ -5,7 +5,8 @@
 
 	MAKE SURE THAT NO MORE THAN 4 REACTION CUSTOM COMMANDS ARE RUNNING AT THE SAME TIME OR ELSE iT MIGHT NOT WORK!!!
 
-	Made by TheHDCrafter#0001 https://discord.gg/GRns3fg
+	Made by TheHDCrafter#0001 
+	Need help or you found a bug? Join https://discord.gg/GRns3fg or report it on GitHub.
 */}}
 
 {{$input := 0}}
