@@ -83,7 +83,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{if not (reFind `^No command by that name or id found, here is a list of them all:` $cc)}}
 			{{$m := (reFindAllSubmatches `^#\s*(\d+) - (.+): \x60(.*)\x60 - Case sensitive trigger: \x60(.+)\x60 - Group: \x60(.+)\x60\n\x60\x60\x60\n((?:.|\n){0,})\x60\x60\x60$` $cc)}}
 			{{if $m}}
-			    {{if (index $m 0 3)}}{{$t4 = "`"}}{{end}}
+				{{if (index $m 0 3)}}{{$t4 = "`"}}{{end}}
 				{{$text = print "<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 3) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 2) "<:cross:705738821110595607>") "**\n<:cc_Aa:780097353004482611>Case sensitive: **" (title (index $m 0 4)) "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 5) "**\n\n" -}}
 				{{if not (reFind `\x60\x60\x60` (index $m 0 6))}}
 					{{$t3 := print $text "```go\n" (index $m 0 6) "\n```"}}
