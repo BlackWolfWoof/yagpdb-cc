@@ -9,7 +9,7 @@
 	Need help or you found a bug? Join https://discord.gg/GRns3fg or report it on GitHub.
 */}}
 
-{{$input := 0}}
+{{$input := 0}}{{$mid := .Message.ID}}
 {{with .Message.Embeds}}{{if $:=(index . 0).Thumbnail}}{{$input = (reFindAllSubmatches `\?type=(.+)\?group=(.+)\?page=(.+)\?max=(.+)\?perms=(.+)$` (reReplace `%20` $.URL " "))}}{{end}}{{end}}
 {{if and (eq .Reaction.Emoji.Name "◀️" "▶️") $input}}
 	{{$perms := index $input 0 5}}{{$grab := ""}}{{$sdict := sdict}}
@@ -26,8 +26,8 @@
 		{{/*Splitting exec cc output and filtering / compiling output*/}}
 		{{range (split (exec "cc") "\n`#")}}
 			{{- range (reFindAllSubmatches `\s*(\d+):\x60 (?:\x60(.+)\x60: )?(.*) - Group: \x60(.+)\x60` .) -}}
-				{{- $out := "" -}}
-				{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**\n<:sendmessage:704342789172887672>Trigger: `" (or (index . 2) "❌") "`\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "None") "**\n<:cc_group:779859070122721320>Group: **" (or (index . 4) "❌") "**\n\n" -}}
+				{{- $out := ""}}{{$t4 := ""}}{{if ne (index . 2) ""}}{{$t4 = "`"}}{{end -}}
+				{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index . 2) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "<:cross:705738821110595607>") "**\n<:cc_group:779859070122721320>Group: **" (index . 4) "**\n\n" -}}
 				{{- if ne $group "false" -}}
 					{{- if eq (lower (index . 4)) (lower $group) -}}
 						{{- $out = $t1 -}}
@@ -52,7 +52,6 @@
 		{{$sdict.Set (str $max) $grab}}
 
 		{{/*Output*/}}
-		{{$mid := .Message.ID}}
 		{{editMessage nil $mid (cembed "thumbnail" (sdict "url" (print $icon (reReplace `\s` (print "?type=" $type "?group=" $group "?page=" $page "?max=" $max "?perms=" $perms) `%20`))) "author" (sdict "name" (print "Custom Commands - " .Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" .Guild.ID "/customcommands/")) "description" ($sdict.Get (str $page)) "color" 7864168 "footer" (sdict "text" (print "Page: " $page "/" $max)))}}
 		{{deleteAllMessageReactions nil $mid}}
 		{{if and (ne $page $max) (eq $page 1)}}{{addMessageReactions nil $mid "blank:656125423247425557" "▶️"}}{{end}}
