@@ -13,7 +13,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 {{if in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms}}
 	{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
-	{{$page := 1}}{{$grab := ""}}{{$max := 0}}{{$sdict := sdict}}{{$group := false}}{{$type := false}}{{$trigger := false}}{{$out := ""}}{{$t4 := ""}}
+	{{$page := 1}}{{$grab := ""}}{{$max := 0}}{{$sdict := sdict}}{{$group := false}}{{$type := false}}{{$trigger := false}}{{$out := ""}}
 	{{with .StrippedMsg}}
 		{{with (reFindAllSubmatches `(?i)page (\d+)` .)}}
 			{{$page = toInt (index . 0 1)}}
@@ -46,7 +46,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{if not $trigger}}
 		{{range (split (exec "cc") "\n`#")}}
 			{{- range (reFindAllSubmatches `\s*(\d+):\x60 (?:\x60(.+)\x60: )?(.*) - Group: \x60(.+)\x60` .) -}}
-				{{- $out = ""}}{{if (index . 2)}}{{$t4 = "`"}}{{end -}}
+				{{- $out = ""}}{{$t4 := ""}}{{if ne (index . 2) ""}}{{$t4 = "`"}}{{end -}}
 				{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index . 2) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "<:cross:705738821110595607>") "**\n<:cc_group:779859070122721320>Group: **" (index . 4) "**\n\n" -}}
 				{{- if $group -}}
 					{{- if eq (lower (index . 4)) (lower $group) -}}
@@ -79,12 +79,12 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil $id "◀️" "▶️"}}{{end}}
 	{{else}}
 		{{$cc := exec "cc" $trigger}}
-		{{$text := ""}}
+		{{$text := ""}}{{$t4 := ""}}
 		{{if not (reFind `^No command by that name or id found, here is a list of them all:` $cc)}}
-			{{$m := (reFindAllSubmatches `^#\s*(\d+) - (.+): \x60(.*)\x60 - Case sensitive trigger: \x60(.+)\x60 - Group: \x60(.+)\x60\n\x60\x60\x60\n((?:.|\n){0,})\x60\x60\x60$` $cc)}}
-			{{if $m}}
+			{{$m := (reFindAllSubmatches `^#\s*(\d+) - (.*)(?:(?:: \x60(.*)\x60 - Case sensitive trigger: \x60(.+)\x60)|\b) - Group: \x60(.+)\x60\n\x60\x60\x60\n((?:.|\n){0,})\x60\x60\x60$` $cc)}}
+			{{if $m}}{{$t67 := index $m 0 4}}{{if not $t67}}{{$t67 = "<:cross:705738821110595607>"}}{{end}}
 				{{if (index $m 0 3)}}{{$t4 = "`"}}{{end}}
-				{{$text = print "<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 3) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 2) "<:cross:705738821110595607>") "**\n<:cc_Aa:780097353004482611>Case sensitive: **" (title (index $m 0 4)) "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 5) "**\n\n" -}}
+				{{$text = print "<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 3) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 2) "<:cross:705738821110595607>") "**\n<:cc_Aa:780097353004482611>Case sensitive: **" (title $t67) "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 5) "**\n\n" -}}
 				{{if not (reFind `\x60\x60\x60` (index $m 0 6))}}
 					{{$t3 := print $text "```go\n" (index $m 0 6) "\n```"}}
 					{{if gt (len $t3) 2000}}
