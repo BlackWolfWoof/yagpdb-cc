@@ -21,8 +21,7 @@
 {{$woulddelete1 := false}}{{$woulddelete2 := false}}{{$woulddelete3 := false}}
 {{/*Attachment Media*/}}
 {{range .Message.Attachments}}
-	{{if (reFind `(?i)\.(?:jpg|jpeg|png|gif|tif|webp|mp4|webm|mov)` .Filename)}}
-	{{else}}
+	{{if not (reFind `(?i)\.(?:jpg|jpeg|png|gif|tif|webp|mp4|webm|mov)` .Filename)}}
 		{{$woulddelete1 = true}}
 	{{end}}
 {{else}}
@@ -32,8 +31,6 @@
 {{/*Media Link*/}}
 {{range (reFindAll `https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)` .Message.Content)}}
 	{{range (reFindAll `(?i)https?:(?://([^/?#]*))?(?:[^?\n#\s]*?/[^?\n#\s]+\.(jpg|jpeg|png|gif|tif|webp|mp4|webm|mov))(?:\?([^?\n#\s]*))?(?:#(.*))?` .)}}
-		{{if (reFind `(?i)\.(?:jpg|jpeg|png|gif|tif|tiff|webp|mp4)` .)}}
-		{{end}}
 	{{else}}
 		{{$woulddelete2 = true}}
 	{{end}}
@@ -44,8 +41,7 @@
 {{/*Embed Media*/}}
 {{sleep 5}}
 {{range .Message.Embeds}}
-	{{if eq .Type "video" "image" "gifv"}}
-	{{else}}
+	{{if ne .Type "video" "image" "gifv"}}
 		{{$woulddelete3 = true}}
 	{{end}}
 {{else}}
