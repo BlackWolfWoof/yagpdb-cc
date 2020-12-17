@@ -54,7 +54,7 @@ WORK IN PROGRESS
 
 ---
 ##### Other custom command repositories:
-[Joe's Repo](https://github.com/jo3-l/yagpdb-cc): This is the biggest repo of custom commands I know of.  
+[Joe's Repo](https://github.com/yagpdb-cc/yagpdb-cc): This is the biggest repo of custom commands I know of.  
 [Pedros Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of Joe's repo but with an amazing ticket system.
 
 ---
