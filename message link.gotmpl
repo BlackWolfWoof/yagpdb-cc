@@ -67,7 +67,6 @@
 						{{$e.Set "fields" (cslice
 							(sdict "name" "File Name" "value" (print "`" $filename "`") "inline" true)
 							(sdict "name" "URL" "value" (print "[File Link](" .URL ")") "inline" true))}}
-						{{sendMessage nil (cembed $e)}}
 					{{end}}
 					{{$e.Del "fields"}}
 					{{$e.Del "image"}}
@@ -88,9 +87,9 @@
 					{{sendMessage nil (complexMessage "embed" $embed2 "content" $content)}}
 				{{else if ne (index $msg.Embeds 0).Type "image"}}
 					{{sendMessage nil $mc}}
-					{{$e.Set "description" (print "**[Embed Link](" (index $m 0 0) ") to <#" $msg.ChannelID ">**")}}
-					{{sendMessage nil (cembed $e)}}
 				{{end}}
+				{{$e.Set "description" (print "**[Embed Link](" (index $m 0 0) ") to <#" $msg.ChannelID ">**")}}
+				{{sendMessage nil (cembed $e)}}
 			{{end}}
 		{{end}}
 		{{if eq (len (index $m 0 0)) (len .Message.Content)}}
