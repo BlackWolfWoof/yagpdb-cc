@@ -26,8 +26,6 @@ Discord Server: https://discord.gg/GRns3fg
 On my discord server you can now follow an announcement channel that sends you updates for my custom commands!  
 Assign the 'Custom Command Updates' role in #roles to see the channel and follow it.  
 
-*Preview of the dballmap command*
-![Preview](https://i.imgur.com/bEy434e.png)
-
-*Preview of the dbgetmap command*
-![Preview](https://i.imgur.com/doKja4i.png)
+*Preview of the dballmap command*  
+![Preview](https://i.imgur.com/bEy434e.png)  
+![Preview](https://i.imgur.com/doKja4i.png)  
