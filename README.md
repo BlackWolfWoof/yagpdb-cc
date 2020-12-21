@@ -12,35 +12,38 @@ Thank you :)
 
 --- 
 ##### List of custom commands
-WORK IN PROGRESS
+<details>
 <summary>List of Custom Commands</summary>
 
-+ [Database manupulation](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit)
-	+ [Basic](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/basic)
-		+ `dball` - Shows all entries
-		+ `dbdel` - Deletes an entry
-		+ `dbget` - Gets an entry
-		+ `dbkey` - Shows all entries from a specified key
-		+ `dbset` - Sets the value of an entry
-		+ `dbuser` - Shows all entries from a specified user
-	+ [Map](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/map)
-		+ `dballmap` - 
-		+ `dbdelmap` - 
-		+ `dbgetmap` - 
-		+ `dbsetmap` - 
-	+ [Reset](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/reset)
-		+ `dbresetall` - Resets the entire database on the server
-		+ `dbresetkey` - Deletes all specified database keys
-		+ `dbresetuser` - Deletes all keys from a specified user
+- [Database manupulation](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit)
+	- [Basic](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/basic)
+		- `dball` - Shows all entries
+		- `dbdel` - Deletes an entry
+		- `dbget` - Gets an entry
+		- `dbkey` - Shows all entries from a specified key
+		- `dbset` - Sets the value of an entry
+		- `dbuser` - Shows all entries from a specified user
+	- [Map](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/map)
+		- `dballmap` - 
+		- `dbdelmap` - 
+		- `dbgetmap` - 
+		- `dbsetmap` - 
+	- [Reset](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/reset)
+		- `dbresetall` - Resets the entire database on the server
+		- `dbresetkey` - Deletes all specified database keys
+		- `dbresetuser` - Deletes all keys from a specified user
 
-+ [Moderation menu](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Moderation%20menu)
-	+ `reaction` - Reaction code that edits the embed on reaction
-	+ `setup` - Command that displays the pain page of the controllable embed
+- [Moderation menu](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Moderation%20menu)
+	- `reaction` - Reaction code that edits the embed on reaction
+	- `setup` - Command that displays the pain page of the controllable embed
 
-+ [Templates](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)
-	+ `bypass limit` - This template shows how you will be able to bypass the X uses per CC limits on some functions
-	+ `bypass limit example` - This code is an example that bypasses the execAdmin limit (5 per cc)
-	+ `rolecolor` - Outputs the role color of the highest role the current user has
+- [Templates](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)
+	- `bypass limit` - This template shows how you will be able to bypass the X uses per CC limits on some functions
+	- `bypass limit example` - This code is an example that bypasses the execAdmin limit (5 per cc)
+	- `rolecolor` - Outputs the role color of the highest role the current user has
+
+</details>
+
 
 + `avatar` - Shows the avatar of the given or current user
 + `cloneroles` - Clones roles from user a to user b
