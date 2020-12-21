@@ -28,4 +28,5 @@ Assign the 'Custom Command Updates' role in #roles to see the channel and follow
 
 *Preview of the dballmap command*  
 ![Preview](https://i.imgur.com/bEy434e.png)  
+*Preview of the dbgetmap command*  
 ![Preview](https://i.imgur.com/doKja4i.png)  
