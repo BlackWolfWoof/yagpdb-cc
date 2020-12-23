@@ -106,8 +106,8 @@ Thank you :)
 - [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)  
 	**•** `bypass limit` - This template shows how you will be able to bypass the X uses per CC limits on some functions  
 	**•** `bypass limit example` - This code is an example that bypasses the execAdmin limit (5 per cc)  
+	**•** `guild icon` - Outputs the guild icon of the server  
 	**•** `rolecolor` - Outputs the role color of the highest role the current user has  
-	**•** `guild icon` - Outputs the guild icon of the server
 </details>
 
 ---
