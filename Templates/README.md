@@ -7,14 +7,14 @@ This is an example code thats shows what the `bypas limit` code can do and how i
 ![Preview](https://i.imgur.com/M38k5xz.gif)
 --- 
 
-### Bypass limit
-
-The example code above explains what this does 
+### Bypass limit  
+  
+The example code above explains what this does  
 --- 
 
-### Guild Icon
-
-This will give you the link to your guild icon. It supports gifs and none animated images.
+### Guild Icon  
+  
+This will give you the link to your guild icon. It supports gifs and none animated images.  
 ---
 
 ### RoleColor
