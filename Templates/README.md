@@ -17,3 +17,9 @@ Get the top color that a member has on your server. That is also the color that 
 
 #### *Preview of the command*  
 ![Preview](https://i.imgur.com/J3sUebi.png)
+
+
+--- 
+
+### Guild Icon
+This will give you the link to your guild icon. It supports gifs and none animated images.

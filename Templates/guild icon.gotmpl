@@ -1,0 +1,14 @@
+{{/*
+	Usage:
+	$icon will give you the link of the server icon. It will work for gifs and none animated pictures.
+
+	Made by TheHDCrafter#0001
+	Need help or you found a bug? Join https://discord.gg/GRns3fg or report it on GitHub.
+*/}}
+
+{{/*Guild Icon*/}}
+{{$ex := "png" }}
+{{if reFind "a_" .Guild.Icon}}
+	{{$ex = "gif" }}
+{{end}}
+{{$icon := print "https://cdn.discordapp.com/icons/" .Guild.ID "/" .Guild.Icon "." $ex "?size=1024"}}	
