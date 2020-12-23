@@ -17,7 +17,8 @@ The example code above explains what this does
 This will give you the link to your guild icon. It supports gifs and none animated images.  
 ---
 
-### RoleColor
+### RoleColor  
+  
 Get the top color that a member has on your server. That is also the color that his name will appear in chat. Can for example be used to auto color embeds if a user talks.
 
 #### *Preview of the command*  
