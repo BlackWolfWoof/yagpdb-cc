@@ -17,6 +17,14 @@ This will give you the link to your guild icon. It supports gifs and none animat
 
 ---
 
+### Permission Check
+This code can be used to check if a user has the right permissions to execute the custom command. Here a little preview of how it can look with my database custom commands:
+
+#### *Preview of the command*  
+![Preview](https://i.imgur.com/AvV2RKP.png)
+
+---
+
 ### RoleColor  
   
 Get the top color that a member has on your server. That is also the color that his name will appear in chat. Can for example be used to auto color embeds if a user talks.
