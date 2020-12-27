@@ -115,14 +115,15 @@ To receive update notifications for these custom commands join my [discord serve
 ## Other custom command repositories:
 [Official Repo](https://github.com/yagpdb-cc/yagpdb-cc): The official custom command repository. If you are searching for more custom commands you will find a lot of them there :).  
 [Pedro's Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of the official repo but with an amazing ticket system.
-
+  
+There are of cause way more repositories that have custom command code, but they are not official. If you are looking for them join the yagpdb support server and ask the members if they know other not official custom command GitHub repositories. We will not guarantee that the other user repositories are save to use.
 
 ---
 ## Licence:  
-You do not have to include [the full licence](https://github.com/TheHDCrafter/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. Thats why i made this small text that HAS TO STAY in the code if it is added there. 
-If that licence can not be found in some code on this repository, you will not need to add it and can do whatever you want with the code.  
+You do not have to include [the full licence](https://github.com/TheHDCrafter/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. Thats why I made [this small text](#small-licence-text) that HAS TO STAY in the code if it is added there.  
+If [that licence](#small-licence-text) can not be found in some code on this repository, you will not need to add it and can do whatever you want with the code.  
 
-This is the small licence text that is added into most of the code:
+#### Small licence text:
 ```
 Copyright: 2020 TheHDCrafter
 License: MIT
