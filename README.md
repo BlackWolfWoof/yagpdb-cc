@@ -2,7 +2,7 @@
 <h1 align="center"><img src="https://yagpdb.xyz/static/img/logo_y.png" height=32px width=32px></img>&nbspYAGPDB Custom Commands</h1>
 
 ---
-## Important:
+## Important:  
 Remember that you can get update notifications for my custom commands if you join my [discord server](/https://discord.gg/GRns3f) and __follow__ my announcement channel or give yourself the role that pings you for any updates  
   
 If you visited this repo without knowing about [my website](https://www.thehdcraftergaming.tk/yagpdb) and my [discord server](/https://discord.gg/GRns3f) it would be nice if you could check it out. *There you can also find more stuff and code that is not shown here on github ;)*  
@@ -114,6 +114,20 @@ Thank you :)
 ## Other custom command repositories:
 [Official Repo](https://github.com/yagpdb-cc/yagpdb-cc): The official custom command repository. If you are searching for new cool custom commands you will find some cool stuff there :).  
 [Pedro's Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of Joe's repo but with an amazing ticket system.
+
+
+---
+## Licence:  
+You do not have to include [the full licence](https://github.com/TheHDCrafter/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. Thats why i made this small text that HAS TO STAY in the code if it is added there. 
+If that licence can not be found in some code on this repository, you will not need to add it and can do whatever you want with the code.  
+
+This is the small licence text that is added into most of the code:
+```
+Copyright: 2020 TheHDCrafter
+License: MIT
+Repository: https://github.com/TheHDCrafter/yagpdb-cc/
+```
+
 
 ---
 ## Other links:
