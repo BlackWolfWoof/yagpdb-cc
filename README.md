@@ -2,14 +2,15 @@
 <h1 align="center"><img src="https://yagpdb.xyz/static/img/logo_y.png" height=32px width=32px></img>&nbspYAGPDB Custom Commands</h1>
 
 ---
-## Important:  
-Remember that you can get update notifications for my custom commands if you join my [discord server](/https://discord.gg/GRns3f) and __follow__ my announcement channel or give yourself the role that pings you for any updates  
-  
-If you visited this repo without knowing about [my website](https://www.thehdcraftergaming.tk/yagpdb) and my [discord server](/https://discord.gg/GRns3f) it would be nice if you could check it out. *There you can also find more stuff and code that is not shown here on github ;)*  
-Thank you :)  
+## Introduction:  
+Hello I am TheHDCrafter and I am currently 18 years old. I live in Germany and love coding and playing games.  
+I have a [discord server](/https://discord.gg/GRns3f) and a [website](https://thehdcraftergaming.tk/yagpdb).
+My Discord name & tag is `TheHDCrafter#0001` and I also have a [YouTube channel](https://www.youtube.com/playlist?list=PLNiLQueObdrQ289RzZ2vBwhbU8UKy7cGg) which has some tutorials about Discord and YAGPDB that you could find useful.  
+If you have any questions about the [YAGPDB](https://yagpdb.xyz) Discord bot you can always join the [YAGPDB Community & Support](https://discord.gg/4uY54rw) Discord server ask there.  
 
 --- 
 ## List of custom commands
+To receive update notifications for these custom commands join my [discord server](/https://discord.gg/GRns3f) and <u>**follow**</u> the announcement channel `#│📢cc-updates` or give yourself the <u>**role that pings**</u> you on important updates.  
 <details>
 <summary>Autohelp Embed</summary>
 
@@ -112,8 +113,8 @@ Thank you :)
 
 ---
 ## Other custom command repositories:
-[Official Repo](https://github.com/yagpdb-cc/yagpdb-cc): The official custom command repository. If you are searching for new cool custom commands you will find some cool stuff there :).  
-[Pedro's Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of Joe's repo but with an amazing ticket system.
+[Official Repo](https://github.com/yagpdb-cc/yagpdb-cc): The official custom command repository. If you are searching for more custom commands you will find a lot of them there :).  
+[Pedro's Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of the official repo but with an amazing ticket system.
 
 
 ---
