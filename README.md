@@ -116,7 +116,7 @@ To receive update notifications for these custom commands join my [discord serve
 [Official Repo](https://github.com/yagpdb-cc/yagpdb-cc): The official custom command repository. If you are searching for more custom commands you will find a lot of them there :).  
 [Pedro's Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of the official repo but with an amazing ticket system.
   
-There are of cause way more repositories that have custom command code, but they are not official. If you are looking for them join the yagpdb support server and ask the members if they know other not official custom command GitHub repositories. We will not guarantee that the other user repositories are save to use.
+There are of cause way more repositories that have custom command code, but they are not official. If you are looking for them join the yagpdb support server and ask the members, if they know other not official custom command GitHub repositories. We will not guarantee that the other user repositories are save to use.
 
 ---
 ## Licence:  
