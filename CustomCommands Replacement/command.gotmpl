@@ -99,6 +99,20 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 					{{$text = print $text "*The message couldn't be displayed because of the codeblock format. Please download the file to view the entire code.*"}}
 				{{end}}
 				{{sendMessage nil (complexMessage "file" (index $m 0 6) "embed" (cembed "description" $text "color" 7864168 "thumbnail" (sdict "url" $icon) "author" (sdict "name" (print "Custom Commands - " $.Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/"))))}}
+			{{else}}
+				{{$c := 0}}
+				{{- $grab := print "<:cross:705738821110595607> More than 1 matched command!\nPlease use `" $prefix "cc id <ID>` to choose a custom command.\n"}}
+				{{- range (split $cc "\n`#")}}
+					{{- if ne "More than 1 matched command" .}}
+						{{- $m := (reFindAllSubmatches `\s*(\d+):\x60 (?:\x60(.+)\x60: )?(.*) - Group: \x60(.+)\x60` .) -}}
+						{{- if (index $m 0 3)}}{{$t4 = "`"}}{{end}}
+						{{- $grab = print $grab "\n<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) ")**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 2) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 3) "<:cross:705738821110595607>") "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 4) "**\n\n"}}
+					{{- end}}
+					{{- $c = add $c 1}}
+					{{- if eq (len (split $cc "\n`#")) $c}}
+						{{- sendMessage nil (cembed "title" "Error" "description" $grab "color" 0xDD2E44)}}
+					{{- end}}
+				{{- end}}
 			{{end}}
 		{{else}}
 			{{sendMessage nil (cembed "title" "Error" "description" (print "<:cross:705738821110595607> the custom command `" $trigger "` was not found.") "color" 0xDD2E44)}}
