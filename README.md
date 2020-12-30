@@ -120,8 +120,8 @@ There are of cause way more repositories that have custom command code, but they
 
 ---
 ## Licence:  
-You do not have to include [the full licence](https://github.com/TheHDCrafter/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. Thats why I made [this small text](#small-licence-text) that HAS TO STAY in the code if it is added there.  
-If [that licence](#small-licence-text) can not be found in some code on this repository, you will not need to add it and can do whatever you want with the code.  
+You do not have to include [the full licence](https://github.com/TheHDCrafter/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. Thats why I made [this small text](#small-licence-text) that has to stay in the code if it is found there.  
+If [that licence](#small-licence-text) can not be found on the code in this repository, you can do whatever you want with the code.  
 
 #### Small licence text:
 ```
