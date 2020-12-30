@@ -15,6 +15,9 @@ The example code above explains what this does
 ### Guild Icon  
 This will give you the link to your guild icon. It supports gifs and none animated images.  
 
+#### *Preview of command*  
+![Preview](https://i.imgur.com/snIs2iN.png)
+
 ---
 
 ### Permission Check
