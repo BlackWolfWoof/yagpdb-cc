@@ -33,5 +33,5 @@ Displays the messages if you copy a message link and send it.
 Does some math to show you the difference between 2 ID's (Snowflakes). Also works with user mentions.
 
 #### *Preview of the command*  
-![Preview](https://i.imgur.com/pYrQ0KM.png)  
-![Preview](https://i.imgur.com/YuzsQkG.png)  
+![Preview](https://i.imgur.com/RlVeP4S.png)  
+![Preview](https://i.imgur.com/O4UgpBO.png)  
