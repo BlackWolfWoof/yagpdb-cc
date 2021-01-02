@@ -46,6 +46,7 @@ To receive update notifications for these custom commands join my [discord serve
 	**•** `dballmap` - Explanation coming soon:tm:  
 	**•** `dbdelmap` - Explanation coming soon:tm:  
 	**•** `dbgetmap` - Explanation coming soon:tm:  
+	**•** `dbsetmap - basic` - Explanation coming soon:tm:  
 	**•** `dbsetmap` - Explanation coming soon:tm:  
 
 
