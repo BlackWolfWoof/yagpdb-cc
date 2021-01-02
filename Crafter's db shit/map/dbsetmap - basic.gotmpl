@@ -20,7 +20,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 {{$t := "string"}}
 {{$cargs := (cslice "int" "float" "string" "user" "userid" "channel" "duration" "member")}}
 {{if gt (len .Args) 5}}
-	{{$t = (index .CmdArgs 4)}}
+	{{$t = (index .CmdArgs 4) | lower}}
 {{end}}
 
 {{if and (in $cargs $t) (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
