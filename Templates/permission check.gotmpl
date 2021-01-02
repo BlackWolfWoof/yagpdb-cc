@@ -5,6 +5,7 @@
 
 	v1: Use this if you just need to use the permission check one for the entire custom command
 	v2: Use this if you need to check for multiple permissions in the custom command
+	different channel: Specify a channel you want to get the permissions of a user from
 
 	Made by TheHDCrafter#0001
 	Need help or you found a bug? Join https://discord.gg/GRns3fg or report it on GitHub.
@@ -30,5 +31,18 @@ Available permissions: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{/*Here you can add the code that will run if the user has the right permissions*/}}
 {{end}}
 {{if in $perms "ManageServer"}}
+	{{/*Here you can add the code that will run if the user has the right permissions*/}}
+{{end}}
+
+
+
+{{/*Permission Check in different channel*/}}
+{{$perms := "Administrator"}}{{$channelID := 266290803125518336}}
+
+{{define "perms"}}{{.TemplateArgs.Set "Out" (exec "viewperms")}}{{end}}
+{{$permlist := sdict}}{{$v0 := sendTemplate $channelID "perms" $permlist}}
+
+
+{{if (in (split (index (split $permlist.Out "\n" ) 2) ", ") $perms)}}
 	{{/*Here you can add the code that will run if the user has the right permissions*/}}
 {{end}}

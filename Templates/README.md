@@ -20,8 +20,15 @@ This will give you the link to your guild icon. It supports gifs and none animat
 
 ---
 
-### Permission Check
+### Permission Check  
 This code can be used to check if a user has the right permissions to execute the custom command. Here a little preview of how it can look with my database custom commands:
+
+#### v1  
+Checks if a user has the permission `$perms` and if it doesn't send an error message.  
+#### v2  
+Use this if you have multiple permissions you want to check. $perms is a slice of all permissions the user has.  
+#### different channel  
+Use this if you want to see if user has the permission `$perms` in the channel with the id `$channelID`.
 
 #### *Preview of the command*  
 ![Preview](https://i.imgur.com/AvV2RKP.png)
