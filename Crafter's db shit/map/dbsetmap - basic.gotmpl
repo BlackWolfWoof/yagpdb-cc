@@ -29,8 +29,8 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		(carg "userid" "UserID")
 		(carg "string" "Keyname")
 		(carg "string" "name")
-		(carg $t "value")
-		(carg "string" "valueType")}}
+		(carg "string" "value")
+		(carg $t "valueType")}}
 	{{$t1 := dbGet ($args.Get 0) ($args.Get 1)}}
 	{{$user := userArg ($args.Get 0)}}{{$userm := print "`" ($args.Get 0) "`"}}
 	{{with $user}}{{$userm = .Mention}}{{end}}
