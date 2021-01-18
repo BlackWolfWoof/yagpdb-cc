@@ -1,7 +1,7 @@
 # Templates for your code
 
 ### Bypass limit example
-This is an example code thats shows what the `bypas limit` code can do and how it can help you bypassing some restrictions like only being able to use execAdmin or exec 5 times per custom command.
+This is an example code that shows what the `bypass limit` code can do and how it can help you bypass some restrictions like only being able to use execAdmin or exec 5 times per custom command.
 
 #### *Preview of the command*  
 ![Preview](https://i.imgur.com/M38k5xz.gif)
@@ -28,7 +28,7 @@ Checks if a user has the permission `$perms` and if it doesn't send an error mes
 #### v2  
 Use this if you have multiple permissions you want to check. $perms is a slice of all permissions the user has.  
 #### different channel  
-Use this if you want to see if user has the permission `$perms` in the channel with the id `$channelID`.
+Use this if you want to see if a user has the permission `$perms` in the channel with the ID `$channelID`.
 
 #### *Preview of the command*  
 ![Preview](https://i.imgur.com/AvV2RKP.png)
@@ -36,7 +36,6 @@ Use this if you want to see if user has the permission `$perms` in the channel w
 ---
 
 ### RoleColor  
-  
 Get the top color that a member has on your server. That is also the color that his name will appear in chat. Can for example be used to auto color embeds if a user talks.
 
 #### *Preview of the command*  
