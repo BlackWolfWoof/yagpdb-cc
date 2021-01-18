@@ -109,6 +109,7 @@ To receive update notifications for these custom commands join my [discord serve
 	**•** `bypass limit` - This template shows how you will be able to bypass the X uses per CC limits on some functions  
 	**•** `bypass limit example` - This code is an example that bypasses the execAdmin limit (5 per cc)  
 	**•** `guild icon` - Outputs the guild icon of the server  
+	**•** `interval time` - Run your custom command at a specific time  
 	**•** `rolecolor` - Outputs the role color of the highest role the current user has  
 </details>
 

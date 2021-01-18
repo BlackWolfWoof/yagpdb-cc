@@ -20,6 +20,12 @@ This will give you the link to your guild icon. It supports gifs and none animat
 
 ---
 
+### Interval Time  
+Runs your custom command at a specific time.  
+**Note: Execution of your code using this template won't be spot on, and may be delayed by up to five minutes from the given time.**
+
+---
+
 ### Permission Check  
 This code can be used to check if a user has the right permissions to execute the custom command. Here a little preview of how it can look with my database custom commands:
 
