@@ -1,0 +1,25 @@
+{{/*
+	Copyright: 2020 TheHDCrafter
+	License: MIT
+	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
+*/}}
+{{/*Note: Execution your code using this template won't be spot on, and may be delayed by up to five minutes from the time given.*/}}
+{{$time := "16:52"}}{{/*$time has to be a valid 24h time such as "01:10" or "23:44" as example*/}}
+{{$offset := 1}}{{/*$offset is the UTC timezone you'll be in. For germany it is currently +1 in winter and +2 in summer*/}}
+
+
+{{$run := false}}
+{{range (seq 0 5)}}
+	{{- $min := printf "%02d" (add . (slice $time 3 5))}}
+	{{- $h := printf "%02d" (slice $time 0 2|toInt)}}
+	{{- if gt (toInt $min) 59}}
+		{{- $min = sub (toInt $min) 60|printf "%02d"}}
+		{{- $h = add $h 1|printf "%02d"}}
+	{{- end}}
+	{{- if eq ((currentTime.Add (toDuration (mult $offset $.TimeHour))).Format "15:04") (print $h ":" $min)}}
+		{{- $run = true}}
+	{{- end}}
+{{end}}
+{{if $run}}
+	{{/*YOUR CODE GOES HERE*/}}
+{{end}}
