@@ -1,5 +1,5 @@
 # CustomCommands replacement
-Replaces the old inbuilt `customcommands` or `cc` command because the old one sucked and was ugly.  
+Replaces the old inbuilt `customcommands` or `cc`.  
 *Preview of the cc command*
 ![Preview](https://i.imgur.com/OoSpzsW.png)
 

@@ -1,14 +1,14 @@
 # Misc
 
 ### Avatar
-Get your own profile picture with `-avatar` or someone elses with `-avatar @User`.
+Get your profile picture with `-avatar` or someone else's with `-avatar @User`.
 
 *Preview of the command*  
 ![Preview](https://i.imgur.com/n4DY85k.png)  
 ---
 
 ### Cloneroles
-Clone all roles from user A to user B so they both have the same roles. This was more useful before they implemented 'View Server As Role'
+Clone all roles from user A to user B so they both have the same roles.
 
 #### *Preview of the command*  
 ![Preview](https://i.imgur.com/vUacObB.gif)  
@@ -30,7 +30,7 @@ Displays the messages if you copy a message link and send it.
 ---
 
 ### Snowflake Converter
-Does some math to show you the difference between 2 ID's (Snowflakes). Also works with user mentions.
+Does some math to show you the difference between 2 IDs (Snowflakes). Also works with user mentions.
 
 #### *Preview of the command*  
 ![Preview](https://i.imgur.com/RlVeP4S.png)  
