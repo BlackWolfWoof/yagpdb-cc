@@ -7,7 +7,7 @@
 */}}
 {{/*Note: Execution of your code using this template won't be spot on, and may be delayed by up to five minutes from the given time.*/}}
 {{$time := "16:52"}}{{/*$time has to be a valid 24h time such as "01:10" or "23:44" as example*/}}
-{{$offset := 1}}{{/*$offset is the UTC timezone you'll be in. For germany it is currently +1 in winter and +2 in summer*/}}
+{{$timezone := "Europe/Berlin"}}{{/*Select your timezone here https://kevinnovak.github.io/Time-Zone-Picker/ and copy it into $timezone*/}}
 
 
 {{$run := false}}
@@ -18,7 +18,7 @@
 		{{- $min = sub (toInt $min) 60|printf "%02d"}}
 		{{- $h = add $h 1|printf "%02d"}}
 	{{- end}}
-	{{- if eq ((currentTime.Add (toDuration (mult $offset $.TimeHour))).Format "15:04") (print $h ":" $min)}}
+	{{- if eq ((currentTime.In (newDate 0 0 0 0 0 0 $timezone).Location).Format "15:04") (print $h ":" $min)}}
 		{{- $run = true}}
 	{{- end}}
 {{end}}
