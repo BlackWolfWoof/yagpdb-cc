@@ -13,9 +13,7 @@
 	License: MIT
 	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 */}}
-{{$utcoffset := +2}}
-{{/*Input your UTC time zone. Example is Germany with +2 hours*/}}
-
+{{$timezone := "Europe/Berlin"}}{{/*Select your timezone here https://kevinnovak.github.io/Time-Zone-Picker/ and copy it into $timezone*/}}
 
 {{/*1 Minute Interval*/}}
 {{if not .ExecData}}
@@ -35,7 +33,10 @@
 {{if $dbtime.Before ($ctime.Add (toDuration (mult -3 .TimeMinute)))}}
 	{{sendMessage nil (cembed
 	"author" (sdict "url" "https://yagpdb.xyz/status/" "icon_url" "https://cdn.discordapp.com/emojis/705738821110595607.png" "name" (print "YAGPDB Downtime Announcement" $firsttime))
-	"description" (print "YAGPDB was down for the last **≈ " (humanizeDurationSeconds (($ctime.Add (toDuration (mult 30 .TimeSecond))).Sub $dbtime)) "**\n\nFrom: " (($dbtime.Add (toDuration (mult $utcoffset .TimeHour))).Format "📅`02.1.06` ⌚`15:04:05`") "\nTo:\u2003\u200A\u2005" (($ctime.Add (toDuration (mult $utcoffset .TimeHour))).Format "📅`02.1.06` ⌚`15:04:05`")) "color" 0xbf172e "timestamp" $ctime "footer" (sdict "text" (print "The time is calculated in UTC" $utcoffset)))}}
+	"description" (print "YAGPDB was down for the last **≈ " (humanizeDurationSeconds ($ctime.Sub $dbtime)) "**\n\nFrom: " ((($dbtime.In (newDate 0 0 0 0 0 0 $timezone).Location)).Format "📅`02.1.06` ⌚`15:04:05`") "\nTo:\u2003\u200A\u2005" ((($ctime.In (newDate 0 0 0 0 0 0 $timezone).Location)).Format "📅`02.1.06` ⌚`15:04:05`"))
+	"color" 0xbf172e
+	"timestamp" $ctime
+	"footer" (sdict "text" (print "Time calculated in timezone " $timezone)))}}
 {{end}}
-{{$dbtime := ($ctime.Add (toDuration (mult 90 .TimeSecond)))}}
+{{$dbtime := $ctime.Add (toDuration (mult 90 .TimeSecond))}}
 {{dbSet 204255221017214977 "downtime" $dbtime}}
