@@ -21,7 +21,7 @@
 	{{$yagversion = sdict "version" "No old versions recorded" "last_update" ((newDate 2015 1 1 0 0 0).Add ((currentTime.Sub ((newDate 2015 1 1 0 0 0).Add (toDuration (mult 5329 .TimeHour))))))}}{{$firsttime = " - ❗Example❗ "}}
 {{end}}
 {{if not (eq $yagversion.version $version)}}
-	{{$time1 := $yagversion.last_update.In (newDate 0 0 0 0 0 0 (index $offset 0 1)).Location}}
+	{{$time1 := $yagversion.last_update.In (newDate 0 0 0 0 0 0 $timezone).Location}}
 	{{$days := fdiv (currentTime.Sub $yagversion.last_update).Hours 24}}{{$human := currentTime.Sub $yagversion.last_update|humanizeDurationSeconds}}
 	{{if currentTime.Before $yagversion.last_update}}
 		{{$days = fdiv ($yagversion.last_update.Sub currentTime).Hours 24}}{{$human = $yagversion.last_update.Sub currentTime|humanizeDurationSeconds}}
