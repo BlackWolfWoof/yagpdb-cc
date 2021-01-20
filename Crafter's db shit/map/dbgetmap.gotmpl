@@ -14,8 +14,18 @@
 {{$perms := "Administrator"}}
 {{/*The bot will check if the user has this permission.
 Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
-{{$utcoffset := 2}}
-{{/*Input your UTC time zone. Example is Germany with +2 hours*/}}
+
+{{define "time"}}
+	{{$time1 := .time.In (newDate 0 0 0 0 0 0 .timezone).Location}}
+	{{$days := fdiv (currentTime.Sub .time).Hours 24}}{{$human := currentTime.Sub .time|humanizeDurationSeconds}}
+	{{if currentTime.Before .time}}
+		{{$days = fdiv (.time.Sub currentTime).Hours 24}}{{$human = .time.Sub currentTime|humanizeDurationSeconds}}
+	{{end}}
+	{{$y := fdiv $days 365.25|roundFloor|toFloat}}
+	{{$mo := (sub (fdiv $days 30.417) (mult $y 12))|roundFloor|toFloat}}
+	{{$d := toFloat (sub $days (add (mult $y 365.25) (mult $mo 30.417)))}}
+	{{.Set "e" (print "🗓️" $time1.Day "." (json $time1.Month) "." $time1.Year " ⏱️" $time1.Hour ":" $time1.Minute ":" $time1.Second "\u200A⌛\u200A" (toInt $y) "Y " (toInt $mo) "M " (toInt $d) "D\n" $human " ago")}}
+{{end}}
 
 {{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
 	{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
@@ -27,24 +37,37 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{if $t1}}
 		{{$db := sdict $t1.Value}}
 		{{if $db.Get ($args.Get 2)}}
+			{{$offset := exec "setz -u"|reFindAllSubmatches `\x60(.+)\x60\s(.+)`}}
 			{{$shit := reReplace `\\\\` (json ($db.Get ($args.Get 2))) `\`}}
 			{{$embed := sdict "title" "📤 Database Info" "color" 0x00D66C "fields" (cslice (sdict "name" "**• Key Name:**" "value" (str $t1.Key) "inline" true) (sdict "name" "**• Key ID:**" "value" (str $t1.ID) "inline" true) (sdict "name" "**• User ID:**" "value" (str $t1.UserID) "inline" true) (sdict "name" "**• Sdict Name:**" "value" ($args.Get 2) "inline" true) (sdict "name" "**• Sdict Value Info:**" "value" (print "Type: " (printf "%T" ($db.Get ($args.Get 2))) "\nCharacters: " (len $shit) "/" (add (len $shit) (sub 100000 (len (reReplace `\\\\` (json $db) `\`)))) "\nSize: " (printf "%.2f" (fdiv (len $shit) 1000)) "kb") "inline" true))}}
-			{{$fields := cslice.AppendSlice ($embed.Get "fields")}}
-			{{with (userArg $t1.UserID)}}{{$embed.Set "thumbnail" (sdict "url" (print "https://cdn.discordapp.com/avatars/" .ID "/" .Avatar ".png?size=4096"))}}{{$fields = $fields.Append (sdict "name" "**• User:**" "value" (print .Mention " `" .String "`") "inline" true)}}{{end}}
-			{{$fields := $fields.Append (sdict "name" "**• Created at:**" "value" (print (($t1.CreatedAt.Add (toDuration (mult $utcoffset .TimeHour))).Format "📅02.01.06 ⌚15:04:05") "\nCreated " (humanizeDurationSeconds (currentTime.Sub $t1.CreatedAt)) " ago") "inline" false)}}
-			{{if ne $t1.UpdatedAt.Unix $t1.CreatedAt.Unix}}{{$fields = $fields.Append (sdict "name" "**• Updated at:**" "value" (print (($t1.UpdatedAt.Add (toDuration (mult $utcoffset .TimeHour))).Format "📅02.01.06 ⌚15:04:05") "\nUpdated " (humanizeDurationSeconds (currentTime.Sub $t1.UpdatedAt)) " ago") "inline" true)}}{{end}}
-			{{if ne $t1.ExpiresAt.Unix -62135596800}}{{$fields = $fields.Append (sdict "name" "**• Expires at:**" "value" (print (($t1.ExpiresAt.Add (toDuration (mult $utcoffset .TimeHour))).Format "📅02.01.06 ⌚15:04:05") "\nExpires in " (humanizeDurationSeconds ($t1.ExpiresAt.Sub currentTime)) " ago") "inline" true)}}{{end}}
-			{{$x := ""}}{{$out := print $shit}}
+			{{$x := ""}}{{$out := print $shit}}{{$valuestr := sdict}}
 			{{if and (gt (len $shit) 999) (gt (add (len (urlescape $out)) 119) 1024)}}
 				{{$x = sendMessageRetID nil (complexMessage "file" $shit)}}
 				{{$out = (index (getMessage nil $x).Attachments 0).URL}}
 				{{$embed.Set "author" (sdict "name" "Value above" "icon_url" "https://cdn.discordapp.com/emojis/716314785985331250.gif")}}
-				{{$fields = $fields.Append (sdict "name" "**• JSON Formatter:**" "value" (print "<:download:715520359729987635> [Formatted JSON](https://jsonformatter.curiousconcept.com/?process=true&spec=skip&data=" (urlescape $out) ")") "inline" true)}}
 			{{else}}
 				{{$x = sendMessageRetID nil (cembed "title" "Loading...")}}
 				{{$embed.Set "footer" (sdict "text" "Value above" "icon_url" "https://cdn.discordapp.com/emojis/716314785985331250.gif")}}
-				{{$fields = $fields.Append (sdict "name" "**• JSON Formatter:**" "value" (print "<:download:715520359729987635> [Formatted JSON](https://jsonformatter.curiousconcept.com/?process=true&spec=skip&data=" (urlescape $out) ")") "inline" true)}}
-				{{$fields = $fields.Append (sdict "name" "**• Value:**" "value" (print "```json\n" $shit "```") "inline" false)}}
+				{{$valuestr = sdict "name" "**• Value:**" "value" (print "```json\n" $shit "```") "inline" false}}
+			{{end}}
+			{{$fields := ($embed.Get "fields").Append (sdict "name" "**• JSON Formatter:**" "value" (print "<:download:715520359729987635> [Formatted JSON](https://jsonformatter.curiousconcept.com/?process=true&spec=skip&data=" (urlescape $out) ")") "inline" true)}}
+
+			{{with (userArg $t1.UserID)}}{{$embed.Set "thumbnail" (sdict "url" (print "https://cdn.discordapp.com/avatars/" .ID "/" .Avatar ".png?size=4096"))}}{{$fields = $fields.Append (sdict "name" "**• User:**" "value" (print .Mention " `" .String "`") "inline" true)}}{{end}}
+			{{$e := sdict "time" $t1.CreatedAt "timezone" (index $offset 0 1)}}
+			{{template "time" $e}}
+			{{$fields := $fields.Append (sdict "name" "**• Created at:**" "value" $e.e "inline" false)}}
+			{{if ne $t1.UpdatedAt.Unix $t1.CreatedAt.Unix}}
+				{{$e := sdict "time" $t1.UpdatedAt "timezone" (index $offset 0 1)}}
+				{{template "time" $e}}
+				{{$fields = $fields.Append (sdict "name" "**• Updated at:**" "value" $e.e "inline" true)}}
+			{{end}}
+			{{if ne $t1.ExpiresAt.Unix -62135596800}}
+				{{$e := sdict "time" $t1.ExpiresAt "timezone" (index $offset 0 1)}}
+				{{template "time" $e}}
+				{{$fields = $fields.Append (sdict "name" "**• Expires at:**" "value" $e.e "inline" true)}}
+			{{end}}
+			{{if $valuestr}}
+				{{$fields = $fields.Append $valuestr}}
 			{{end}}
 			{{$embed.Set "fields" $fields}}
 			{{editMessage nil $x (complexMessageEdit "embed" (cembed $embed))}}
