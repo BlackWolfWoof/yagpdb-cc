@@ -26,7 +26,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{else}}
 			{{if (dbGet .User.ID "dbresetall")}}
 				{{if eq .StrippedMsg (dbGet .User.ID "dbresetall").Value}}
-					{{sendMessage nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This will take a while...") "description" "Please wait untill the command is done running.\n**Do not run this command multiple times at the same time**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+					{{sendMessage nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This will take a while...") "description" "Please wait until the command is done running.\n**Do not run this command multiple times at the same time**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 					{{execCC .CCID nil 5 "0"}}
 					{{dbDel .User.ID "dbresetall"}}
 				{{else}}

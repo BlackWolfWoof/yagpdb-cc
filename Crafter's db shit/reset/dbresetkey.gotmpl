@@ -24,7 +24,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{if not $db}}{{$db = cslice "dbnil"}}{{else}}{{$db = cslice.AppendSlice $db.Value}}{{end}}
 		{{if eq (str ($args.Get 0)) (index $db 0)}}
 			{{if eq (str ($args.Get 0)) (index $db 0)}}
-				{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This will take a while...") "description" "Please wait untill the command is done running.\n**Do not run this command multiple times at the same time**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+				{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This will take a while...") "description" "Please wait until the command is done running.\n**Do not run this command multiple times at the same time**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 				{{execCC .CCID nil 5 (sdict "key" (index $db 1) "id" $x)}}
 				{{dbDel .User.ID "dbresetkey"}}
 			{{else}}
