@@ -11,10 +11,8 @@
 	License: MIT
 	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 */}}
-{{$utcoffset := 1}}
-{{/*Input your UTC time zone. Example is Germany with +1 hour*/}}
-{{$channel := .Channel.ID}}
-{{/*The channel it should be sending the message in, .Channel.ID = current channel*/}}
+{{$timezone := "Europe/Berlin"}}{{/*Select your timezone here https://kevinnovak.github.io/Time-Zone-Picker/ and copy it into $timezone*/}}
+{{$channel := .Channel.ID}}{{/*The channel it should be sending the message in, .Channel.ID = current channel*/}}
 
 {{$version := index (reFindAllSubmatches `YAGPDB Status, version (.+)` (index (exec "yagstatus")).Title) 0 1}}
 {{$yagversion := sdict}}{{with dbGet 204255221017214977 "yagversion"}}{{$yagversion = sdict .Value}}{{end}}
@@ -23,17 +21,25 @@
 	{{$yagversion = sdict "version" "No old versions recorded" "last_update" ((newDate 2015 1 1 0 0 0).Add ((currentTime.Sub ((newDate 2015 1 1 0 0 0).Add (toDuration (mult 5329 .TimeHour))))))}}{{$firsttime = " - ❗Example❗ "}}
 {{end}}
 {{if not (eq $yagversion.version $version)}}
-	{{$days := fdiv (currentTime.Sub $yagversion.last_update).Hours 24}}
+
+	{{$offset := exec "setz -u"|reFindAllSubmatches `\x60(.+)\x60\s(.+)`}}
+
+	{{$time1 := $yagversion.last_update.In (newDate 0 0 0 0 0 0 (index $offset 0 1)).Location}}
+	{{$days := fdiv (currentTime.Sub $yagversion.last_update).Hours 24}}{{$human := currentTime.Sub $yagversion.last_update|humanizeDurationSeconds}}
+	{{if currentTime.Before $yagversion.last_update}}
+		{{$days = fdiv ($yagversion.last_update.Sub currentTime).Hours 24}}{{$human = $yagversion.last_update.Sub currentTime|humanizeDurationSeconds}}
+	{{end}}
 	{{$y := fdiv $days 365.25|roundFloor|toFloat}}
 	{{$mo := (sub (fdiv $days 30.417) (mult $y 12))|roundFloor|toFloat}}
 	{{$d := toFloat (sub $days (add (mult $y 365.25) (mult $mo 30.417)))}}
 	{{sendMessage $channel (cembed
 		"fields" (cslice
 			(sdict "name" "**• Version:** <:editmessage:710443113902243851>" "value" (print "Old: \u2004\u200A`" $yagversion.version "`\nNew: `" $version "`") "inline" true)
-			(sdict "name" "**• Time:** <:stopwatch1:650328464825516062>" "value" (print "Time that passed since the last update:\n**" (humanizeDurationHours (currentTime.Sub $yagversion.last_update)) "**\n" ($yagversion.last_update.UTC.Format "📅**02.01.06 ⌚15:04**") "\n⌛\u200A**" (toInt $y) "Y " (toInt $mo) "M " (toInt $d) "D**\n") "inline" true))
+			(sdict "name" "**• Time:** <:stopwatch1:650328464825516062>" "value" (print "Time that passed since the last update:\n**" (humanizeDurationHours (currentTime.Sub $yagversion.last_update)) "\n🗓️" $time1.Day "." (json $time1.Month) "." $time1.Year " ⏱️" $time1.Hour ":" $time1.Minute ":" $time1.Second "\u200A⌛\u200A" (toInt $y) "Y " (toInt $mo) "M " (toInt $d) "D**") "inline" true))
 		"author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/708214342067421215.png" "name" (print "YAGPDB updated" $firsttime))
 		"color" 0x738BD7
 		"footer" (sdict "text" "Current time")
 		"timestamp" currentTime)}}
-	{{dbSet 204255221017214977 "yagversion" (sdict "version" $version "last_update" (currentTime.Add (toDuration (mult $utcoffset .TimeHour))))}}
+		
+	{{dbSet 204255221017214977 "yagversion" (sdict "version" $version "last_update" currentTime)}}
 {{end}}
