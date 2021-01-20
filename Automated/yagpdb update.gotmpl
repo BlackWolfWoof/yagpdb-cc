@@ -21,9 +21,6 @@
 	{{$yagversion = sdict "version" "No old versions recorded" "last_update" ((newDate 2015 1 1 0 0 0).Add ((currentTime.Sub ((newDate 2015 1 1 0 0 0).Add (toDuration (mult 5329 .TimeHour))))))}}{{$firsttime = " - ❗Example❗ "}}
 {{end}}
 {{if not (eq $yagversion.version $version)}}
-
-	{{$offset := exec "setz -u"|reFindAllSubmatches `\x60(.+)\x60\s(.+)`}}
-
 	{{$time1 := $yagversion.last_update.In (newDate 0 0 0 0 0 0 (index $offset 0 1)).Location}}
 	{{$days := fdiv (currentTime.Sub $yagversion.last_update).Hours 24}}{{$human := currentTime.Sub $yagversion.last_update|humanizeDurationSeconds}}
 	{{if currentTime.Before $yagversion.last_update}}
@@ -38,8 +35,7 @@
 			(sdict "name" "**• Time:** <:stopwatch1:650328464825516062>" "value" (print "Time that passed since the last update:\n**" (humanizeDurationHours (currentTime.Sub $yagversion.last_update)) "\n🗓️" $time1.Day "." (json $time1.Month) "." $time1.Year " ⏱️" $time1.Hour ":" $time1.Minute ":" $time1.Second "\u200A⌛\u200A" (toInt $y) "Y " (toInt $mo) "M " (toInt $d) "D**") "inline" true))
 		"author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/708214342067421215.png" "name" (print "YAGPDB updated" $firsttime))
 		"color" 0x738BD7
-		"footer" (sdict "text" "Current time")
+		"footer" (sdict "text" (print "Time calculated in timezone " $timezone))
 		"timestamp" currentTime)}}
-		
 	{{dbSet 204255221017214977 "yagversion" (sdict "version" $version "last_update" currentTime)}}
 {{end}}
