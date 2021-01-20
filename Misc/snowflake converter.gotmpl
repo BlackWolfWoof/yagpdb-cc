@@ -20,7 +20,7 @@
 {{$first := div ($args.Get 0) 4194304|mult 1000000|toDuration}}
 {{$second := div ($args.Get 1) 4194304|mult 1000000|toDuration}}
 {{define "convert"}}
-	{{$time1 := (div .Input 4194304|mult 1000000|toDuration|.epoch.Add).Add (toDuration (mult .TimeHour (toInt .offset)))}}
+	{{$time1 := (div .Input 4194304|mult 1000000|toDuration|.epoch.Add).In .timezone}}
 	{{$days := fdiv (.ctime.Sub $time1).Hours 24}}
 	{{$y := fdiv $days 365.25|roundFloor|toFloat}}
 	{{$mo := (sub (fdiv $days 30.417) (mult $y 12))|roundFloor|toFloat}}
@@ -28,23 +28,19 @@
 	{{.Set "e" (print "🗓️**" $time1.Day "." (json $time1.Month) "." $time1.Year "** ⏱️" $time1.Hour ":" $time1.Minute "\u200A⌛\u200A" (toInt $y) "Y " (toInt $mo) "M " (toInt $d) "D\n" (humanizeDurationSeconds (.ctime.Sub $time1)))}}
 	{{.Set "timeout" $time1}}
 {{end}}
-{{$t2 := exec "setz -u"}}
-{{$offset := reFindAllSubmatches `\((.*)([-+]\d+)\)\z` $t2}}
 
-{{$ctime := currentTime}}
-{{with (reFind `\w+\/\w+` $t2)}}
-	{{$ctime = currentTime.In (newDate 0 0 0 0 0 0 .).Location}}
-{{end}}
-
-{{$set := print "Your timezone is set to " (index $offset 0 1) (index $offset 0 2) "."}}
+{{$offset := exec "setz -u"|reFindAllSubmatches `\x60(.+)\x60\s(.+)`}}
+{{$timezone := (newDate 0 0 0 0 0 0 (index $offset 0 1)).Location}}
+{{$ctime := currentTime.In $timezone}}
+{{$set := print "Your timezone is set to " (index $offset 0 0) "."}}
 
 {{if not ($args.Get 1)}}
-	{{$e := sdict "Input" ($args.Get 0) "epoch" .DiscordEpoch "ctime" $ctime "TimeHour" .TimeHour "offset" (index $offset 0 2)}}
+	{{$e := sdict "Input" ($args.Get 0) "epoch" .DiscordEpoch "ctime" $ctime "TimeHour" .TimeHour "timezone" $timezone}}
 	{{template "convert" $e}}
 	{{$e := $e.e}}
 	{{sendMessage nil (cembed
 		"title" "Snowflake 2 Timestamp"
-		"fields" (cslice (sdict "name" "How long ago the snowflake was created" "value" (print $set "\nTo change your timezone run the `" $prefix "setz <Area/City>` command.\n\n" $e) "inline" true))
+		"fields" (cslice (sdict "name" "How long ago the snowflake was created" "value" (print $set "\nTo change your [timezone](https://kevinnovak.github.io/Time-Zone-Picker/ \"Find out your timezone here\") run the `" $prefix "setz <Area/City>` command.\n\n" $e) "inline" true))
 		"footer" (sdict "text" "Date of the snowflake")
 		"color" 0xffff00
 		"timestamp" ($first | .DiscordEpoch.Add))}}
@@ -55,17 +51,17 @@
 		{{$smaller = $second}}
 		{{$bigger = $first}}
 	{{end}}
-	{{$e := sdict "Input" ($args.Get 0) "epoch" .DiscordEpoch "ctime" $ctime "TimeHour" .TimeHour "offset" (index $offset 0 2)}}
+	{{$e := sdict "Input" ($args.Get 0) "epoch" .DiscordEpoch "ctime" $ctime "TimeHour" .TimeHour "timezone" $timezone}}
 	{{template "convert" $e}}
 	{{sendMessage nil (cembed
 		"title" "Snowflake 2 Timestamp"
-		"description" (print $set "\nTo change your timezone run the `" $prefix "setz <Area/City>` command.")
+		"description" (print $set "\nTo change your [timezone](https://kevinnovak.github.io/Time-Zone-Picker/ \"Find out your timezone here\") run the `" $prefix "setz <Area/City>` command.")
 		"fields" (cslice
 			(sdict "name" (print "**•** First Snowflake - `" ($args.Get 0) "`") "value" $e.e "inline" true))
 		"footer" (sdict "text" "Date of the snowflake")
 		"color" 0xffff00
 		"timestamp" ($first | .DiscordEpoch.Add))}}
-	{{$e := sdict "Input" ($args.Get 1) "epoch" .DiscordEpoch "ctime" $ctime "TimeHour" .TimeHour "offset" (index $offset 0 2)}}
+	{{$e := sdict "Input" ($args.Get 1) "epoch" .DiscordEpoch "ctime" $ctime "TimeHour" .TimeHour "timezone" $timezone}}
 	{{template "convert" $e}}
 
 	{{$days := fdiv (($bigger | .DiscordEpoch.Add).Sub ($smaller | .DiscordEpoch.Add)).Hours 24}}
