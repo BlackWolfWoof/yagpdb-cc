@@ -10,7 +10,7 @@ If you have any questions about the [YAGPDB](https://yagpdb.xyz) Discord bot you
 
 --- 
 ## List of custom commands
-To receive update notifications for these custom commands join my [discord server](/https://discord.gg/GRns3f) and <u>**follow**</u> the announcement channel `#│📢cc-updates` or give yourself the <u>**role that pings**</u> you on important updates.  
+To receive update notifications for these custom commands join my [discord server](https://discord.gg/GRns3fg) and <u>**follow**</u> the announcement channel `#│📢cc-updates` or give yourself the <u>**role that pings**</u> you on important updates.  
 <details>
 <summary>Autohelp Embed</summary>
 
