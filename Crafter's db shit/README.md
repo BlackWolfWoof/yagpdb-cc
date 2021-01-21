@@ -8,6 +8,9 @@ dbreset - All database commands that do mass deletion of entries
 dbmap - All database commands that have to do with saved sdicts in the dbvalue  
   
   
+### Small info:  
+The custom commands such as dbget and dbgetmap use your timezone from yagpdb. To make sure you have set the right timezone run `setz <Area/City>` and select your [timezone here](https://kevinnovak.github.io/Time-Zone-Picker/) and paste it into the area/city part in the command.  
+  
 ### What you can change:  
 In all custom commands, there might be a few variables you can change at the top of each command such as the timezone and permissions.  
   
