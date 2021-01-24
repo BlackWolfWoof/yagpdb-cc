@@ -5,4 +5,4 @@ With the snippet system you can save text snippets with images that can be ran w
 
 Make sure to add every code if you want to use this snippet system so it will not create any issues.
 
-# Help page goes here... soon :)
+# The rest is still work in progress. I will do the rest when i have more time and also announce that I have uploaded this code to my github on my discord server
