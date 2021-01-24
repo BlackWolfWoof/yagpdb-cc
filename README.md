@@ -103,6 +103,17 @@ To receive update notifications for these custom commands join my [discord serve
 
 
 <details>
+<summary>Snippet System</summary>
+
+- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Snippets)  
+	**•** `pagination` - The pagination / reaction code is needed so you can switch from page to page and delete lists  
+	**•** `snippet stats cleanup` - This code is used to clean up the old snippet stats  
+	**•** `snippet stats` - The snippet stats will show you how often all snippets were run in the last 7 days  
+	**•** `snippet` - The main command to create, delete, search and list snippets  
+</details>
+
+
+<details>
 <summary>Templates for coding</summary>
 
 - [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)  
