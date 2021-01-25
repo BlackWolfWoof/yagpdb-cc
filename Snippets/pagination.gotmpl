@@ -1,19 +1,19 @@
 {{/*
 	Trigger type: Reaction
 
-	Copyright: 2020 TheHDCrafter
+	Copyright: 2020 Black Wolf
 	License: MIT
 	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 */}}
 
 {{if and .Message.Embeds (eq .Message.Author.ID 204255221017214977)}}
 	{{$msg := index .Message.Embeds 0|structToSdict}}
-	{{if (reFind `\A(?:Tag(?::.+|\sList|\sSearch Results|\sHelp)|Counter Leaderboard)\b` $msg.Title)}}
+	{{if (reFind `\A(Snippet:|Counter Leaderboard)` $msg.Title)}}
 		{{range $k, $v := $msg}}
 			{{if eq (kindOf $v true) "struct"}}{{$msg.Set $k (structToSdict $v)}}{{end}}
 		{{end}}
 		{{if $msg.Footer}}
-			{{if and (eq .Reaction.Emoji.Name "📱") (reFind `React with 📱 to be DMed a mobile version\.\x{200b}` $msg.Footer.Text)}}
+			{{if and (eq .Reaction.Emoji.Name "📱") (reFind `React with 📱 to be DMed a mobile version\.` $msg.Footer.Text)}}
 				{{sendDM (printf "\n**%s**\n%s\n%s\n%s" $msg.Title $msg.Description (or $msg.Image (sdict "URL" "")).URL (reReplace `\)\n.+` $msg.Footer.Text ")"))}}
 				{{deleteAllMessageReactions nil .Message.ID}}{{addMessageReactions nil .Message.ID "📱"}}
 			{{else if and (eq .Reaction.Emoji.Name "🗑" "🗑️") (reFind `React with 🗑️ to delete this message\.` $msg.Footer.Text)}}

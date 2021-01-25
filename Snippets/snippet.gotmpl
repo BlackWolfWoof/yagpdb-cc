@@ -2,7 +2,7 @@
 	Trigger Type: Starts with
 	Trigger: ;
 
-	Copyright: 2020 TheHDCrafter
+	Copyright: 2020 Black Wolf
 	License: MIT
 	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 */}}
@@ -62,7 +62,14 @@
 {{/*Snippet Controls*/}}
 	{{else if and (eq (index .CmdArgs 0|lower) "snippet" "admin" "tag") (ge (len .CmdArgs) 1)}}
 		{{if eq (len .CmdArgs) 1}}
-			{{sendMessage nil "Help page for ;snippet goes here <:ye:733037741532643428>"}}
+			{{sendMessage nil (cembed
+				"title" "Snippet Help Page"
+				"fields" (cslice
+					(sdict "name" "**• Viewing Snippets:**" "value" "To view a snippet use `;test`.\nA snippet can have multiple aliases. For example the snippet `Test/Test2` can be triggered with either `;test` or `;test2`." "inline" false)
+					(sdict "name" "**• Snippet List:**" "value" "This will give you a list `;list` of all available snippets on the server." "inline" false)
+					(sdict "name" "**• Snippet Search:**" "value" "Use this command to search for snippets. For example `;search te` will return `Test/Test2`." "inline" false)
+					(sdict "name" "**• Command Aliases:**" "value" "To make it easier you can use the following aliases to trigger this or other pages:\n`;admin` `;tag` `;snippet`" "inline" false)
+					(sdict "name" "**• Adding & Removing Snippets:**" "value" "Remove a snippet with `;snippet remove Test/Test2`. Alternatively you can use `remove` `rem` `delete` `del`.\nTo add a snippet run `;snippet add Test/Test2 \"\" Example Text`. Keep \"\" empty if you do not want to add an image. Alternatively you can use: `add` `new` `create`.")))}}
 		{{else}}
 			{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") "ManageMessages")}}
 				{{if eq (index .CmdArgs 1|lower) "add" "new" "create"}}
@@ -101,7 +108,7 @@
 				{{addMessageReactions nil $msg "📱"}}
 				{{$a := sdict}}{{with dbGet 2000 "snippetstats"}}{{$a = sdict .Value}}{{end}}
 				{{$channel := sdict}}{{with $a.Get (str $.Channel.ID)}}{{$channel = sdict .}}{{end}}
-				{{$channel.Set (print "entry" (randInt 0 1000000)) (sdict "ExpiresAt" (currentTime.Add (toDuration (mult 604800 $.TimeSecond))) "snippet" (slice .Key 8|title))}}
+				{{$channel.Set (randInt 0 1000000|str) (sdict "ExpiresAt" (currentTime.Add (toDuration (mult 604800 $.TimeSecond))) "snippet" (slice .Key 8|title))}}
 				{{$a.Set (str $.Channel.ID) $channel}}
 				{{dbSet 2000 "snippetstats" $a}}
 				{{dbSetExpire $.Channel.ID (slice .Key 8|title) $.User.ID 30}}

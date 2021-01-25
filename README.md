@@ -1,11 +1,13 @@
 #
 <h1 align="center"><img src="https://yagpdb.xyz/static/img/logo_y.png" height=32px width=32px></img>&nbspYAGPDB Custom Commands</h1>
 
+# ❗I recently changed my name from `TheHDCrafter#0001` to `Black Wolf#0001`. The GitHub repository link will also change in March❗
+
 ---
 ## Introduction:  
-Hello, I am TheHDCrafter and I am currently 18 years old. I live in Germany and love coding and playing games.  
-I have a [discord server](/https://discord.gg/GRns3f) and a [website](https://thehdcraftergaming.tk/yagpdb).
-My Discord name & tag is `TheHDCrafter#0001` and I also have a [YouTube channel](https://www.youtube.com/playlist?list=PLNiLQueObdrQ289RzZ2vBwhbU8UKy7cGg) which has some tutorials about Discord and YAGPDB that you could find useful.  
+Hello, I am Black Wolf and I am currently 18 years old. I live in Germany and love coding and playing games.  
+I have a [discord server](/https://discord.gg/GRns3f) and a ~~[website](https://thehdcraftergaming.tk/yagpdb)~~.
+My Discord name & tag is `Black Wolf#0001` and I also have a [YouTube channel](https://www.youtube.com/playlist?list=PLNiLQueObdrQ289RzZ2vBwhbU8UKy7cGg) which has some tutorials about Discord and YAGPDB that you could find useful.  
 If you have any questions about the [YAGPDB](https://yagpdb.xyz) Discord bot you can always join the [YAGPDB Community & Support](https://discord.gg/4uY54rw) Discord server ask there.  
 
 --- 
@@ -138,7 +140,7 @@ If [that licence](#small-licence-text) can not be found on the code in this repo
 
 #### Small licence text:
 ```
-Copyright: 2020 TheHDCrafter
+Copyright: 2020 Black Wolf
 License: MIT
 Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 ```

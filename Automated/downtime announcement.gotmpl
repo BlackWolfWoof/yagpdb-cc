@@ -9,20 +9,11 @@
 
 	Need help or you found a bug? Join https://discord.gg/GRns3fg or report it on GitHub.
 
-	Copyright: 2020 TheHDCrafter
+	Copyright: 2020 Black Wolf
 	License: MIT
 	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 */}}
 {{$timezone := "Europe/Berlin"}}{{/*Select your timezone here https://kevinnovak.github.io/Time-Zone-Picker/ and copy it into $timezone*/}}
-
-{{/*1 Minute Interval*/}}
-{{if not .ExecData}}
-	{{execCC .CCID nil 60 (sdict "key" "8rwj7sft" "seconds" 0)}}
-{{else}}
-	{{if lt .ExecData.seconds 180}}
-		{{execCC .CCID nil 60 (sdict "key" "8rwj7sft" "seconds" (add 60 .ExecData.seconds))}}
-	{{end}}
-{{end}}
 
 {{/*Downtime*/}}
 {{$dbtime := (dbGet 204255221017214977 "downtime").Value.UTC}}{{$ctime := currentTime.UTC}}{{$firsttime := ""}}
@@ -30,7 +21,7 @@
 	{{$firsttime = " - ❗Example❗"}}
 	{{$dbtime = ($ctime.UTC.Add (toDuration (mult -3510 .TimeSecond)))}}
 {{end}}
-{{if $dbtime.Before ($ctime.Add (toDuration (mult -3 .TimeMinute)))}}
+{{if $dbtime.Before ($ctime.Add (toDuration (mult -8 .TimeMinute)))}}
 	{{sendMessage nil (cembed
 	"author" (sdict "url" "https://yagpdb.xyz/status/" "icon_url" "https://cdn.discordapp.com/emojis/705738821110595607.png" "name" (print "YAGPDB Downtime Announcement" $firsttime))
 	"description" (print "YAGPDB was down for the last **≈ " (humanizeDurationSeconds ($ctime.Sub $dbtime)) "**\n\nFrom: " ((($dbtime.In (newDate 0 0 0 0 0 0 $timezone).Location)).Format "📅`02.1.06` ⌚`15:04:05`") "\nTo:\u2003\u200A\u2005" ((($ctime.In (newDate 0 0 0 0 0 0 $timezone).Location)).Format "📅`02.1.06` ⌚`15:04:05`"))

@@ -23,7 +23,7 @@ With the reset custom commands, you can mass delete database entries. There will
   
 If you have any more questions you can contact me via my Discord.  
   
-Made by TheHDCrafter#0001  
+Made by Black Wolf#0001  
 Discord Server: https://discord.gg/GRns3fg  
 On my discord server, you can now follow an announcement channel that sends you updates for my custom commands!  
 Assign the 'Custom Command Updates' role in #roles to see the channel and follow it.  

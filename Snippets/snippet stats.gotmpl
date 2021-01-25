@@ -2,7 +2,7 @@
 	Trigger Type: Command
 	Trigger: ss
 
-	Copyright: 2020 TheHDCrafter
+	Copyright: 2020 Black Wolf
 	License: MIT
 	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 */}}
@@ -21,7 +21,7 @@
 {{$page := 1}}{{with $args.Get 0}}{{$page = .}}{{end}}{{$seq := mult $page 10}}
 
 {{if and (le $page (fdiv (len $sdict) 10|roundCeil|toInt)) (ge $page 1)}}
-{{$grab := "```"}}{{$t1 := 10000}}
+{{$grab := ""}}{{$t1 := 10000}}
 {{range seq 0 $seq}}{{$nam := ""}}{{$val := 0}}
 	{{- range $key, $value:=$sdict}}
 		{{- if and (ge (toInt $value) $val) (le (toInt $value) $t1) (not (in (split $grab "\u200B") (index (split $key `\s+`) 0)))}}
@@ -36,7 +36,7 @@
 {{$tosend := (joinStr "\n" (slice (split $grab "\n") (add -10 $seq)))}}
 {{sendMessage nil (cembed
 "title" "Snippet stats for the last 7 days"
-"description" (print $tosend "```")
+"description" (print "```\n" $tosend "```")
 "color" 0x445581
 "footer" (sdict "text" (print "Page: " $page "/" (fdiv (len $sdict) 10|roundCeil|toInt))))}}
-{{else}}page not found{{end}}
+{{else}}Page not found :({{end}}
