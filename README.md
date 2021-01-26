@@ -1,7 +1,13 @@
 #
 <h1 align="center"><img src="https://yagpdb.xyz/static/img/logo_y.png" height=32px width=32px></img>&nbspYAGPDB Custom Commands</h1>
 
-# ❗I recently changed my name from `TheHDCrafter#0001` to `Black Wolf#0001`. The GitHub repository link will also change in March❗
+## ❗I recently changed my name from `TheHDCrafter#0001` to `Black Wolf#0001`. The GitHub repository link will also change in March❗
+
+---
+## News:  
+Almost everything that is on my website will now be moved to this repository if not already here.  
+On my [discord server](https://discord.gg/GRns3fg) there is now a designated section for YAGPDB. There you can find updates for my custom commands, other GitHub repositories from the community and a small support / discussion channel.  
+So if you are looking for new custom commands take a look ;) there  
 
 ---
 ## Introduction:  
