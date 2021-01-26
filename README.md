@@ -6,7 +6,6 @@
 ---
 ## Introduction:  
 Hello, I am Black Wolf and I am currently 18 years old. I live in Germany and love coding and playing games.  
-I have a [discord server](/https://discord.gg/GRns3f) and a ~~[website](https://thehdcraftergaming.tk/yagpdb)~~.
 My Discord name & tag is `Black Wolf#0001` and I also have a [YouTube channel](https://www.youtube.com/playlist?list=PLNiLQueObdrQ289RzZ2vBwhbU8UKy7cGg) which has some tutorials about Discord and YAGPDB that you could find useful.  
 If you have any questions about the [YAGPDB](https://yagpdb.xyz) Discord bot you can always join the [YAGPDB Community & Support](https://discord.gg/4uY54rw) Discord server ask there.  
 
