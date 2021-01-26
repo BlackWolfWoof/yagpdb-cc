@@ -93,7 +93,7 @@
 		{{end}}
 
 {{/*Snippet*/}}
-	{{else if eq (len .CmdArgs) 1}}
+	{{else if ge (len .CmdArgs) 1}}
 		{{$snippet := ""}}
 		{{range dbTopEntries (joinStr "" "snippet_%" (lower (index .CmdArgs 0)) "%") 100 0}}{{$snippet = print $snippet " " (slice .Key 8)}}{{end}}
 		{{$r := reFind (joinStr `` `(?i)(\b|\S*\/)` (reReplace "[^\\w/]" (lower (index .CmdArgs 0)) "") `(/\S*|\b|$)`) $snippet}}
