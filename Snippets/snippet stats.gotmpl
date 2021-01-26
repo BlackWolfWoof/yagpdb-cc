@@ -10,13 +10,13 @@
 {{$args := parseArgs 0 "" (carg "int" "page")}}
 {{$sdict := sdict}}
 {{range $name, $value := (sdict (dbGet 2000 "snippetstats").Value)}}
-	{{range $name, $value := $value}}
-		{{if $sdict.Get $value.snippet}}
-			{{$sdict.Set $value.snippet (add 1 ($sdict.Get $value.snippet))}}
-		{{else}}
-			{{$sdict.Set $value.snippet 1}}
-		{{end}}
-	{{end}}
+	{{- range $name, $value := $value}}
+		{{- if $sdict.Get $value.snippet}}
+			{{- $sdict.Set $value.snippet (add 1 ($sdict.Get $value.snippet))}}
+		{{- else}}
+			{{- $sdict.Set $value.snippet 1}}
+		{{- end}}
+	{{- end}}
 {{end}}
 {{$page := 1}}{{with $args.Get 0}}{{$page = .}}{{end}}{{$seq := mult $page 10}}
 
