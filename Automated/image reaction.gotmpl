@@ -42,7 +42,8 @@
 {{/*Embed Media*/}}
 {{sleep 5}}
 {{range .Message.Embeds}}
-	{{if ne .Type "video" "image" "gifv"}}
+	{{if eq .Type "video" "image" "gifv"}}
+	{{else}}
 		{{$woulddelete3 = true}}
 	{{end}}
 {{else}}
