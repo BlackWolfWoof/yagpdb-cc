@@ -14,7 +14,7 @@
 Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
 
 {{if not .ExecData}}
-{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
+	{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
 		{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
 		{{$args := parseArgs 1 (print $prefix "dbresetuser <UserID/Code>")
 			(carg "string" "<UserID/Code>")}}
