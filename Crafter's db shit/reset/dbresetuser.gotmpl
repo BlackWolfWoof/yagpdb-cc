@@ -47,7 +47,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{range (dbGetPattern (toInt .ExecData.user) "%" 9 0)}}{{$c = add $c 1}}{{dbDel .UserID .Key}}{{end}}
 	{{end}}
 	{{if ne $c 0}}
-		{{execCC .CCID nil 10 .ExecData}}
+		{{execCC .CCID nil 6 .ExecData}}
 	{{else}}
 		{{sendMessage nil (print .User.Mention " <:wolfyey:664130162023202816> I am done resetting the database!")}}
 		{{deleteMessage nil .ExecData.id 0}}
