@@ -25,7 +25,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{else}}
 			{{with (dbGet .User.ID "dbresetall").Value}}
 				{{if eq $.StrippedMsg (sdict .).code}}
-					{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This will take a while...") "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+					{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This might take a while...") "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 					{{dbDel $.User.ID "dbresetall"}}
 					{{execCC $.CCID nil 6 (sdict "id" $x "all" dbCount "time" currentTime)}}
 					{{deleteTrigger 1}}
@@ -49,7 +49,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{end}}
 	{{$sdict := sdict .ExecData}}
 	{{$sdict.Set "count" (add $c $sdict.count)}}
-	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This will take a while... (" (sub .ExecData.all dbCount) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all dbCount) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 	{{if ne $c 0}}
 		{{execCC .CCID nil 6 $sdict}}
 	{{else}}

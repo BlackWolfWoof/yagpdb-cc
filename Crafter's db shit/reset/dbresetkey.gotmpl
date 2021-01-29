@@ -21,7 +21,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{with (dbGet .User.ID "dbresetkey").Value}}
 			{{with (sdict .)}}
 				{{if eq ($args.Get 0|str) .code}}
-					{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This will take a while...") "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+					{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This might take a while...") "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 					{{dbDel $.User.ID "dbresetkey"}}
 					{{execCC $.CCID nil 6 (sdict "id" $x "all" (dbCount .key) "time" currentTime "key" .key)}}
 					{{deleteTrigger 1}}
@@ -35,7 +35,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{else}}
 			{{$cslice := shuffle (cslice "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z")}}
 			{{$random := ""}}{{range (seq 0 10)}}{{$r := index (shuffle (cslice 0 1)) 0}}{{if eq $r 1}}{{$random = print $random (upper (index $cslice .))}}{{else}}{{$random = print $random (index $cslice .)}}{{end}}{{end}}
-			{{$x := sendMessageRetID nil (cembed "title" "Hold up!" "description" (print "**YOU ARE ABOUT TO DELETE ALL KEYS WITH THE NAME `" ($args.Get 0) "` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n__If you still want to proceed type__") "footer" (sdict "text" (print $prefix "dbresetkey " $random) "icon_url" "https://cdn.discordapp.com/emojis/650328464825516062.png") "color" 0xBE1931 "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png"))}}
+			{{$x := sendMessageRetID nil (cembed "title" "Hold up!" "description" (print "**YOU ARE ABOUT TO DELETE ALL ENTRIES WITH THE NAME `" ($args.Get 0) "` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n__If you still want to proceed type__") "footer" (sdict "text" (print $prefix "dbresetkey " $random) "icon_url" "https://cdn.discordapp.com/emojis/650328464825516062.png") "color" 0xBE1931 "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png"))}}
 			{{dbSetExpire .User.ID "dbresetkey" (sdict "code" $random "msgid" $x "key" ($args.Get 0)) 60}}
 			{{deleteMessage nil $x 60}}
 		{{end}}
@@ -51,7 +51,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{end}}
 	{{$sdict := sdict .ExecData}}
 	{{$sdict.Set "count" (add $c $sdict.count)}}
-	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This will take a while... (" (sub .ExecData.all (dbCount .ExecData.key)) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all (dbCount .ExecData.key)) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 	{{if ne $c 0}}
 		{{execCC .CCID nil 6 $sdict}}
 	{{else}}
