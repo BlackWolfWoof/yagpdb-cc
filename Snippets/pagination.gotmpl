@@ -19,7 +19,7 @@
 			{{else if and (eq .Reaction.Emoji.Name "🗑" "🗑️") (reFind `React with 🗑️ to delete this message\.` $msg.Footer.Text)}}
 				{{deleteMessage nil .Message.ID 0}}
 			{{else if eq .Reaction.Emoji.Name "⚙️"}}
-				{{sendMessage nil (complexMessage "content" (print "Raw snippet **(" (reReplace `Tag: ` $msg.Title "") ")** output triggered by " .User.String) "file" (print ";tag add \"" (reReplace `Snippet: ` $msg.Title "") "\" " (or $msg.Image (sdict "URL" "\"\"")).URL "\n" $msg.Description))}}
+				{{sendMessage nil (complexMessage "content" (print "Raw snippet **(" (reReplace `Tag: ` $msg.Title "") ")** output triggered by " .User.String) "file" (print ";tag add \"" (reReplace `Snippet: ` $msg.Title "") "\" \"" (or $msg.Image (sdict "URL" "")).URL "\"\n" $msg.Description))}}
 				{{deleteAllMessageReactions nil .Message.ID}}{{addMessageReactions nil .Message.ID "📱"}}
 			{{end}}
 		{{end}}
