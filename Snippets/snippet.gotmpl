@@ -115,9 +115,6 @@
 			{{else}}
 				{{addReactions "⏳"}}
 				{{deleteTrigger 10}}
-				{{/*Remove code that is below when testing the efficiency is over*/}}
-				{{$c := 1}}{{with (dbGet 2000 "blocked_snippets")}}{{$c = add 1 (toInt .Value)}}{{end}}
-				{{dbSetExpire 2000 "blocked_snippets" (str $c) 2630000}}
 			{{end}}
 		{{end}}
 	{{end}}
