@@ -1,4 +1,4 @@
-# WIP : )
+# Automated
 
 ### Downtime Announcement
 When yagpdb has downtime and comes back online it will send a message how long it was offline.  
