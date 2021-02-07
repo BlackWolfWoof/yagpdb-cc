@@ -1,5 +1,5 @@
 {{/*
-	Trigger type: Reaction
+	Trigger type: Reaction (add)
 
 	Copyright: 2020 Black Wolf
 	License: MIT
@@ -7,19 +7,18 @@
 */}}
 {{/*When using poll as trigger make sure to disable the default poll command here --> https://i.imgur.com/8WlHqyo.gif*/}}
 
-{{$single := false}}{{$c := 1}}
+{{$single := false}}{{$c := 0}}{{$c1 := 0}}
 {{with .Message.Embeds}}{{with (index . 0).Author}}{{with .IconURL}}{{if reFind `\?single=true` .}}{{$single = true}}{{end}}{{end}}{{end}}{{end}}
 {{if .ExecData}}
 	{{$r := .ExecData}}
 	{{range .Message.Reactions}}
-		{{cancelScheduledUniqueCC $.CCID (print "poll" $.User.ID)}}
 		{{if ne $c 10}}
-			{{if not .Me}}
+			{{if and (not .Me)}}
 				{{if eq .Emoji.ID 0}}
-					{{deleteMessageReaction nil $.Message.ID $.User.ID $r.Emoji.Name}}
+					{{deleteMessageReaction nil $.Message.ID $.User.ID .Emoji.Name}}
 					{{$c = add 1 $c}}
 				{{else}}
-					{{deleteMessageReaction nil $.Message.ID $.User.ID (print $r.Emoji.Name ":" $r.Emoji.ID)}}
+					{{deleteMessageReaction nil $.Message.ID $.User.ID (print .Emoji.Name ":" .Emoji.ID)}}
 					{{$c = add 1 $c}}
 				{{end}}
 			{{else}}
@@ -33,6 +32,10 @@
 					{{end}}
 				{{end}}
 			{{end}}
+		{{end}}
+		{{if ne $c1 10}}
+			{{cancelScheduledUniqueCC $.CCID (print "poll" $.User.ID)}}
+			{{$c1 = add $c1 1}}
 		{{end}}
 	{{end}}
 {{else}}
