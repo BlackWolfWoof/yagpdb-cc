@@ -1,0 +1,38 @@
+{{/*
+	Trigger type: Reaction
+
+	Copyright: 2020 Black Wolf
+	License: MIT
+	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
+*/}}
+{{/*When using poll as trigger make sure to disable the default poll command here --> https://i.imgur.com/8WlHqyo.gif*/}}
+{{$expire := "1mo"}}
+
+
+{{$single := false}}
+{{with .Message.Embeds}}{{with (index . 0).Author}}{{with .IconURL}}{{if reFind `\?single=true` .}}{{$single = true}}{{end}}{{end}}{{end}}{{end}}
+{{if $single}}
+	{{$all := sdict}}{{with dbGet .Message.ID "poll"}}{{$all = sdict .Value}}{{end}}
+	{{if and (in (cslice "1️⃣" "2️⃣" "3️⃣" "4️⃣" "5️⃣" "6️⃣" "7️⃣" "8️⃣" "9️⃣" "🔟") .Reaction.Emoji.Name)}}
+		{{if .ReactionAdded}}
+			{{if not (dbGet .User.ID "pollcd")}}
+				{{with ($all.Get (str .User.ID))}}
+					{{dbSetExpire $.User.ID "pollcd" 0 60}}
+					{{deleteMessageReaction nil $.Message.ID $.User.ID .}}
+				{{end}}
+				{{$all.Set (str .User.ID) .Reaction.Emoji.Name}}
+				{{dbSetExpire .Message.ID "poll" $all (toInt (toDuration $expire).Seconds)}}
+			{{else}}
+				{{dbSetExpire .User.ID "pollcd" 0 60}}
+				{{deleteMessageReaction nil .Message.ID .User.ID .Reaction.Emoji.Name}}
+			{{end}}
+		{{else}}
+			{{if not (dbGet .User.ID "pollcd")}}
+				{{$all.Del (str .User.ID)}}
+				{{dbSetExpire .Message.ID "poll" $all (toInt (toDuration $expire).Seconds)}}
+			{{else}}
+				{{dbDel .User.ID "pollcd"}}
+			{{end}}
+		{{end}}
+	{{end}}
+{{end}}
