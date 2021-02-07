@@ -103,6 +103,15 @@ To receive update notifications for these custom commands join my [discord serve
 
 
 <details>
+<summary>Poll</summary>
+
+- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Poll) - A poll replacement code that can force people to only react to one emoji by adding `-single` anyehere into the poll  
+	**•** `poll` - The command that creates the poll and adds the reactions  
+	**•** `reaction` - Reaction code  
+</details>
+
+
+<details>
 <summary>Reaction Embed</summary>
 
 - [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Reaction%20Embed) - An embed that can be controlled via reactions that displays anything you want  
