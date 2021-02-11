@@ -68,6 +68,7 @@
 						{{$e.Set "fields" (cslice
 							(sdict "name" "File Name" "value" (print "`" $filename "`") "inline" true)
 							(sdict "name" "URL" "value" (print "[File Link](" .URL ")") "inline" true))}}
+						{{sendMessage nil (cembed $e)}}
 					{{end}}
 					{{$e.Del "fields"}}
 					{{$e.Del "image"}}
