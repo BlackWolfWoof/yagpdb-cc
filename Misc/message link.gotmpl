@@ -10,7 +10,7 @@
 	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
 */}}
 
-{{$m := reFindAllSubmatches `https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}{{$reminder := true}}
+{{$m := reFindAllSubmatches `(?i)https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}{{$reminder := true}}
 {{if not (eq (toInt64 (index $m 0 1)) .Guild.ID)}}
 	{{sendMessage nil (cembed
 		"author" (sdict
