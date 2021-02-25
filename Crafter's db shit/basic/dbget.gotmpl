@@ -52,7 +52,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 			{{$embed.Set "footer" (sdict "text" "Value above" "icon_url" "https://cdn.discordapp.com/emojis/716314785985331250.gif")}}
 			{{$valuestr = sdict "name" "**• Value:**" "value" (print "```json\n" (reReplace `\\\\` (json $db.Value) `\`) "```") "inline" false}}
 		{{end}}
-		{{$fields := $embed.Get "fields"}}
+		{{$fields := $embed.fields}}
 		{{with (userArg $db.UserID)}}{{$embed.Set "thumbnail" (sdict "url" (print "https://cdn.discordapp.com/avatars/" .ID "/" .Avatar ".png?size=4096"))}}{{$fields = $fields.Append (sdict "name" "**• User:**" "value" (print .Mention " `" .String "`") "inline" true)}}{{end}}
 
 		{{$fields := $fields.Append (sdict "name" "**• JSON Formatter:**" "value" (print "<:download:715520359729987635> [Formatted JSON](https://jsonformatter.curiousconcept.com/?process=true&spec=skip&data=" (urlescape $out) ")") "inline" true)}}

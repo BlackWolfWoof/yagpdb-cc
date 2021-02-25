@@ -16,7 +16,7 @@
 	{{if not (dbGet .User.ID "warningcooldown")}}
 		{{$embed := sdict "author" (sdict "icon_url" (.User.AvatarURL "1024") "name" "New user with new account joined!") "fields" (cslice (sdict "name" "**• User:**" "value" (print .User.Mention " `" .User.String "`") "inline" true) (sdict "name" "**• ID:**" "value" (print .User.ID) "inline" true) (sdict "name" "**• Age:**" "value" (humanizeDurationSeconds (currentTime.Sub currentUserCreated)) "inline" true)) "footer" (sdict "text" (print .User.String " joined")) "timestamp"  currentTime "color" 16426522}}
 		{{if lt (currentUserAgeMinutes) 1440}}
-			{{$embed.Set "fields" (($embed.Get "fields").Append (sdict "name" "**• WARNING:**" "value" "This account is probably an alt or a spam / raid account‼" "inline" true))}}
+			{{$embed.Set "fields" ($embed.fields.Append (sdict "name" "**• WARNING:**" "value" "This account is probably an alt or a spam / raid account‼" "inline" true))}}
 			{{$embed.Set "color" 15158332}}
 			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "❗WARNING: User with extremely " (mentionRoleID $roleid) " joined!"))}}
 		{{else}}

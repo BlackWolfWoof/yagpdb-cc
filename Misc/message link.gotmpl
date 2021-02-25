@@ -39,7 +39,7 @@
 		{{if and $msg.Content (not $msg.Embeds)}}
 			{{$e.Set "description" (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
 		{{end}}
-		{{$fo := $e.Get "footer"}}
+		{{$fo := $e.footer}}
 		{{$ti := $msg.Timestamp}}
 		{{if or $msg.Attachments $msg.Embeds}}
 			{{range $c,$ma := (or $msg.Attachments $msg.Embeds)}}
