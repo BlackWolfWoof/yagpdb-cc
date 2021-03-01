@@ -1,8 +1,6 @@
 #
 <h1 align="center"><img src="https://yagpdb.xyz/static/img/logo_y.png" height=32px width=32px></img>&nbspYAGPDB Custom Commands</h1>
 
-## ❗I recently changed my name from `TheHDCrafter#0001` to `Black Wolf#0001`. The GitHub repository link will also change in March❗
-
 ---
 ## News:  
 Almost everything that is on my website will now be moved to this repository if not already here.  
