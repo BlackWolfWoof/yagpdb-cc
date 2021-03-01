@@ -21,7 +21,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Autohelp Embed</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Autohelp%20Embed)  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Autohelp%20Embed)  
 	**•** `command` - Command that displays the main page of the controllable embed on reaction  
 	**•** `reaction` -  Reaction code that edits the embed on reaction  
 </details>
@@ -29,7 +29,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Automated</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Automated)  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Automated)  
 	**•** `downtime announcement` - This interval code will announce when YAGPDB was offline. **This will ONLY run if YAGPDB comes back online again!!**  
 	**•** `image reaction` - YAGPDB will react on images and videos. You can optionally turn on an auto-delete for non-images.  
 	**•** `new account warning` - You will get warned if a member with a brand new account joins the server  
@@ -42,7 +42,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Database Manipulation</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit) - Basic  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Crafter's%20db%20shit) - Basic  
 	**•** `dball` - Shows all entries  
 	**•** `dbdel` - Deletes an entry  
 	**•** `dbget` - Gets an entry  
@@ -51,7 +51,7 @@ To receive update notifications for these custom commands join my [discord serve
 	**•** `dbuser` - Shows all entries from a specified user  
 
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/map) - Map  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Crafter's%20db%20shit/map) - Map  
 	**•** `dballmap` - Explanation coming soon:tm:  
 	**•** `dbdelmap` - Explanation coming soon:tm:  
 	**•** `dbgetmap` - Explanation coming soon:tm:  
@@ -59,7 +59,7 @@ To receive update notifications for these custom commands join my [discord serve
 	**•** `dbsetmap` - Explanation coming soon:tm:  
 
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Crafter's%20db%20shit/reset) - Reset  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Crafter's%20db%20shit/reset) - Reset  
 	**•** `dbresetall` - Resets the entire database on the server  
 	**•** `dbresetkey` - Deletes all specified database keys  
 	**•** `dbresetuser` - Deletes all keys from a specified user  
@@ -68,7 +68,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>CustomCommands Command Replacement</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/CustomCommands%20Replacement) - Replacement code for the command `cc` or `customcommands`
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/CustomCommands%20Replacement) - Replacement code for the command `cc` or `customcommands`
 	**•** `command` - Command part  
 	**•** `reaction` - Reaction part  
 </details>
@@ -77,7 +77,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Example Code</summary>
 
-- [Open folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Example%20Code)  
+- [Open folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Example%20Code)  
 	**•** `creating embeds` - WIP
 </details>
 
@@ -85,7 +85,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Misc</summary>
 
-- [Open folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Misc)  
+- [Open folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Misc)  
 	**•** `avatar` - Shows the avatar of the user (supports mentions)  
 	**•** `cloneroles` - Clones all roles from user A to user B  
 	**•** `message link` - Quotes messages from message links  
@@ -96,7 +96,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Quick Moderation menu</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Moderation%20menu) - No need to remember all moderation commands. Just click a reaction and you are done  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Moderation%20menu) - No need to remember all moderation commands. Just click a reaction and you are done  
 	**•** `mod reactions` - Reaction code  
 	**•** `mod` - Command that displays the embed that can be controlled via reactions  
 </details>
@@ -105,7 +105,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Poll</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Poll) - A poll replacement code that can force people to only react to one emoji by adding `-single` anyehere into the poll  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Poll) - A poll replacement code that can force people to only react to one emoji by adding `-single` anyehere into the poll  
 	**•** `poll` - The command that creates the poll and adds the reactions  
 	**•** `reaction` - Reaction code  
 </details>
@@ -114,7 +114,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Reaction Embed</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Reaction%20Embed) - An embed that can be controlled via reactions that displays anything you want  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Reaction%20Embed) - An embed that can be controlled via reactions that displays anything you want  
 	**•** `reaction` - Reaction code  
 	**•** `setup` - Setup that sends the embed for the first time  
 </details>
@@ -123,7 +123,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Snippet System</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Snippets)  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Snippets)  
 	**•** `pagination` - The pagination / reaction code is needed so you can switch from page to page and delete lists  
 	**•** `snippet stats cleanup` - This code is used to clean up the old snippet stats  
 	**•** `snippet stats` - The snippet stats will show you how often all snippets were run in the last 7 days  
@@ -134,7 +134,7 @@ To receive update notifications for these custom commands join my [discord serve
 <details>
 <summary>Templates for coding</summary>
 
-- [Open Folder](https://github.com/TheHDCrafter/yagpdb-cc/tree/master/Templates)  
+- [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Templates)  
 	**•** `bypass limit` - This template shows how you will be able to bypass the X uses per CC limits on some functions  
 	**•** `bypass limit example` - This code is an example that bypasses the execAdmin limit (5 per cc)  
 	**•** `guild icon` - Outputs the guild icon of the server  
@@ -151,14 +151,14 @@ There are way more repositories that have custom command codes, but they are not
 
 ---
 ## Licence:  
-You do not have to include [the full licence](https://github.com/TheHDCrafter/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. That's why I made [this small text](#small-licence-text) that has to stay in the code if it is found there.  
+You do not have to include [the full licence](https://github.com/BlackWolfWoof/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. That's why I made [this small text](#small-licence-text) that has to stay in the code if it is found there.  
 If [that licence](#small-licence-text) can not be found on the code in this repository, you can do whatever you want with the code.  
 
 #### Small licence text:
 ```
 Copyright: 2020 Black Wolf
 License: MIT
-Repository: https://github.com/TheHDCrafter/yagpdb-cc/
+Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 ```
 
 
