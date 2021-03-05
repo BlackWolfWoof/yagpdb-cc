@@ -162,8 +162,8 @@ There are way more repositories that have custom command codes, but they are not
 
 ## License  
 
-You do not have to include [the full licence](https://github.com/BlackWolfWoof/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. That's why I made [this small text](#small-licence-text) that has to stay in the code if it is found there.  
-If [that licence](#small-licence-text) can not be found on the code in this repository, you can do whatever you want with the code.  
+You do not have to include [the full license](https://github.com/BlackWolfWoof/yagpdb-cc/blob/master/LICENSE) in the code because it is too long. That's why I made [this small text](#small-license-text) that has to stay in the code if it is found there.  
+If [that license](#small-license-text) can not be found on the code in this repository, you can do whatever you want with the code.  
 
 #### Small license text
 
