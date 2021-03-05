@@ -11,7 +11,7 @@
 */}}
 
 {{$m := reFindAllSubmatches `(?i)https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}{{$reminder := true}}
-{{if not (eq (index $m 0 1|toInt) .Guild.ID)}}
+{{if not (eq (toInt64 (index $m 0 1)) .Guild.ID)}}
 	{{sendMessage nil (cembed
 		"author" (sdict
 			"name" "Unknown User"
@@ -94,7 +94,7 @@
 				{{sendMessage nil (cembed $e)}}
 			{{end}}
 		{{end}}
-		{{if and (eq (index $m 0 0|len) (len .Message.Content)) (not .Message.Attachments)}}
+		{{if and (eq (len (index $m 0 0)) (len .Message.Content)) (not .Message.Attachments)}}
 			{{deleteTrigger 1}}
 		{{end}}
 	{{end}}
