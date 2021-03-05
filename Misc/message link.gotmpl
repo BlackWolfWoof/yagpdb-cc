@@ -94,7 +94,7 @@
 				{{sendMessage nil (cembed $e)}}
 			{{end}}
 		{{end}}
-		{{if eq (len (index $m 0 0)) (len .Message.Content)}}
+		{{if and (eq (len (index $m 0 0)) (len .Message.Content)) (not .Message.Attachments)}}
 			{{deleteTrigger 1}}
 		{{end}}
 	{{end}}
