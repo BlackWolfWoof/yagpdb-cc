@@ -39,7 +39,7 @@ To receive update notifications for these custom commands join my [discord serve
 **•** `downtime announcement` - This interval code will announce when YAGPDB was offline. **This will ONLY run if YAGPDB comes back online again!!**  
 **•** `image reaction` - YAGPDB will react on images and videos. You can optionally turn on an auto-delete for non-images.  
 **•** `new account warning` - You will get warned if a member with a brand new account joins the server  
-**•** `onewordstory` - A one word sory is a sentence that multiple people have to write together by only sending one word at a time.  
+**•** `onewordstory` - A one word story is a sentence that multiple people have to write together by only sending one word at a time.  
 **•** `sticky message` - This message will always stick to the bottom of the channel  
 **•** `wordchain` - A word chain is a game where players come up with words that begin with the letter or letters that the previous word ended with.  
 **•** `yagpdb update` - This will notify you when yagpdb gets an update. It will tell you the version numbers and time  

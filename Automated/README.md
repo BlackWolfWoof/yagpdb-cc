@@ -24,7 +24,7 @@ This code warns you when a Discord user with a new account joins your server.
 
 
 ### One Word Story
-A one word sory is a sentence that multiple people have to write together by only sending one word at a time.  
+A one word story is a sentence that multiple people have to write together by only sending one word at a time.  
 
 #### *Preview of the command*  
 ![Preview](https://i.imgur.com/RVBxK4T.png)  
