@@ -53,7 +53,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{end}}
 	{{$sdict := sdict .ExecData}}
 	{{$sdict.Set "count" (add $c $sdict.count)}}
-	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all (dbCount .ExecData.user)) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all (dbCount .ExecData.user)) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetuser again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 	{{if ne $c 0}}
 		{{execCC .CCID nil 6 $sdict}}
 	{{else}}
