@@ -181,3 +181,15 @@ Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 [YAGPDB Documentation](https://docs.yagpdb.xyz/reference/templates) Official documentation  
 [YAGPDB Learning page](https://learn.yagpdb.xyz/) Official learning page  
 [Chill and Play ❤](https://discord.gg/GRns3fg) My server :)  
+
+---
+
+# Wall of shame for the people that removed my copyright or claimed they made it
+*If ths discord name and tag no longer exists check the userid on https://discord.id/ to get the new username and tag.*
+
+Username + Tag|User ID|Reason
+---|---|---
+`}{OЯCRUX#0773`|249409309127999488|Claiming they made it
+`LuckyTarget#5119`|559651275877384193|Claiming they made it
+`rot#1301`|516053372877668353|Removing copyright
+`Lzzgodboy#0009`|382628589088014358|Removing Copyright
