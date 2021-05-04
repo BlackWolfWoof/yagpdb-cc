@@ -184,7 +184,7 @@ Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 
 ---
 
-# Wall of shame for the people that removed my copyright or claimed they made it
+# Wall of shame for the people that removed the copyright from my code or claimed they made it  
 *If ths discord name and tag no longer exists check the userid on https://discord.id/ to get the new username and tag.*
 
 Username + Tag|User ID|Reason
