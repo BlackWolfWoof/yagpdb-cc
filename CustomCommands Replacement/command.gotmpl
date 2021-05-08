@@ -41,7 +41,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 	
 	{{/*Guild Icon*/}}
-	{{$ex := "png"}}{{if reFind "a_" .Guild.Icon}}{{$ex = "gif"}}{{end}}{{$icon := print "https://cdn.discordapp.com/icons/" .Guild.ID "/" .Guild.Icon "." $ex "?size=1024"}}
+	{{$ex := or (and (reFind "a_" .Guild.Icon) "gif") "png"}}{{$icon := print "https://cdn.discordapp.com/icons/" .Guild.ID "/" .Guild.Icon "." $ex "?size=1024"}}
 
 	{{/*Splitting exec cc output and filtering / compiling output*/}}
 	{{if not $trigger}}
@@ -82,21 +82,28 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{$cc := exec "cc" $trigger}}
 		{{$text := ""}}{{$t4 := ""}}
 		{{if not (reFind `^No command by that name or id found, here is a list of them all:` $cc)}}
-			{{$m := (reFindAllSubmatches `^#\s*(\d+) - (.*)(?:(?:: \x60(.*)\x60 - Case sensitive trigger: \x60(.+)\x60)|\b) - Group: \x60(.+)\x60\n\x60\x60\x60\n((?:.|\n){0,})\x60\x60\x60$` $cc)}}
+			{{$m := (reFindAllSubmatches `^#\s*(\d+) - (.*)(?:(?:: \x60(.*)\x60 - Case sensitive trigger: \x60(.+)\x60)|\b) - Group: \x60(.+)\x60\n\x60\x60\x60txt\n((?:.|\n){0,})\x60\x60\x60$` $cc)}}
 			{{if $m}}{{$t67 := index $m 0 4}}{{if not $t67}}{{$t67 = "<:cross:705738821110595607>"}}{{end}}
-				{{if (index $m 0 3)}}{{$t4 = "`"}}{{end}}
+				{{if (index $m 0 3)}}{{$t4 = "`"}}{{end}}{{$file := false}}
 				{{$text = print "<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 3) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 2) "<:cross:705738821110595607>") "**\n<:cc_Aa:780097353004482611>Case sensitive: **" (title $t67) "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 5) "**\n\n" -}}
 				{{if not (reFind `\x60\x60\x60` (index $m 0 6))}}
 					{{$t3 := print $text "```go\n" (index $m 0 6) "\n```"}}
 					{{if gt (len $t3) 2000}}
-						{{$text = print $text "*The custom command code was too long to display. Please download the file to view the entire code.*"}}
+						{{$text = print $text "*The custom command code was too long to display. Please view the file instead.*"}}
+						{{$file = true}}
 					{{else}}
 						{{$text = $t3}}
 					{{end}}
 				{{else}}
-					{{$text = print $text "*The message couldn't be displayed because of the codeblock format. Please download the file to view the entire code.*"}}
+					{{$text = print $text "*The message couldn't be displayed because of the codeblock format. Please view the file instead.*"}}
+					{{$file = true}}
 				{{end}}
-				{{sendMessage nil (complexMessage "file" (index $m 0 6) "embed" (cembed "description" $text "color" 7864168 "thumbnail" (sdict "url" $icon) "author" (sdict "name" (print "Custom Commands - " $.Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/"))))}}
+				{{$embed := cembed "description" $text "color" 7864168 "thumbnail" (sdict "url" $icon) "author" (sdict "name" (print "Custom Commands - " $.Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/"))}}
+				{{if $file}}
+					{{sendMessage nil (complexMessage "file" (index $m 0 6) "embed" $embed)}}
+				{{else}}
+					{{sendMessage nil $embed}}
+				{{end}}
 			{{else}}
 				{{$c := 0}}
 				{{- $grab := print "<:cross:705738821110595607> More than 1 matched command!\nPlease use `" $prefix "cc id <ID>` to choose a custom command.\n"}}
