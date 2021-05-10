@@ -184,9 +184,9 @@ Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 
 ---
 
-# 💩Wall of shame💩 
+## 💩Wall of shame💩
 
-##### I hate to see when people just remove the copyright from code and think that is perfectly fine. I have created this GitHub repo because i wanted to share my cool ideas i had to the public. And going ahead and ripping someones name from their code or even replacing it with their own is unaccaptable. For that i created this wall of shame and if you find yourself here you should know that you are the reason i hate to publish my code online and that i would share more stuff if you wouldn't have been such an asshole.
+<sub> I hate to see when people just remove the copyright from code and think that is perfectly fine. I have created this GitHub repo because i wanted to share my cool ideas i had to the public. And going ahead and ripping someones name from their code or even replacing it with their own is unaccaptable. For that i created this wall of shame and if you find yourself here you should know that you are the reason i hate to publish my code online and that i would share more stuff if you wouldn't have been such an asshole</sub>
 
 Username + Tag|User ID|Reason
 ---|---|---
