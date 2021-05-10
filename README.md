@@ -184,8 +184,9 @@ Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 
 ---
 
-# Wall of shame for the people that removed the copyright from my code or claimed they made it  
-*If ths discord name and tag no longer exists check the userid on https://discord.id/ to get the new username and tag.*
+# 💩Wall of shame💩 
+
+##### I hate to see when people just remove the copyright from code and think that is perfectly fine. I have created this GitHub repo because i wanted to share my cool ideas i had to the public. And going ahead and ripping someones name from their code or even replacing it with their own is unaccaptable. For that i created this wall of shame and if you find yourself here you should know that you are the reason i hate to publish my code online and that i would share more stuff if you wouldn't have been such an asshole.
 
 Username + Tag|User ID|Reason
 ---|---|---
@@ -194,3 +195,5 @@ Username + Tag|User ID|Reason
 `Phizix#9268`|622222322648219649|Removing copyright
 `rot#1301`|516053372877668353|Removing copyright
 `Lzzgodboy#0009`|382628589088014358|Removing Copyright
+
+*If the discord name and tag no longer exists check the userid on https://discord.id/ to get the new username and tag.*
