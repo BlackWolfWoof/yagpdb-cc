@@ -1,26 +1,20 @@
 {{/*
-	Trigger type: 5 Minutes interval
+	Trigger type: 10m Interval interval
 
 	Copyright: 2020 Black Wolf
 	License: MIT
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
-{{/*Note: Execution of your code using this template won't be spot on, and may be delayed by up to five minutes from the given time.*/}}
-{{$time := "16:52"}}{{/*$time has to be a valid 24h time such as "01:10" or "23:44" as example*/}}
+{{$time := "16:34"}}{{/*$time has to be a valid 4 digit 24h time such as "01:10" or "23:44" as example*/}}
 {{$timezone := "Europe/Berlin"}}{{/*Select your timezone here https://kevinnovak.github.io/Time-Zone-Picker/ and copy it into $timezone*/}}
 
-{{$run := false}}
-{{range (seq 0 5)}}
-	{{- $min := printf "%02d" (add . (slice $time 3 5))}}
-	{{- $h := printf "%02d" (slice $time 0 2|toInt)}}
-	{{- if gt (toInt $min) 59}}
-		{{- $min = sub (toInt $min) 60|printf "%02d"}}
-		{{- $h = add $h 1|printf "%02d"}}
-	{{- end}}
-	{{- if eq ((currentTime.In (newDate 0 0 0 0 0 0 $timezone).Location).Format "15:04") (print $h ":" $min)}}
-		{{- $run = true}}
-	{{- end}}
+{{$c := currentTime.In (newDate 0 0 0 0 0 0 $timezone).Location}}
+{{$min := printf "%02d" (add . (slice $time 3 5))|toInt}}
+{{$h := printf "%02d" (slice $time 0 2|toInt)|toInt}}
+{{$end := newDate $c.Year (json $c.Month|toInt) $c.Day $h $min 0 $timezone}}
+{{if and ($c.After ($end.Add (mult -10 .TimeMinute|toDuration))) ($c.Before $end)}}
+	{{scheduleUniqueCC .CCID nil (($end.Sub $c).Seconds|roundCeil|toInt) (str .CCID) true}}
 {{end}}
-{{if $run}}
+{{if .ExecData}}
 	{{/*YOUR CODE GOES HERE*/}}
 {{end}}
