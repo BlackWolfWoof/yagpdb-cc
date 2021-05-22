@@ -1,5 +1,15 @@
 # Automated
 
+### Sticky Message 2
+Wait isn't there already 'sticky message'?  
+Yes there is. But this version is a little different. If you are on the YAGPDB Community & Support server you might have already seen it in action.  
+Features it has:
+- You can change the permission who can enable and disable the message  
+- You can enable and disable an inbuilt channel whitelist  
+- You can change the cooldown how often the sticky message should post  
+![Preview](https://i.imgur.com/ohRubPw.gif)  
+---
+
 ### Downtime Announcement
 When yagpdb has downtime and comes back online it will send a message how long it was offline.  
 
