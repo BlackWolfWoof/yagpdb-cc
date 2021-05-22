@@ -39,7 +39,7 @@ To receive update notifications for these custom commands join my [discord serve
 
   - [Open Folder](https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Automated/Sticky%20Message%202)  
   **•** `sticky message 2 command` - A more customizable sticky message version. *The command part of sticky message 2 from the YAGPDB Community & Support server*  
-  **•** `sticky message 2` - A more customizable sticky message version. *The regex part of the sticky message 2 from the YAGPDB Comminity & Support server*  
+  **•** `sticky message 2 regex` - A more customizable sticky message version. *The regex part of the sticky message 2 from the YAGPDB Comminity & Support server*  
 
   **•** `downtime announcement` - This interval code will announce when YAGPDB was offline. **This will ONLY run if YAGPDB comes back online again!!**  
   **•** `image reaction` - YAGPDB will react on images and videos. You can optionally turn on an auto-delete for non-images.  
