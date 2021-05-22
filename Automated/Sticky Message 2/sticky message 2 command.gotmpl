@@ -1,0 +1,34 @@
+{{/*
+	Trigger type: Command
+	Trigger: sm
+
+	Enable sticky message: sm This is a test
+	Disable sticky message: sm
+	If you still don't get how it works look at thi gif: https://i.imgur.com/ohRubPw.gif
+
+	Copyright: 2021 Black Wolf
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+{{/*NOTE: YOU NEED THE 'sticky message 2.gtmpl' CODE FOR THIS TO WORK*/}}
+{{$perms := "ManageMessages"}}
+{{/*The bot will check if the user has this permission.
+Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+
+{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
+	{{if .StrippedMsg}}
+		{{$color := 0}}{{$old := 0}}{{range .Guild.Roles}}{{if and (in $.Member.Roles .ID) (ne .Color 0) (gt .Position $old)}}{{$old = .Position}}{{$color = .Color}}{{end}}{{end}}
+		{{dbSet 0 "stickymessage" (sdict "message" .StrippedMsg "author" .User.String "color" $color)}}
+		{{sendMessage nil "The sticky message was enabled and saved!"}}
+	{{else}}
+		{{dbDel 0 "stickymessage"}}
+		{{$del := 9}}{{if .IsPremium}}{{$del = 49}}{{end}}
+		{{range dbTopEntries "smchannel" $del 0}}
+			{{deleteMessage .UserID (toInt .Value) 0}}
+			{{dbDel .UserID "smchannel"}}
+		{{end}}
+		{{sendMessage nil "Sticky messages are now disabled and deleted again."}}
+	{{end}}
+{{else}}
+	{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
+{{end}}
