@@ -197,7 +197,7 @@ Username + Tag|User ID|Reason
 ---|---|---
 `}{OЯCRUX#0773`|249409309127999488|Claiming they made it
 `LuckyTarget#5119`|559651275877384193|Claiming they made it
-`Ash is on Fire#4755`|416362327789666307|Removing copyright
+`Ash is on Fire#4755`|643905049113919524|Removing copyright
 `Phizix#9268`|622222322648219649|Removing copyright
 `rot#1301`|516053372877668353|Removing copyright
 `Lzzgodboy#0009`|382628589088014358|Removing Copyright
