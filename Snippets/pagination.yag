@@ -1,0 +1,75 @@
+{{/*
+	Trigger type: Reaction
+
+	Copyright (c): Black Wolf, 2020
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+{{if and .Message.Embeds (eq .Message.Author.ID 204255221017214977)}}
+	{{$msg := index .Message.Embeds 0|structToSdict}}
+	{{if (reFind `\A(Snippet:|Counter Leaderboard)` $msg.Title)}}
+		{{range $k, $v := $msg}}
+			{{if eq (kindOf $v true) "struct"}}{{$msg.Set $k (structToSdict $v)}}{{end}}
+		{{end}}
+		{{if $msg.Footer}}
+			{{if and (eq .Reaction.Emoji.Name "📱") (reFind `React with 📱 to be DMed a mobile version\.` $msg.Footer.Text)}}
+				{{sendDM (printf "\n**%s**\n%s\n%s\n%s" $msg.Title $msg.Description (or $msg.Image (sdict "URL" "")).URL (reReplace `\)\n.+` $msg.Footer.Text ")"))}}
+				{{deleteAllMessageReactions nil .Message.ID}}{{addMessageReactions nil .Message.ID "📱"}}
+			{{else if and (eq .Reaction.Emoji.Name "🗑" "🗑️") (reFind `React with 🗑️ to delete this message\.` $msg.Footer.Text)}}
+				{{deleteMessage nil .Message.ID 0}}
+			{{else if eq .Reaction.Emoji.Name "⚙️"}}
+				{{sendMessage nil (complexMessage "content" (print "Raw snippet **(" (reReplace `Tag: ` $msg.Title "") ")** output triggered by " .User.String) "file" (print ";tag add \"" (reReplace `Snippet: ` $msg.Title "") "\" \"" (or $msg.Image (sdict "URL" "")).URL "\"\n" (reReplace `\\` $msg.Description `\\`)))}}
+				{{deleteAllMessageReactions nil .Message.ID}}{{addMessageReactions nil .Message.ID "📱"}}
+			{{end}}
+		{{end}}
+	{{end}}
+	{{with $msg.Author}}
+		{{if reFind "Snippet Search|Snippet List" .Name}}
+			{{$r := (reFindAllSubmatches `\?author=(\d+)\?messageid=(\d+)` .IconURL)}}
+			{{if eq $.Reaction.Emoji.Name "🗑️"}}
+				{{if or (eq (str $.User.ID) (index $r 0 1)) (in (split (index (split (exec "viewperms") "\n") 2) ", ") "ManageMessages")}}
+					{{deleteMessage nil $.Message.ID 0}}
+					{{deleteMessage nil (index $r 0 2) 0}}
+				{{end}}
+			{{else if and (eq $.Reaction.Emoji.Name "◀" "▶") (reFind `React with 🗑️ to delete this message\.` $msg.Footer.Text) (eq .Name "Snippet List")}}
+				{{if eq $.Reaction.Emoji.Name "▶"}}
+					{{$jump := reFind `\d+` $msg.Footer.Text|toInt|add -1}}{{$send := true}}{{$page := mult 10 (add 1 $jump)}}
+					{{$grab := "```\n"}}{{$count := $page}}
+					{{range dbTopEntries `snippet\_%` 10 $page}}
+						{{$count = add 1 $count}}
+						{{$grab = print $grab "\n" (printf "#%-4d" $count) (slice .Key 8)}}
+					{{else}}
+						{{$send = false}}
+					{{end}}
+					{{if $send}}
+						{{editMessage nil $.Message.ID (cembed
+						"author" (sdict "name" "Snippet List" "icon_url" $msg.Author.IconURL)
+						"description" (print $grab "```")
+						"footer" (sdict "text" (print "React with 🗑️ to delete this message.​\nPage: " (add 2 $jump)))
+						)}}
+					{{end}}
+				{{end}}
+				{{if eq $.Reaction.Emoji.Name "◀"}}
+					{{$jump := reFind `\d+` $msg.Footer.Text|toInt}}{{$send := true}}{{$page := mult 10 (sub $jump 2)}}
+					{{$grab := "```\n"}}{{$count := $page}}{{if lt $page 0}}{{$send = false}}{{end}}
+					{{if $send}}
+						{{range dbTopEntries `snippet\_%` 10 $page}}
+							{{$count = add 1 $count}}
+							{{$grab = print $grab "\n" (printf "#%-4d" $count) (slice .Key 8)}}
+						{{else}}
+							{{$send = false}}
+						{{end}}
+						{{if $send}}
+							{{editMessage nil $.Message.ID (cembed
+							"author" (sdict "name" "Snippet List" "icon_url" $msg.Author.IconURL)
+							"description" (print $grab "```")
+							"footer" (sdict "text" (print "React with 🗑️ to delete this message.​\nPage: " (sub $jump 1)))
+							)}}
+						{{end}}
+					{{end}}
+				{{end}}
+			{{end}}
+		{{end}}
+	{{end}}
+{{end}}

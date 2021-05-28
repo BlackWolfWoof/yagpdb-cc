@@ -1,0 +1,29 @@
+{{/*
+	Trigger: fakeban
+	Trigger Type: Command
+
+	Usage:
+	fakeban ID/Mention
+	fakeban ID/Mention Reason
+	
+	Copyright (c): Black Wolf, 2020
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
+{{$args := parseArgs 1 (print $prefix "fakeban <Mention/ID> <Reason (optional)>")
+	(carg "userid" "user")
+	(carg "string" "reason")}}
+{{$user := userArg ($args.Get 0)}}
+{{sendMessage nil (cembed
+	"description" (print "🔨 **Banned " $user.Username "**#" $user.Discriminator " *(ID " $user.ID ")*" "\n📄**Reason:** " (or ($args.Get 1) "Banned by Admin") " ([Logs](https://bit.ly/2ZhbSUj))")
+	"color" 14043208
+	"author" (sdict
+		"name" (print .User.String " (ID " .User.ID ")")
+		"icon_url" (.User.AvatarURL "4096"))
+	"footer" (sdict
+		"text" "Expires after: 420 weeks")
+	"thumbnail" (sdict "url" ($user.AvatarURL "4096")))}}
+🔨 Banned `{{$user.String}}` for `8 years and 2 weeks`
+{{deleteTrigger 0}}

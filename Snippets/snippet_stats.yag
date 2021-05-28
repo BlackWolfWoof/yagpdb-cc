@@ -1,0 +1,42 @@
+{{/*
+	Trigger Type: Command
+	Trigger: ss
+
+	Copyright (c): Black Wolf, 2020
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+{{$args := parseArgs 0 "" (carg "int" "page")}}
+{{$sdict := sdict}}
+{{range $name, $value := (sdict (dbGet 2000 "snippetstats").Value)}}
+	{{- range $name, $value := $value}}
+		{{- if $sdict.Get $value.snippet}}
+			{{- $sdict.Set $value.snippet (add 1 ($sdict.Get $value.snippet))}}
+		{{- else}}
+			{{- $sdict.Set $value.snippet 1}}
+		{{- end}}
+	{{- end}}
+{{end}}
+{{$page := 1}}{{with $args.Get 0}}{{$page = .}}{{end}}{{$seq := mult $page 10}}
+
+{{if and (le $page (fdiv (len $sdict) 10|roundCeil|toInt)) (ge $page 1)}}
+{{$grab := ""}}{{$t1 := 10000}}
+{{range seq 0 $seq}}{{$nam := ""}}{{$val := 0}}
+	{{- range $key, $value:=$sdict}}
+		{{- if and (ge (toInt $value) $val) (le (toInt $value) $t1) (not (in (split $grab "\u200B") (index (split $key `\s+`) 0)))}}
+			{{- $nam = $key}}
+			{{- $val = toInt $value}}
+		{{- end}}
+	{{- end}}
+	{{- if ne $val 0}}{{$t1 = toInt $val}}
+	{{- $grab = print $grab "\n" (printf "\u200B%-4d\u200B" $val) (index (split $nam " ") 0) "\u200B"}}
+	{{- end}}
+{{- end}}
+{{$tosend := (joinStr "\n" (slice (split $grab "\n") (add -10 $seq)))}}
+{{sendMessage nil (cembed
+"title" "Snippet stats for the last 7 days"
+"description" (print "```\n" $tosend "```")
+"color" 0x445581
+"footer" (sdict "text" (print "Page: " $page "/" (fdiv (len $sdict) 10|roundCeil|toInt))))}}
+{{else}}Page not found :({{end}}

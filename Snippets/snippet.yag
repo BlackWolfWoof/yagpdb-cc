@@ -1,0 +1,121 @@
+{{/*
+	Trigger Type: Starts with
+	Trigger: ;
+
+	Copyright (c): Black Wolf, 2020
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+{{if ge (len .CmdArgs) 1}}
+
+{{/*List*/}}
+	{{if eq (index .CmdArgs 0|lower) "list"}}
+		{{$page := 0}}{{$jump := 1}}{{$send := true}}
+		{{if ge (len .CmdArgs) 2}}
+			{{$jump = toInt (index .CmdArgs 1)}}
+			{{if le $jump 0}}
+				{{$jump = 1}}
+			{{end}}
+			{{$page = mult (add $jump -1) 10}}
+		{{end}}
+		{{$grab := "```\n"}}{{$count := $page}}
+		{{range dbTopEntries `snippet\_%` 10 $page}}
+			{{$count = add 1 $count}}
+			{{$grab = print $grab "\n" (printf "#%-4d" $count) (slice .Key 8)}}
+		{{else}}
+			{{$send = false}}
+		{{end}}
+		{{if $send}}
+			{{$msg := sendMessageRetID nil (cembed
+			"author" (sdict "name" "Snippet List" "icon_url" (print "https://cdn.discordapp.com/emojis/714491414100181092.png?author=" .User.ID "?messageid=" .Message.ID))
+			"description" (print $grab "```")
+			"footer" (sdict "text" (print "React with 🗑️ to delete this message.​\nPage: " $jump))
+			)}}
+			{{addMessageReactions nil $msg "🗑️" "◀" "▶"}}
+		{{end}}
+
+{{/*Search*/}}
+	{{else if (eq (index .CmdArgs 0|lower) "search")}}
+		{{$a := parseArgs 2 "Usage: `;search <name>`" (carg "string" "") (carg "string" "name")}}
+		{{$grab := "```\n"}}{{$count := 0}}{{$ok := true}}
+		{{range dbTopEntries (print `snippet\_%` (lower ($a.Get 1)) `%`) 100 0}}
+			{{$count = add 1 $count}}
+			{{$grab = print $grab "\n" (printf "#%-4d" $count) (slice .Key 8|title)}}
+		{{else}}
+			{{$ok = false}}
+		{{end}}
+		{{if $ok}}
+			{{if not (ge (len $grab) 2045)}}
+				{{$msg := sendMessageRetID nil (cembed
+				"author" (sdict "name" "Snippet Search" "icon_url" (print "https://cdn.discordapp.com/emojis/751754912890880061.png?author=" .User.ID "?messageid=" .Message.ID))
+				"description" (print $grab "```")
+				"footer" (sdict "text" (print "React with 🗑️ to delete this message."))
+				)}}
+				{{addMessageReactions nil $msg "🗑️"}}
+			{{else}}
+				{{sendMessage nil "Search results were too large."}}
+			{{end}}
+		{{else}}
+			{{sendMessage nil "Nobody here but us chickens🐔"}}
+		{{end}}
+
+{{/*Snippet Controls*/}}
+	{{else if and (eq (index .CmdArgs 0|lower) "snippet" "admin" "tag") (ge (len .CmdArgs) 1)}}
+		{{if eq (len .CmdArgs) 1}}
+			{{sendMessage nil (cembed
+				"title" "Snippet Help Page"
+				"fields" (cslice
+					(sdict "name" "**• Viewing Snippets:**" "value" "To view a snippet use `;test`.\nA snippet can have multiple aliases. For example the snippet `Test/Test2` can be triggered with either `;test` or `;test2`." "inline" false)
+					(sdict "name" "**• Snippet List:**" "value" "This will give you a list `;list` of all available snippets on the server." "inline" false)
+					(sdict "name" "**• Snippet Search:**" "value" "Use this command to search for snippets. For example `;search te` will return `Test/Test2`." "inline" false)
+					(sdict "name" "**• Command Aliases:**" "value" "To make it easier you can use the following aliases to trigger this or other pages:\n`;admin` `;tag` `;snippet`" "inline" false)
+					(sdict "name" "**• Adding & Removing Snippets:**" "value" "Remove a snippet with `;snippet remove Test/Test2`. Alternatively you can use `remove` `rem` `delete` `del`.\nTo add a snippet run `;snippet add Test/Test2 \"\" Example Text`. Keep \"\" empty if you do not want to add an image. Alternatively you can use: `add` `new` `create`.")))}}
+		{{else}}
+			{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") "ManageMessages")}}
+				{{if eq (index .CmdArgs 1|lower) "add" "new" "create"}}
+					{{/*Add New Snippet*/}}
+						{{$args := parseArgs 5 (print "`;" (index .CmdArgs 0|lower) " " (index .CmdArgs 1|lower) " <Name1/Name2> <ImagURL> <Text>` Leave image as `\"\"` if you have no image") (carg "string" "") (carg "string" "") (carg "string" "name") (carg "string" "image") (carg "string" "content")}}
+						{{dbSet 0 (print "snippet_" ($args.Get 2|lower)) (sdict "image" ($args.Get 3) "value" ($args.Get 4) "author" .User.String)}}
+						{{addReactions "👌"}}
+				{{else if eq (index .CmdArgs 1|lower) "del" "delete" "rem" "remove"}}
+					{{/*Delete Snippet*/}}
+						{{$args := parseArgs 3 (print "`;" (index .CmdArgs 0|lower) " " (index .CmdArgs 1|lower) " <Name1/Name2>`") (carg "string" "") (carg "string" "") (carg "string" "name")}}
+						{{with (dbGet 0 (print "snippet_" (index .CmdArgs 2|lower)))}}
+							{{dbDel 0 .Key}}
+							{{addReactions "👌"}}
+						{{else}}
+							{{sendMessage nil "This snippet doesn't exist .-."}}
+						{{end}}
+				{{end}}
+			{{else}}
+				{{sendMessage nil "<:cross:705738821110595607> You are missing the permission `ManageMessages` to use this command."}}
+			{{end}}
+		{{end}}
+
+{{/*Snippet*/}}
+	{{else if ge (len .CmdArgs) 1}}
+		{{$snippet := ""}}
+		{{range dbTopEntries (joinStr "" "snippet_%" (lower (index .CmdArgs 0)) "%") 100 0}}{{$snippet = print $snippet " " (slice .Key 8)}}{{end}}
+		{{$r := reFind (joinStr `` `(?i)(\b|\S*\/)` (reReplace "[^\\w/]" (lower (index .CmdArgs 0)) "") `(/\S*|\b|$)`) $snippet}}
+		{{with (dbGet 0 (print "snippet_" $r))}}
+			{{if or (not (dbGet $.Channel.ID (slice .Key 8|title))) (in (split (index (split (exec "viewperms") "\n") 2) ", ") "ManageMessages")}}
+				{{$i := sdict .Value}}
+				{{$msg := sendMessageRetID nil (cembed
+					"title" (print "Snippet: " (slice .Key 8|title))
+					"description" $i.value
+					"image" (sdict "url" (or $i.image ""))
+					"footer" (sdict "text" (print "Author: " (or $i.author "Unknown User") "\nReact with 📱 to be DMed a mobile version.")))}}
+				{{addMessageReactions nil $msg "📱"}}
+				{{$a := sdict}}{{with dbGet 2000 "snippetstats"}}{{$a = sdict .Value}}{{end}}
+				{{$channel := sdict}}{{with $a.Get (str $.Channel.ID)}}{{$channel = sdict .}}{{end}}
+				{{$channel.Set (randInt 0 1000000|str) (sdict "ExpiresAt" (currentTime.Add (toDuration (mult 604800 $.TimeSecond))) "snippet" (slice .Key 8|title))}}
+				{{$a.Set (str $.Channel.ID) $channel}}
+				{{dbSet 2000 "snippetstats" $a}}
+				{{dbSetExpire $.Channel.ID (slice .Key 8|title) $.User.ID 30}}
+			{{else}}
+				{{addReactions "⏳"}}
+				{{deleteTrigger 10}}
+			{{end}}
+		{{end}}
+	{{end}}
+{{end}}

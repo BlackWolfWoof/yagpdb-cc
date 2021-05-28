@@ -1,0 +1,30 @@
+{{/*
+	Trigger: cloneroles
+	Trigger Type: Command
+
+	Usage:
+	cloneroles @fromuser @touser
+
+	Copyright (c): Black Wolf, 2020
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+{{$perms := "Administrator"}}
+{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
+	{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
+	{{$args := parseArgs 2 (print "Usage: " $prefix "cloneroles <FromUser> <ToUser>")
+		(carg "userid" "User")
+		(carg "userid" "User")}}
+{{$x := sendMessageRetID nil (cembed "author" (sdict "name" (print "Loading results...") "icon_url" "https://cdn.discordapp.com/emojis/585829014384541716.gif"))}}
+{{$from := slice (getMember ($args.Get 0)).Roles}}
+{{$to := slice (getMember ($args.Get 1)).Roles}}
+{{$added := ""}}
+{{$removed := ""}}
+{{$t1 := (getMember 204255221017214977).Roles}}{{$yagpos := 0}}{{$yagid := 0}}{{range .Guild.Roles}}{{$id := .ID}}{{$pos := .Position}}{{$name := .Name}}{{range $t1}}{{if eq $id .}}{{if gt $pos $yagpos}}{{$yagpos = $pos}}{{$yagid = $id}}{{end}}{{end}}{{end}}{{end}}{{range .Guild.Roles}}{{$id := .ID}}{{$pos := .Position}}{{if not (eq $yagid 0)}}{{range $to}}{{if not (in $from .)}}{{if eq $id .}}{{if ge $pos $yagpos}}{{$removed = print $removed "<:excl:565142262401728512><@&" . ">\n"}}{{else}}{{$removed = print $removed "<:cross:705738821110595607><@&" . ">\n"}}{{takeRoleID ($args.Get 1) .}}{{end}}{{end}}{{end}}{{end}}{{range $from}}{{if not (in $to .)}}{{if eq $id .}}{{if ge $pos $yagpos}}{{$added = print $added "<:excl:565142262401728512><@&" . ">\n"}}{{else}}{{$added = print $added "<:checkmark:705738821425299527><@&" . ">\n"}}{{giveRoleID ($args.Get 1) .}}{{end}}{{end}}{{end}}{{end}}{{end}}{{end}}
+	{{$userfrom := userArg ($args.Get 0)}}
+	{{$userto := userArg ($args.Get 1)}}
+	{{editMessage nil $x (cembed "title" (print "Cloned roles from " $userfrom.Username " to " $userto.Username) "description" (print "Grabbed all roles from " $userfrom.Mention " and overwritten " $userto.Mention "'s roles.") "fields" (cslice (sdict "name" "Info" "value" "<:checkmark:705738821425299527> - Added\n<:cross:705738821110595607> - Removed\n<:excl:565142262401728512> - Bot missing permissions" "inline" false) (sdict "name" "Added roles" "value" (print $added "\uFEFF") "inline" true)))}}
+{{else}}
+	{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
+{{end}}

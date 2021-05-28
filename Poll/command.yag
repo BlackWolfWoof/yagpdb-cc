@@ -1,0 +1,60 @@
+{{/*
+	Trigger type: Command
+	Trigger: poll
+
+	Copyright (c): Black Wolf, 2021
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+{{/*When using poll as trigger make sure to disable the default poll command here --> https://i.imgur.com/8WlHqyo.gif*/}}
+
+
+{{if gt (.CmdArgs|len) 2}}
+{{$color := 0}}{{$old := 0}}
+	{{range .Guild.Roles}}
+		{{- if and (in $.Member.Roles .ID) (ne .Color 0) (gt .Position $old)}}
+			{{- $old = .Position}}
+			{{- $color = .Color}}
+		{{- end}}
+	{{- end}}
+	{{$args := parseArgs 0 "" (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "")}}
+	{{$avatar := .User.AvatarURL "1024"}}
+	{{if (reFind `(?i)-single` .StrippedMsg)}}
+		{{$avatar = print $avatar "?single=true"}}
+	{{end}}
+	{{$x := sendMessageRetID nil (cembed
+		"title" "Poll loading... <a:discord_loading:714051544265392229>"
+		"color" $color
+		"author" (sdict "name" .User.String "icon_url" $avatar))}}
+	{{$num := dict 0 "1️⃣" 1 "2️⃣" 2 "3️⃣" 3 "4️⃣" 4 "5️⃣" 5 "6️⃣" 6 "7️⃣" 7 "8️⃣" 8 "9️⃣" 9 "🔟"}}
+	{{$desc := ""}}
+
+	{{$CmdArgs := cslice}}
+	{{range $c,$in := .CmdArgs}}
+		{{$dot := $in}}{{$sub := 0}}
+		{{$dot := reReplace `(?i)-single` $in ""}}
+		{{if ne $dot ""}}
+			{{if gt $c 10}}
+				{{$CmdArgs.Set (len $CmdArgs|add -1) (print (index $CmdArgs (len $CmdArgs|add -1|add $sub)) " " $dot)}}
+			{{else}}
+				{{$CmdArgs = $CmdArgs.Append $dot}}
+			{{end}}
+		{{end}}
+	{{end}}
+	{{range $c,$in := slice $CmdArgs 1 (len $CmdArgs)}}
+		{{$desc = print $desc "\n" ($num.Get $c) " " $in}}
+		{{addMessageReactions nil $x ($num.Get $c)}}
+	{{end}}
+	{{$embed := sdict
+		"title" ($args.Get 0)
+		"description" $desc
+		"color" $color
+		"author" (sdict "name" .User.String "icon_url" $avatar)}}
+	{{if (reFind `(?i)-single` .StrippedMsg)}}
+		{{$embed.Set "footer" (sdict "text" "You can only choose one option")}}
+	{{end}}
+	{{editMessage nil $x (cembed $embed)}}
+	{{deleteTrigger 0}}
+{{else}}
+	{{sendMessage nil (print "<:cross:705738821110595607>You need at least 2 options!\nExample: `" .Cmd " \"Example Title\" Yes No \"I don't know\" -single`")}}
+{{end}}
