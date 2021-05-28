@@ -27,6 +27,15 @@ To receive update notifications for these custom commands join my [discord serve
 </details>
 
 <details>
+<summary>CustomCommands Command Replacement</summary>
+
+- [Open Folder](CustomCommands_Replacement) - Replacement code for the command `cc` or `customcommands`  
+**•** [command](CustomCommands_Replacement/command.yag) - Command part  
+**•** [reaction](CustomCommands_Replacement/reaction.yag) - Reaction part  
+
+</details>
+
+<details>
 <summary>Database Manipulation</summary>
 
 - [Open Folder](Database_Management/basic) - Basic  
@@ -52,15 +61,6 @@ To receive update notifications for these custom commands join my [discord serve
 </details>
 
 <details>
-<summary>CustomCommands Command Replacement</summary>
-
-- [Open Folder](CustomCommands_Replacement) - Replacement code for the command `cc` or `customcommands`  
-**•** [command](CustomCommands_Replacement/command.yag) - Command part  
-**•** [reaction](CustomCommands_Replacement/reaction.yag) - Reaction part  
-
-</details>
-
-<details>
 <summary>Example Code</summary>
 
 - [Open folder](Example_Code)  
@@ -74,12 +74,13 @@ To receive update notifications for these custom commands join my [discord serve
 - [Open folder](Misc)  
 **•** [avatar](Misc/avatar.yag) - Shows the avatar of the user (supports mentions)  
 **•** [cloneroles](Misc/cloneroles.yag) - Clones all roles from user A to user B  
-**•** [snowflake converter](Misc/snowflake_converter.yag) - Calculates time between 2 IDs  
-**•** [message link](Misc/message_link.yag) - Quotes messages from message links  
 **•** [downtime announcement](Misc/downtime_announcement.yag) - This interval code will announce when YAGPDB was offline. **This will ONLY run if YAGPDB comes back online again!!**  
+**•** [fakeban](Misc/fakeban.yag) - Just like ban but fake  
 **•** [image reaction](Misc/image_reaction.yag) - YAGPDB will react on images and videos. You can optionally turn on an auto-delete for non-images.  
+**•** [message link](Misc/message_link.yag) - Quotes messages from message links  
 **•** [new account warning](Misc/new_account_warning.yag) - You will get warned if a member with a brand new account joins the server  
-**•** [onewordstory](Misc/onewordstory.yag) - A one word story is a sentence that multiple people have to write together by only sending one word at a time.  
+**•** [onewordstory](Misc/onewordstory.yag) - A one word story is a sentence that multiple people have to write together by only sending one word at a time. 
+**•** [snowflake converter](Misc/snowflake_converter.yag) - Calculates time between 2 IDs   
 **•** [wordchain](Misc/wordchain.yag) - A word chain is a game where players come up with words that begin with the letter or letters that the previous word ended with.  
 **•** [yagpdb update](Misc/yagpdb_update.yag) - This will notify you when yagpdb gets an update. It will tell you the version numbers and time  
 
@@ -89,8 +90,8 @@ To receive update notifications for these custom commands join my [discord serve
 <summary>Quick Moderation menu</summary>
 
 - [Open Folder](Moderation_Menu) - No need to remember all moderation commands. Just click a reaction and you are done  
+- **•** [command](Moderation_Menu/command.yag) - Command that displays the embed that can be controlled via reactions  
 **•** [reactions](Moderation_Menu/reactions.yag)- Reaction code  
-**•** [command](Moderation_Menu/command.yag) - Command that displays the embed that can be controlled via reactions  
 
 </details>
 
@@ -117,9 +118,9 @@ To receive update notifications for these custom commands join my [discord serve
 
 - [Open Folder](Snippets)  
 **•** [pagination](Snippets/pagination.yag) - The pagination / reaction code is needed so you canswitch from page to page and delete lists  
-**•** [snippet stats cleanup](Snippets/snippet_stats_cleanup.yag) - This code is used to clean up the old snippetstats  
-**•** [snippet stats](Snippets/snippet_stats.yag) - The snippet stats will show you how often allsnippets were run in the last 7 days  
 **•** [snippet](Snippets/snippet.yag) - The main command to create, delete, search and list snippets  
+**•** [snippet stats](Snippets/snippet_stats.yag) - The snippet stats will show you how often allsnippets were run in the last 7 days  
+**•** [snippet stats cleanup](Snippets/snippet_stats_cleanup.yag) - This code is used to clean up the old snippetstats  
 
 </details>
 
@@ -143,6 +144,7 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [bypass limit example](Templates/bypass_limit_example.yag) - This code is an example that bypasses the execAdmin limit (5 per cc)  
 **•** [guild icon](Templates/guild_icon.yag) - Outputs the guild icon of the server  
 **•** [interval time](Templates/interval_time.yag) - Run your custom command at a specified time  
+**•** [permission checker](Templates/permission_check.yag) - A code snippet for checking permissions of a user  
 **•** [rolecolor](Templates/rolecolor.yag) - Outputs the role color of the highest role the current user has  
 
 </details>
