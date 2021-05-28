@@ -16,14 +16,17 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
 	{{$page := 1}}{{$grab := ""}}{{$max := 0}}{{$sdict := sdict}}{{$group := false}}{{$type := false}}{{$trigger := false}}{{$out := ""}}
 	{{with .StrippedMsg}}
+		{{with (reFindAllSubmatches `(?i)(?:(?:code|name|id) )?(.+)` .)}}
+			{{$trigger = index . 0 1}}
+		{{end}}
 		{{with (reFindAllSubmatches `(?i)page (\d+)` .)}}
-			{{$page = toInt (index . 0 1)}}
+			{{$page = toInt (index . 0 1)}}{{$trigger = false}}
 		{{end}}
 		{{with (reFindAllSubmatches `(?i)group (.+)` .)}}
-			{{$group = index . 0 1}}
+			{{$group = index . 0 1}}{{$trigger = false}}
 		{{end}}
 		{{with (reFindAllSubmatches `(?i)(?:type|trigger type) (None|n|Command|cmd?|Starts with|sw?|Contains|con?|Regex|reg|Exact Match|em?|Reaction|reac?t?|Interval|int|iv)` .)}}
-			{{$t2 := lower (index . 0 1)}}
+			{{$t2 := lower (index . 0 1)}}{{$trigger = false}}
 			
 			{{if eq $t2 "none" "n"}}{{$type = "None"}}{{end}}
 			{{if eq $t2 "command" "cm" "cmd"}}{{$type = "Command"}}{{end}}
@@ -33,9 +36,6 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 			{{if eq $t2 "exact match" "exact" "e" "em"}}{{$type = "Exact"}}{{end}}
 			{{if eq $t2 "reaction" "rea" "reac" "react"}}{{$type = "Reaction"}}{{end}}
 			{{if eq $t2 "interval" "int" "iv" "i"}}{{$type = "Interval"}}{{end}}
-		{{end}}
-		{{with (reFindAllSubmatches `(?i)(?:code|name|id) (.+)` .)}}
-			{{$trigger = index . 0 1}}
 		{{end}}
 	{{end}}
 
@@ -97,6 +97,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 				{{else}}
 					{{$text = print $text "*The message couldn't be displayed because of the codeblock format. Please view the file instead.*"}}
 					{{$file = true}}
+					{{$cc := exec "cc" $trigger}}
 				{{end}}
 				{{$embed := cembed "description" $text "color" 7864168 "thumbnail" (sdict "url" $icon) "author" (sdict "name" (print "Custom Commands - " $.Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/"))}}
 				{{if $file}}
@@ -120,7 +121,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 				{{- end}}
 			{{end}}
 		{{else}}
-			{{sendMessage nil (cembed "title" "Error" "description" (print "<:cross:705738821110595607> the custom command `" $trigger "` was not found.") "color" 0xDD2E44)}}
+			{{sendMessage nil (cembed "title" "Error" "description" (print "<:cross:705738821110595607> the custom command `" $trigger "` was not found.\nUse `" $prefix "cc` to view a list of all custom commands.") "color" 0xDD2E44)}}
 		{{end}}
 	{{end}}
 {{else}}
