@@ -25,7 +25,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [reaction](Autohelp_Embed/reaction.yag) -  Reaction code that edits the embed on reaction  
 
 </details>
-
 <details>
 <summary>CustomCommands Command Replacement</summary>
 
@@ -34,7 +33,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [reaction](CustomCommands_Replacement/reaction.yag) - Reaction part  
 
 </details>
-
 <details>
 <summary>Database Manipulation</summary>
 
@@ -59,7 +57,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [dbresetuser](Database_Management/reset/dbresetuser.yag) - Deletes all keys from a specified user  
 
 </details>
-
 <details>
 <summary>Example Code</summary>
 
@@ -67,7 +64,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [creating embeds](Example_Code/creating_embeds.yag) - WIP
 
 </details>
-
 <details>
 <summary>Misc</summary>
 
@@ -85,7 +81,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [yagpdb update](Misc/yagpdb_update.yag) - This will notify you when yagpdb gets an update. It will tell you the version numbers and time  
 
 </details>
-
 <details>
 <summary>Quick Moderation menu</summary>
 
@@ -94,7 +89,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [reactions](Moderation_Menu/reactions.yag)- Reaction code  
 
 </details>
-
 <details>
 <summary>Poll</summary>
 
@@ -103,7 +97,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [reaction](Poll/reaction.yag) - Reaction code  
 
 </details>
-
 <details>
 <summary>Reaction Embed</summary>
 
@@ -112,7 +105,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [setup](Reaction_Embed/setup.yag) - Setup that sends the embed for the first time  
 
 </details>
-
 <details>
 <summary>Snippet System</summary>
 
@@ -123,7 +115,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [snippet stats cleanup](Snippets/snippet_stats_cleanup.yag) - This code is used to clean up the old snippetstats  
 
 </details>
-
 <details>
 <summary>Sticky Message</summary>
 
@@ -135,7 +126,6 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [regex](Sticky_Message/v2/regex.yag) - A more customizable sticky message version. *The regex part of the sticky message 2 from the YAGPDB Comminity & Support server*  
 
 </details>
-
 <details>
 <summary>Templates for coding</summary>
 
