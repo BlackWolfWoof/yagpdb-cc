@@ -167,12 +167,19 @@ Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 ---
 
 
-## Other custom command repositories
+## Custom command repositories
 
-[Official Repo](https://github.com/yagpdb-cc/yagpdb-cc): The official custom command repository. If you are searching for more custom commands you will find a lot of them there :).  
-[Pedro's Repo](https://github.com/Pedro-Pessoa/yagpdb-cc/tree/Tickets/tickets): A fork of the official repo but with an amazing ticket system.
-  
-There are way more repositories that have custom command codes, but they are not official. If you are looking for them just look for 🔍 [yagpdb-cc](https://github.com/search?q=yagpdb-cc) on GitHub. We will not guarantee that the other user repositories are safe to use.
+### Official repository
+
+If you are searching for more custom commands or even want to add some you will find a lot of them there :).  
+
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=yagpdb-cc&repo=yagpdb-cc&icon_color=e74c3c&bg_color=151515&text_color=fff)](https://github.com/yagpdb-cc/yagpdb-cc)
+
+### More repositories
+
+If you are looking for more community made custom commands you can join my [Discord server](https://discord.gg/GRns3fg) and look at the list of repositories in `#│🌐github-repositories` or search for 🔍 [yagpdb-cc](https://github.com/search?q=yagpdb-cc) on GitHub.  
+<u>**We will not guarantee that the other user repositories are safe to use.**</u>  
+*Save to use repositories are marked with a* ✅ *in* `#│🌐github-repositories`.
 
 ---
 
