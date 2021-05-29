@@ -79,7 +79,7 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [image reaction](Misc/image_reaction.yag) - YAGPDB will react on images and videos. You can optionally turn on an auto-delete for non-images.  
 **•** [message link](Misc/message_link.yag) - Quotes messages from message links  
 **•** [new account warning](Misc/new_account_warning.yag) - You will get warned if a member with a brand new account joins the server  
-**•** [onewordstory](Misc/onewordstory.yag) - A one word story is a sentence that multiple people have to write together by only sending one word at a time. 
+**•** [onewordstory](Misc/onewordstory.yag) - A one word story is a sentence that multiple people have to write together by only sending one word at a time.  
 **•** [snowflake converter](Misc/snowflake_converter.yag) - Calculates time between 2 IDs   
 **•** [wordchain](Misc/wordchain.yag) - A word chain is a game where players come up with words that begin with the letter or letters that the previous word ended with.  
 **•** [yagpdb update](Misc/yagpdb_update.yag) - This will notify you when yagpdb gets an update. It will tell you the version numbers and time  
