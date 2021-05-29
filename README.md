@@ -179,7 +179,7 @@ If you are searching for more custom commands or even want to add some you will 
 
 If you are looking for more community made custom commands you can join my [Discord server](https://discord.gg/GRns3fg) and look at the list of repositories in `#│🌐github-repositories` or search for 🔍 [yagpdb-cc](https://github.com/search?q=yagpdb-cc) on GitHub.  
 <u>**We will not guarantee that the other user repositories are safe to use.**</u>  
-*Save to use repositories are marked with a* ✅ *in* `#│🌐github-repositories`.
+*Safe to use repositories are marked with a* ✅ *in* `#│🌐github-repositories`.
 
 ---
 
