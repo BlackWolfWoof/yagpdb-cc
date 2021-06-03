@@ -7,7 +7,10 @@
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
 {{/*When using poll as trigger make sure to disable the default poll command here --> https://i.imgur.com/8WlHqyo.gif*/}}
-
+{{$num := dict 0 "1️⃣" 1 "2️⃣" 2 "3️⃣" 3 "4️⃣" 4 "5️⃣" 5 "6️⃣" 6 "7️⃣" 7 "8️⃣" 8 "9️⃣" 9 "🔟"}}
+{{/*To replace the emojis you can do this as example:
+Replace 1️⃣ with a:FoxxoWow:838423818288234497, foxheart:630074801213538357 or ❤
+OTHER FORMATS WILL NOT WORK!!!*/}}
 
 {{if gt (.CmdArgs|len) 2}}
 {{$color := 0}}{{$old := 0}}
@@ -26,7 +29,6 @@
 		"title" "Poll loading... <a:discord_loading:714051544265392229>"
 		"color" $color
 		"author" (sdict "name" .User.String "icon_url" $avatar))}}
-	{{$num := dict 0 "1️⃣" 1 "2️⃣" 2 "3️⃣" 3 "4️⃣" 4 "5️⃣" 5 "6️⃣" 6 "7️⃣" 7 "8️⃣" 8 "9️⃣" 9 "🔟"}}
 	{{$desc := ""}}
 
 	{{$CmdArgs := cslice}}
@@ -42,7 +44,11 @@
 		{{end}}
 	{{end}}
 	{{range $c,$in := slice $CmdArgs 1 (len $CmdArgs)}}
-		{{$desc = print $desc "\n" ($num.Get $c) " " $in}}
+		{{if reFind `\d+\z` ($num.Get $c)}}
+			{{$desc = print $desc "\n<:" ($num.Get $c) "> " $in}}
+		{{else}} 
+			{{$desc = print $desc "\n" ($num.Get $c) " " $in}}
+		{{end}}
 		{{addMessageReactions nil $x ($num.Get $c)}}
 	{{end}}
 	{{$embed := sdict

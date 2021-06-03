@@ -24,7 +24,7 @@
 					{{end}}
 				{{else}}
 					{{if ne $r.Emoji.Name .Emoji.Name}}
-						{{if eq $r.Emoji.ID 0}}
+						{{if eq .Emoji.ID 0}}
 							{{deleteMessageReaction nil $.Message.ID $.User.ID .Emoji.Name}}
 							{{$c = add 1 $c}}
 						{{else}}
