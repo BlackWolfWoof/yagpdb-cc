@@ -44,9 +44,11 @@ OTHER FORMATS WILL NOT WORK!!!*/}}
 		{{end}}
 	{{end}}
 	{{range $c,$in := slice $CmdArgs 1 (len $CmdArgs)}}
-		{{if reFind `\d+\z` ($num.Get $c)}}
+		{{if reFind `\Aa:` ($num.Get $c)}}
+			{{$desc = print $desc "\n<" ($num.Get $c) "> " $in}}
+		{{else if reFind `\d+\z` ($num.Get $c)}}
 			{{$desc = print $desc "\n<:" ($num.Get $c) "> " $in}}
-		{{else}} 
+		{{else}}
 			{{$desc = print $desc "\n" ($num.Get $c) " " $in}}
 		{{end}}
 		{{addMessageReactions nil $x ($num.Get $c)}}
