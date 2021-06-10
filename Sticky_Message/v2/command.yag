@@ -1,3 +1,4 @@
+{{/*THIS CODE IS NOT THE FINISHED VERSION YET. IF YOU WANNA USE IT PLEASE DO IT AFTER I HAVE PUSHED IT TO GITHUB. THANKS*/}}
 {{/*
 	Trigger type: Command
 	Trigger: sm
@@ -14,11 +15,26 @@
 {{$perms := "ManageMessages"}}
 {{/*The bot will check if the user has this permission.
 Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+{{$cooldown := "60s"}}{{/*FORMAT EXAMPLE: "10s" "20m10s" "1mo10d" "3w2h"*/}}
+{{/*The default cooldown is how long the sticky message shouldn't be sent in the same channel*/}}
+
 
 {{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
 	{{if .StrippedMsg}}
 		{{$color := 0}}{{$old := 0}}{{range .Guild.Roles}}{{if and (in $.Member.Roles .ID) (ne .Color 0) (gt .Position $old)}}{{$old = .Position}}{{$color = .Color}}{{end}}{{end}}
-		{{dbSet 0 "stickymessage" (sdict "message" .StrippedMsg "author" .User.String "color" $color)}}
+		
+		{{$img := ""}}{{$text := .StrippedMsg}}
+		{{with reFindAllSubmatches `(?:(?P<TxtSnip1>(?:.*[\r\n]?){0,}))?(?:-img\s(?P<Link>(?:https?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+))(?P<TxTSnip2>(?:.*[\r\n]?){0,})` $text}}
+			{{$img = index . 0 2}}
+			{{$text = print (index . 0 1) (index . 0 3)}}
+		{{end}}
+
+		{{with reFindAllSubmatches `\A((?:.|[\r\n])*)(-d\s(?P<Duration>(?:(?:\d+)?(?:months?|mo|minutes?|s|seconds?|m|hours?|h|days?|d|weeks?|w|years?|y|permanent|p)){1,}))(\s(?:.|[\r\n])*)?\z` $text}}
+			{{$cooldown = index . 0 3}}
+			{{$text = print (index . 0 1) (index . 0 4)}}
+		{{end}}
+
+		{{dbSet 0 "stickymessage" (sdict "message" $text "author" .User.String "color" $color "cooldown" $cooldown "img" $img)}}
 		{{sendMessage nil "The sticky message was enabled and saved!"}}
 	{{else}}
 		{{dbDel 0 "stickymessage"}}
