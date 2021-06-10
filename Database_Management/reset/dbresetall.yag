@@ -24,7 +24,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 			{{deleteMessage nil $x 60}}
 		{{else}}
 			{{with (dbGet .User.ID "dbresetall").Value}}
-				{{if eq $.StrippedMsg (sdict .).code}}
+				{{if eq $.StrippedMsg .code}}
 					{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This might take a while...") "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 					{{dbDel $.User.ID "dbresetall"}}
 					{{execCC $.CCID nil 6 (sdict "id" $x "all" dbCount "time" currentTime)}}
@@ -47,7 +47,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{else}}
 		{{range (dbTopEntries "%" 8 0)}}{{$c = add $c 1}}{{dbDel .UserID .Key}}{{end}}
 	{{end}}
-	{{$sdict := sdict .ExecData}}
+	{{$sdict := .ExecData}}
 	{{$sdict.Set "count" (add $c $sdict.count)}}
 	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all dbCount) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 	{{if ne $c 0}}

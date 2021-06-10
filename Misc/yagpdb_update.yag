@@ -13,7 +13,7 @@
 {{$channel := .Channel.ID}}{{/*The channel it should be sending the message in, .Channel.ID = current channel*/}}
 
 {{$version := index (reFindAllSubmatches `YAGPDB Status, version (.+)` (index (exec "yagstatus")).Title) 0 1}}
-{{$yagversion := sdict}}{{with dbGet 204255221017214977 "yagversion"}}{{$yagversion = sdict .Value}}{{end}}
+{{$yagversion := sdict}}{{with dbGet 204255221017214977 "yagversion"}}{{$yagversion = .Value}}{{end}}
 {{$firsttime := ""}}
 {{if not $yagversion.version}}
 	{{$yagversion = sdict "version" "No old versions recorded" "last_update" ((newDate 2015 1 1 0 0 0).Add ((currentTime.Sub ((newDate 2015 1 1 0 0 0).Add (toDuration (mult 5329 .TimeHour))))))}}{{$firsttime = " - ❗Example❗ "}}

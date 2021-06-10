@@ -15,7 +15,7 @@
 		{{$users.Set (str .ID) .}}
 	{{end}}
 {{else}}
-	{{$users = sdict .ExecData.users}}
+	{{$users = .ExecData.users}}
 {{end}}
 {{$c := 0}}
 {{range $void, $out := $users}}

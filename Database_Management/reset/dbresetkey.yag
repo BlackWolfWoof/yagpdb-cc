@@ -19,18 +19,16 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{$args := parseArgs 1 (print $prefix "dbresetkey <Key/Code>")
 			(carg "string" "<Key/Code>")}}
 		{{with (dbGet .User.ID "dbresetkey").Value}}
-			{{with (sdict .)}}
-				{{if eq ($args.Get 0|str) .code}}
-					{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This might take a while...") "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
-					{{dbDel $.User.ID "dbresetkey"}}
-					{{execCC $.CCID nil 6 (sdict "id" $x "all" (dbCount .key) "time" currentTime "key" .key)}}
-					{{deleteTrigger 1}}
-					{{deleteMessage nil .msgid 0}}
-				{{else}}
-					{{dbDel $.User.ID "dbresetkey"}}
-					{{sendMessage nil (print "Wrong code provided. Use `" $prefix "dbresetkey <Key>` and generate a new code.")}}
-					{{deleteMessage nil .msgid 0}}
-				{{end}}
+			{{if eq ($args.Get 0|str) .code}}
+				{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" "This might take a while...") "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+				{{dbDel $.User.ID "dbresetkey"}}
+				{{execCC $.CCID nil 6 (sdict "id" $x "all" (dbCount .key) "time" currentTime "key" .key)}}
+				{{deleteTrigger 1}}
+				{{deleteMessage nil .msgid 0}}
+			{{else}}
+				{{dbDel $.User.ID "dbresetkey"}}
+				{{sendMessage nil (print "Wrong code provided. Use `" $prefix "dbresetkey <Key>` and generate a new code.")}}
+				{{deleteMessage nil .msgid 0}}
 			{{end}}
 		{{else}}
 			{{$cslice := shuffle (cslice "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z")}}
@@ -49,7 +47,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{else}}
 		{{range (dbTopEntries .ExecData.key 8 0)}}{{$c = add $c 1}}{{dbDel .UserID .Key}}{{end}}
 	{{end}}
-	{{$sdict := sdict .ExecData}}
+	{{$sdict := .ExecData}}
 	{{$sdict.Set "count" (add $c $sdict.count)}}
 	{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all (dbCount .ExecData.key)) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
 	{{if ne $c 0}}
