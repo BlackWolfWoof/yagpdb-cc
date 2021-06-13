@@ -36,8 +36,21 @@
 			"footer" (sdict
 				"text" (print "Command triggered by " .User.String ". Message from"))
 			"timestamp" $msg.Timestamp}}
+		
+		{{/*Anti overflow embed*/}}
+		{{$fields := cslice}}{{$desc := ""}}
+		{{if gt (len $mc) 2000}}
+			{{$cslice := reFindAll `.{1,1000}` $mc}}
+			{{/*Split into umtiple fields*/}}
+			{{range $num, $text := $cslice}}{{if eq $num 0 1}}{{$desc = print $desc $text}}{{else}}{{$fields = $fields.Append (sdict "name" "\u200B" "value" $text "inline" false)}}{{end}}{{end}}
+			{{$fields = $fields.Append (sdict "name" "\u200B" "value" (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**") "inline" false)}}
+			{{$e.Set "fields" $fields}}
+		{{else}}
+			{{$desc = (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
+		{{end}}
+		
 		{{if and $msg.Content (not $msg.Embeds)}}
-			{{$e.Set "description" (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
+			{{$e.Set "description" $desc}}
 		{{end}}
 		{{$fo := $e.footer}}
 		{{$ti := $msg.Timestamp}}
@@ -55,7 +68,7 @@
 					{{$e.Del "footer"}}
 					{{$e.Del "timestamp"}}
 					{{if eq $c 0}}
-						{{$e.Set "description" (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
+						{{$e.Set "description" $desc}}
 					{{end}}
 					{{if eq $count (add $c 1)}}
 						{{$e.Set "footer" $fo}}
@@ -65,9 +78,10 @@
 						{{$e.Set "image" (sdict "url" .URL)}}
 						{{sendMessage nil (cembed $e)}}
 					{{else}}
-						{{$e.Set "fields" (cslice
+						{{$fields = $fields.AppendSlice (cslice
 							(sdict "name" "File Name" "value" (print "`" $filename "`") "inline" true)
 							(sdict "name" "URL" "value" (print "[File Link](" .URL ")") "inline" true))}}
+						{{$e.Set "fields" $fields}}
 						{{sendMessage nil (cembed $e)}}
 					{{end}}
 					{{$e.Del "fields"}}
