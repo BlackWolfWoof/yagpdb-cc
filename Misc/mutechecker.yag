@@ -1,6 +1,9 @@
 {{/*
 	You don't know if you set up your channel permissions right and if a muted user can keep sending messages? Well with this code you can test it out!
 
+	Trigger Type: Command
+	Trigger: mutechecker
+
 	Usage:
 	on $yagmute false: mutechecker @user @mutedrole
 	on $yagmute false: mutechecker userid roleid
