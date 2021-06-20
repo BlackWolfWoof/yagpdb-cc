@@ -78,6 +78,7 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [fakeban](Misc/fakeban.yag) - Just like ban but fake  
 **•** [image reaction](Misc/image_reaction.yag) - YAGPDB will react on images and videos. You can optionally turn on an auto-delete for non-images.  
 **•** [message link](Misc/message_link.yag) - Quotes messages from message links  
+**•** [mute checker](Misc/mutechecker.yag) - This handy dandy command will tell you if muted users can still type and which roles & channels are affected  
 **•** [new account warning](Misc/new_account_warning.yag) - You will get warned if a member with a brand new account joins the server  
 **•** [onewordstory](Misc/onewordstory.yag) - A one word story is a sentence that multiple people have to write together by only sending one word at a time.  
 **•** [snowflake converter](Misc/snowflake_converter.yag) - Calculates time between 2 IDs   

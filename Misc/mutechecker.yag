@@ -12,7 +12,7 @@
 */}}
 {{/*If YAGPDB removes roles on mute set this to true.
 NOTE: This might dm the user and lets them know they have been muted*/}}
-{{$yagmute := false}}
+{{$yagmute := true}}
 
 
 

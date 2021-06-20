@@ -73,6 +73,13 @@ This code adds reactions to all images in chat and can also optionally delete no
 ![Preview](https://i.imgur.com/4xvBJeo.gif)  
 ---
 
+### Mute Checker
+With this code you can check if a role (your muted role) is set up right in every channel and which channels might have issues.  
+It will give you a list of channels that the user will be able to speak in because of the channel permissions and a list of all roles that can still speak in that channel when the user is muted.  
+The code has 2 modes:  
+`$yagmute := false` - this will just give the user the role you gave it in the command and then check the permissions  
+`$yagmute := true` - this will execute the yagpdb mute command. This should be used if you have setup yagpdb to take away roles on mute. When you use this mode you cannot input a role in the command anymore and it will auto detect yagpdb's mute role.  
+
 
 ### New Account
 This code warns you when a Discord user with a new account joins your server.  
