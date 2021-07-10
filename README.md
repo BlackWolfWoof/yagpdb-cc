@@ -126,6 +126,17 @@ To receive update notifications for these custom commands join my [discord serve
 </details>
 
 <details>
+<summary>Stickyroles</summary>
+
+- [Open Folder](Stickyroles)  
+**•** [Join Message](Stickyroles/Join_Message.yag) - The main code that gives the roles back after re-joining the server  
+**•** [Leave Message](Stickyroles/Leave_Message.yag) - The code that makes sure the database doesn't fill up too much  
+**•** [Reaction](Stickyroles/Reaction.yag) - The main code to save the stickyroles  
+**•** [Regex](Stickyroles/Regex.yag) - The main code to save the stickyroles  
+
+</details>
+
+<details>
 <summary>Sticky Message</summary>
 
 - [v1 - Open Folder](Sticky_Message/v1)  
