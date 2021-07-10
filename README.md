@@ -203,10 +203,10 @@ Username + Tag|User ID|Date|Reason
 ---|---|---|---
 `}{OЯCRUX#0773`|249409309127999488||Claiming they made it
 `LuckyTarget#5119`|559651275877384193||Claiming they made it
-`✓ Setsuna#1111`|827192463206514718|18.06.2021|Removing copyright
-`Ash is on Fire#4755`|643905049113919524||Removing copyright
-`Phizix#9268`|622222322648219649||Removing copyright
-`rot#1301`|516053372877668353||Removing copyright
-`Lzzgodboy#0009`|382628589088014358||Removing Copyright
+`👑 Setsuna#0001`|827192463206514718|18.06.2021|Removing copyright
+`Ashlyn#4755`|643905049113919524||Removing copyright
+`Phizix#8849`|622222322648219649||Removing copyright
+`rot#5236`|516053372877668353||Removing copyright
+`Lzzgodboy™#0001`|382628589088014358||Removing Copyright
 
 *If the discord name and tag no longer exists check the userid on <https://discord.id/> to get the new username and tag. You can pr me the new username & tag or create an issue on github and I will update it.*
