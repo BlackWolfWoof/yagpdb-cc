@@ -30,7 +30,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{$db := sdict $t1.Value}}
 		{{$db.Set ($args.Get 2) $v}}
 		{{dbSet ($args.Get 0) ($args.Get 1) $db}}
-		{{$embed := sdict "color" 0x00D66C "title" "✏️ created database map entry" "description" (print "<:checkmark:705738821425299527> Created `" ($args.Get 1) "` for " $userm " and saved it in `" ($args.Get 2) "`.")}}
+		{{$embed := sdict "color" 0x00D66C "title" "✏️ Created database map entry" "description" (print "<:checkmark:705738821425299527> Created `" ($args.Get 1) "` for " $userm " and saved it in `" ($args.Get 2) "`.")}}
 		{{if $user}}{{$embed.Set "thumbnail" (sdict "url" (print "https://cdn.discordapp.com/avatars/" ($args.Get 0) "/" $user.Avatar ".png?size=4096"))}}{{end}}
 		{{sendMessage nil (cembed $embed)}}
 	{{else}}

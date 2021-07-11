@@ -23,7 +23,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{with $user}}{{$userm = .Mention}}{{end}}
 	{{if $db}}
 		{{dbDel ($args.Get 0) ($args.Get 1)}}
-		{{$embed := sdict "color" 0x00D66C "title" "\\🗑️ deleted database entry" "description" (print "<:checkmark:705738821425299527> Deleted `" ($args.Get 1) "` from " $userm ".")}}
+		{{$embed := sdict "color" 0x00D66C "title" "\\🗑️ Deleted database entry" "description" (print "<:checkmark:705738821425299527> Deleted `" ($args.Get 1) "` from " $userm ".")}}
 		{{if $user}}{{$embed.Set "thumbnail" (sdict "url" (print "https://cdn.discordapp.com/avatars/" ($args.Get 0) "/" $user.Avatar ".png?size=4096"))}}{{end}}
 		{{sendMessage nil (cembed $embed)}}
 	{{else}}
