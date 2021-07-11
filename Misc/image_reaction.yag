@@ -6,7 +6,7 @@
 
 	Note: Please configure the variables after pasting the code into your control panel and also make sure to limit this to a channel if needed!
 
-	Copyright (c): Black Wolf, 2020
+	Copyright (c): Black Wolf, 2021
 	License: MIT
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
@@ -40,7 +40,7 @@
 {{end}}
 
 {{/*Embed Media*/}}
-{{sleep 5}}
+{{range (seq 1 6)}}{{if not $.Message.Embeds}}{{sleep 1}}{{end}}{{end}}
 {{range .Message.Embeds}}
 	{{if eq .Type "video" "image" "gifv"}}
 	{{else}}
