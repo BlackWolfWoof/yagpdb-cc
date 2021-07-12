@@ -30,7 +30,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{- range (dbGetPattern ($args.Get 0) "%" 10 $page)}}
 	{{- $value := json .Value}}
 	{{- if gt (len $value) 30}}{{$value = print (slice $value 0 30) "..."}}{{end}}
-	{{- $fields = $fields.Append (sdict "name" (print "**#" $count " Search Result:**") "value" (print "Key name: " .Key "\nKey ID: " .ID "\nType: " (printf "%T" .Value) "\nCharacters: " (len (reReplace `\\\\` (json .Value) `\`)) "/100000\nSize: " (printf "%.2f" (fdiv (len (reReplace `\\\\` (json .Value) `\`)) 1000)) "kb\nValue:\n```json\n" (reReplace `\\\\` $value `\`) "```") "inline" false)}}
+	{{- $fields = $fields.Append (sdict "name" (print "**#" $count " Search Result:**") "value" (print "Key name: " .Key "\nKey ID: " .ID "\nType: `" (printf "%T" .Value) "`\nCharacters: " (len (reReplace `\\\\` (json .Value) `\`)) "/100000\nSize: " (printf "%.2f" (fdiv (len (reReplace `\\\\` (json .Value) `\`)) 1000)) "kb\nValue:\n```json\n" (reReplace `\\\\` $value `\`) "```") "inline" false)}}
 	{{- $count = add $count 1}}{{$c = add $c 1}}
 	{{- end}}
 	{{$embed := sdict "title" "🔎 Database search: user" "color" 0x00D66C "fields" $fields}}
