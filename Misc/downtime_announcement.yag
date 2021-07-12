@@ -5,27 +5,25 @@
 	Trigger Type: Interval
 
 	Note: If you set this up for the first time it will create an example downtime announcement so you can see if it works.
-		  Also make sure you set up the 'Channel' when you are using an interval or else it will not work!
+		  Also make sure you select a 'Channel' when you are using an interval cc or else it will not work!
 
-	Copyright (c): Black Wolf, 2020
+	Copyright (c): Black Wolf, 2021
 	License: MIT
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
-{{$timezone := "Europe/Berlin"}}{{/*Select your timezone here https://kevinnovak.github.io/Time-Zone-Picker/ and copy it into $timezone*/}}
 
 {{/*Downtime*/}}
-{{$dbtime := (dbGet 204255221017214977 "downtime").Value.UTC}}{{$ctime := currentTime.UTC}}{{$firsttime := ""}}
+{{$dbtime := (dbGet 204255221017214977 "downtime").Value}}{{$ctime := currentTime}}{{$firsttime := ""}}
 {{if not $dbtime}}
 	{{$firsttime = " - ❗Example❗"}}
-	{{$dbtime = ($ctime.UTC.Add (toDuration (mult -3510 .TimeSecond)))}}
+	{{$dbtime = ($ctime.Add (toDuration (mult -3510 .TimeSecond)))}}
 {{end}}
 {{if $dbtime.Before ($ctime.Add (toDuration (mult -8 .TimeMinute)))}}
 	{{sendMessage nil (cembed
 	"author" (sdict "url" "https://yagpdb.xyz/status/" "icon_url" "https://cdn.discordapp.com/emojis/705738821110595607.png" "name" (print "YAGPDB Downtime Announcement" $firsttime))
-	"description" (print "YAGPDB was down for the last **≈ " (humanizeDurationSeconds ($ctime.Sub $dbtime)) "**\n\nFrom: " ((($dbtime.In (newDate 0 0 0 0 0 0 $timezone).Location)).Format "📅`02.1.06` ⌚`15:04:05`") "\nTo:\u2003\u200A\u2005" ((($ctime.In (newDate 0 0 0 0 0 0 $timezone).Location)).Format "📅`02.1.06` ⌚`15:04:05`"))
+	"description" (print "YAGPDB was down for the last **≈ " (humanizeDurationSeconds ($ctime.Sub $dbtime)) "**\n\nFrom: 📅<t:" $dbtime.Unix ":d> ⌚<t:" $dbtime.Unix ":T>\nTo:\u2003\u200A\u2005📅<t:" $ctime.Unix ":d> ⌚<t:" $ctime.Unix ":T>")
 	"color" 0xbf172e
-	"timestamp" $ctime
-	"footer" (sdict "text" (print "Time calculated in timezone " $timezone)))}}
+	"timestamp" $ctime)}}
 {{end}}
-{{$dbtime := $ctime.Add (toDuration (mult 90 .TimeSecond))}}
+{{$dbtime := $ctime.Add (toDuration "90s")}}
 {{dbSet 204255221017214977 "downtime" $dbtime}}

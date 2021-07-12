@@ -14,7 +14,6 @@
 Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
 
 {{define "time"}}
-	{{$time1 := .time.In (newDate 0 0 0 0 0 0 .timezone).Location}}
 	{{$days := fdiv (currentTime.Sub .time).Hours 24}}{{$human := currentTime.Sub .time|humanizeDurationSeconds}}
 	{{if currentTime.Before .time}}
 		{{$days = fdiv (.time.Sub currentTime).Hours 24}}{{$human = .time.Sub currentTime|humanizeDurationSeconds}}
@@ -22,7 +21,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{$y := fdiv $days 365.25|roundFloor|toFloat}}
 	{{$mo := (sub (fdiv $days 30.417) (mult $y 12))|roundFloor|toFloat}}
 	{{$d := toFloat (sub $days (add (mult $y 365.25) (mult $mo 30.417)))}}
-	{{.Set "e" (print "🗓️" $time1.Day "." (json $time1.Month) "." $time1.Year " ⏱️" $time1.Hour ":" $time1.Minute ":" $time1.Second "\u200A⌛\u200A" (toInt $y) "Y " (toInt $mo) "M " (toInt $d) "D\n" $human " ago")}}
+	{{.Set "e" (print "🗓️<t:" .time.Unix ":d> ⏱️<t:" .time.Unix ":T>\u200A⌛\u200A" (toInt $y) "Y " (toInt $mo) "M " (toInt $d) "D\n" $human " ago")}}
 {{end}}
 
 {{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
@@ -40,7 +39,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 			(sdict "name" "**• Key Name:**" "value" (str $db.Key) "inline" true)
 			(sdict "name" "**• Key ID:**" "value" (str $db.ID) "inline" true)
 			(sdict "name" "**• User ID:**" "value" (str $db.UserID) "inline" true)
-			(sdict "name" "**• Value Info:**" "value" (print "Type: " (printf "%T" $db.Value) "\nCharacters: " (len (reReplace `\\\\` (json $db.Value) `\`)) "/100000\nSize: " (printf "%.2f" (fdiv (len (json $db.Value)) 1000)) "kb") "inline" true))}}
+			(sdict "name" "**• Value Info:**" "value" (print "Type: `" (printf "%T" $db.Value) "`\nCharacters: " (len (reReplace `\\\\` (json $db.Value) `\`)) "/100000\nSize: " (printf "%.2f" (fdiv (len (json $db.Value)) 1000)) "kb") "inline" true))}}
 
 		{{$x := ""}}{{$out := print (reReplace `\\\\` (json $db.Value) `\`)}}{{$valuestr := sdict}}
 		{{if or (gt (len (reReplace `\\\\` (json $db.Value) `\`)) 999) (gt (add (len (urlescape $out)) 119) 1024)}}
