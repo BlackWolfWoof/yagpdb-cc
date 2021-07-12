@@ -16,14 +16,14 @@
 {{$dbtime := (dbGet 204255221017214977 "downtime").Value}}{{$ctime := currentTime}}{{$firsttime := ""}}
 {{if not $dbtime}}
 	{{$firsttime = " - ❗Example❗"}}
-	{{$dbtime = ($ctime.Add (toDuration (mult -3510 .TimeSecond)))}}
+	{{$dbtime = mult -3510 .TimeSecond|toDuration|$ctime.Add}}
 {{end}}
-{{if $dbtime.Before ($ctime.Add (toDuration (mult -8 .TimeMinute)))}}
+{{if $dbtime.Before (mult -8 .TimeMinute|toDuration|$ctime.Add)}}
 	{{sendMessage nil (cembed
 	"author" (sdict "url" "https://yagpdb.xyz/status/" "icon_url" "https://cdn.discordapp.com/emojis/705738821110595607.png" "name" (print "YAGPDB Downtime Announcement" $firsttime))
-	"description" (print "YAGPDB was down for the last **≈ " (humanizeDurationSeconds ($ctime.Sub $dbtime)) "**\n\nFrom: 📅<t:" $dbtime.Unix ":d> ⌚<t:" $dbtime.Unix ":T>\nTo:\u2003\u200A\u2005📅<t:" $ctime.Unix ":d> ⌚<t:" $ctime.Unix ":T>")
+	"description" (print "YAGPDB was down for the last **≈ " ($ctime.Sub $dbtime|humanizeDurationSeconds) "**\n\nFrom: 📅<t:" $dbtime.Unix ":d> ⌚<t:" $dbtime.Unix ":T>\nTo:\u2003\u200A\u2005📅<t:" $ctime.Unix ":d> ⌚<t:" $ctime.Unix ":T>")
 	"color" 0xbf172e
 	"timestamp" $ctime)}}
 {{end}}
-{{$dbtime := $ctime.Add (toDuration "90s")}}
+{{$dbtime := toDuration "90s"|$ctime.Add}}
 {{dbSet 204255221017214977 "downtime" $dbtime}}
