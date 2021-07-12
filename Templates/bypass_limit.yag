@@ -22,7 +22,7 @@
 
 {{/*If you got no entries from dbTopEntries $count will stay 0 and end the custom command*/}}
 {{if ne $count 0}}
-	{{execCC .CCID nil 10 (sdict "skip" $skip)}}
+	{{execCC .CCID nil 8 (sdict "skip" $skip)}}
 {{else}}
 	{{sendMessage nil "Done!"}}
 {{end}}

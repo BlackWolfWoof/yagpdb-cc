@@ -27,7 +27,7 @@
 	{{end}}
 {{end}}
 {{if ne $c 0}}
-	{{execCC .CCID nil 10 (sdict "users" $users "empty" "empty")}}
+	{{execCC .CCID nil 8 (sdict "users" $users "empty" "empty")}}
 {{else}}
 	{{sendMessage nil "Done!"}}
 {{end}}
