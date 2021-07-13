@@ -215,11 +215,11 @@ Username + Tag|User ID|Date|Logs|Reason
 `}{OЯCRUX#0773`|249409309127999488||[Message Link](https://discord.com/channels/166207328570441728/578976698931085333/838438411391598612) - [Server Invite](https://discord.gg/4udtcA5)|Claiming they made it
 `LuckyTarget#5119`|559651275877384193||[Message Link](https://discord.com/channels/166207328570441728/578976698931085333/820236767411044382) - [Server Invite](https://discord.gg/4udtcA5)|Claiming they made it
 `CHEF-KOCH#0783`|482343993204670476|13.07.2021|[Message Log](https://yagpdb.xyz/public/166207328570441728/log/8507)|Removing copyright
-`N>N#2894`|204394167122657280|13.07.2021|| Account of `CHEF-KOCH#0783`
-`👑 Setsuna#0001`|827192463206514718|18.06.2021||Removing copyright
+`N&gt;N#2894`|204394167122657280|13.07.2021|| Account of `CHEF-KOCH#0783`
+`Setsuna#0009`|827192463206514718|18.06.2021||Removing copyright
 `Ashlyn#4755`|643905049113919524|||Removing copyright
 `Phizix#8849`|622222322648219649|||Removing copyright
-`rot#5236`|516053372877668353|||Removing copyright
+`rottenly#0001`|516053372877668353|||Removing copyright
 `Lzzgodboy™#0001`|382628589088014358|||Removing Copyright
 
 *If the discord name and tag no longer exists check the userid on <https://discord.id/> to get the new username and tag. You can pr me the new username & tag or create an issue on github and I will update it.*
