@@ -17,7 +17,7 @@ What we can do is save the roles whenever the user reacts to a message or sends 
 
 In order for the code to work as intended you have to add all of the custom commands in this folder to your server. If you just have a small server you do not need to add [Leave_Message](Leave_Message.yag) to your server.  
 When you have finished adding everything you should give a friend or your second account some roles, write a message or react & re-join the server to make sure you have set up everything right.  
-Make sure to configure the variables at the top pf the code in the [Join_Message](Join_Message.yag).  
+Make sure to configure the variables at the top of the code in the [Join_Message](Join_Message.yag).  
 Here are a few examples of how it can look like:
 
 ### Whitelisting 3 roles
