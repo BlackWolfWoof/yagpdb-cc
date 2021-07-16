@@ -1,6 +1,4 @@
-# CC NAME
-
-## Description
+## Custom command name
 
 This is the description for the custom command which will explain for what it is used for and wh you need it.  
 
@@ -12,17 +10,17 @@ This is the description for the custom command which will explain for what it is
 	<img src="../../assets/cat2.jpeg?raw=true" width="30%" /> 
 </p>
 
-## Usage
+### Usage
 
 Howl at someone: `-awooo @Black Wolf`
 
-## Setup & Requirements
+### Setup & Requirements
 
 Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ---|---|---|---|---
 Nyan|Command|[Readme](../../cat2.jpeg)|[A cute cat](../../cat2.jpeg)|Ignore dog channel
 Awooo|Regex||Awoo?|Ignore cat channel
 
-## Important
+### Important
 
 Remember to stay fluffy
