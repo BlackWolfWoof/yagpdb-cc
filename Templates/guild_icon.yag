@@ -1,8 +1,0 @@
-{{/*
-	Usage:
-	$icon will give you the link of the server icon. It will work for gifs and none animated pictures.
-*/}}
-
-{{/*Guild Icon*/}}
-{{$ex := or (and (reFind "a_" .Guild.Icon) "gif") "png"}}
-{{$icon := print "https://cdn.discordapp.com/icons/" .Guild.ID "/" .Guild.Icon "." $ex "?size=1024"}}
