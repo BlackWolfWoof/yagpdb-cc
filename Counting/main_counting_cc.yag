@@ -23,10 +23,9 @@
 
 {{$dbcount := dbCount}}{{$_ := 50}}{{if .IsPremium}}{{$_ = 500}}{{end}}
 {{if not .ExecData}}
-	{{$input := toInt .Message.Content}}
 	{{$current := add 1 (toInt (dbGet 2000 "counting_counter").Value)}}
 	{{$lastCounter := ""}}{{with dbGet 2000 "lastCounter"}}{{$lastCounter = .Value}}{{end}}
-	{{if or (reFind `^\d+$` .Message.Content|not) (ne $current $input)}}
+	{{if or (reFind `^\d+$` .Message.Content|not) (ne (str $current) .Message.Content)}}
 		{{/*Wrong number*/}}
 		{{$x := sendMessageRetID nil (print .User.Mention ", that was the wrong number! The next number is " $current)}}
 		{{deleteMessage nil $x 5}}
