@@ -22,7 +22,19 @@ To receive update notifications for these custom commands join my [discord serve
 
 - [Open Folder](Autohelp_Embed)  
 **•** [command](Autohelp_Embed/command.yag) - Command that displays the main page of the controllable embed on reaction  
-**•** [reaction](Autohelp_Embed/reaction.yag) -  Reaction code that edits the embed on reaction  
+**•** [reaction](Autohelp_Embed/reaction.yag) - Reaction code that edits the embed on reaction  
+
+</details>
+
+<details>
+<summary>Counting Code</summary>
+
+- [Open Folder](Counting)  
+**•** [converter](Counting/Main_counting_cc.yag) - Can be used to switch from the old counting system from the YAGPDB server to the new one  
+**•** [counter](Counting/counter.yag) - A simple code that tells you how much you or another user has counted  
+**•** [main counting code](Counting/Main_counting_cc.yag) - A custom command to manage a counting channel  
+**•** [pagination](Counting/pagination.yag) - The pagination code for the leaderboard  
+**•** [topcount](Counting/topcount.yag) - A leaderboard to see who counted the most  
 
 </details>
 
@@ -160,6 +172,15 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [rolecolor](Templates/rolecolor.yag) - Outputs the role color of the highest role the current user has  
 
 </details>
+
+<!---
+
+---
+
+## How do you add custom commands to your server?
+
+I'll add a little gif or video here showing how to add custom commands from my repository or other repositories
+--->
 
 ---
 
