@@ -1,0 +1,99 @@
+{{/*
+	Trigger: \A
+	Trigger Type: Regex
+
+	Usage:
+	Limit this custom command to your counting channel and start counting :)
+	
+	Copyright (c): Joe_#2997 (creator) & Black Wolf#0001 (modified) 2021
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+{{$countingrole := 0}}
+{{/*Set the countingrole to 0 or false if you don't want to give a role to the last user that counted*/}}
+{{$antiad := true}}
+{{/*This prevents users with discord servers in their status to get hoised*/}}
+{{$sameuser := true}}
+{{/*If set to false the same user cannot count multiple times in a row*/}}
+{{$countingtracker := false}}
+{{/*If set to true it will keep track of who counted how often*/}}
+{{/*Make sure to also add the 'Pagination', 'Leaderboard' and 'Counter' code when setting this to true*/}}
+
+
+{{$dbcount := dbCount}}{{$_ := 50}}{{if .IsPremium}}{{$_ = 500}}{{end}}
+{{if not .ExecData}}
+	{{$input := toInt .Message.Content}}
+	{{$current := add 1 (toInt (dbGet 2000 "counting_counter").Value)}}
+	{{$lastCounter := ""}}{{with dbGet 2000 "lastCounter"}}{{$lastCounter = .Value}}{{end}}
+	{{if or (reFind `^\d+$` .Message.Content|not) (ne $current $input)}}
+		{{/*Wrong number*/}}
+		{{$x := sendMessageRetID nil (print .User.Mention ", that was the wrong number! The next number is " $current)}}
+		{{deleteMessage nil $x 5}}
+		{{deleteTrigger 1}}
+	{{else if and (eq (str .User.ID) $lastCounter) (not $sameuser)}}
+		{{/*$sameuser part*/}}
+		{{$x := sendMessageRetID nil (print .User.Mention ", you cannot count twice in a row!")}}
+		{{deleteMessage nil $x 5}}
+		{{deleteTrigger 1}}
+	{{else}}
+		{{/*Current counting number +1*/}}
+		{{$current := dbIncr 2000 "counting_counter" 1|toInt}}
+
+		{{/*If antiad on block counting role*/}}
+		{{$blockrole := false}}
+		{{if and $antiad (reFind `(?i)(discord(?:app)?\.gg(?:/|\\+/+)|discord(?:app)?\.com(?:/|\\+/+)(?:invite/))([A-z0-9-]{2,})` (index (exec "whois" .User.ID).Fields 6).Value)}}
+			{{$blockrole = true}}
+		{{end}}
+
+		{{/*Countingrole part*/}}
+		{{if and $countingrole (dbGet .User.ID "countingroleblock"|not)}}
+			{{if not $blockrole}}
+				{{addRoleID $countingrole}}
+				{{if ne (toInt (dbGet 2000 "countingrole").Value) .User.ID}}
+					{{takeRoleID (toInt (dbGet 2000 "countingrole").Value) $countingrole}}
+				{{end}}
+				{{dbSet 2000 "countingrole" (str .User.ID)}}
+			{{end}}
+		{{end}}
+		{{dbSet 2000 "lastCounter" (str .User.ID)}}
+
+		{{/*Counting tracker part*/}}
+		{{if $countingtracker}}
+			{{with (dbGet .User.ID "counting_tracker")}}
+				{{dbSet $.User.ID "counting_tracker" (toInt .Value|add 1|str)}}
+			{{else}}
+				{{dbSet $.User.ID "counting_tracker" 1}}
+			{{end}}
+
+			{{/*Database Anti overflow*/}}
+			{{if le 95 (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 100|roundCeil|toInt)}}
+				{{execCC .CCID nil 0 true}}
+			{{end}}
+		{{end}}
+
+		{{/*Channel Topic*/}}
+		{{if not (dbGet 2000 "counting_topic")}}
+			{{$topic := ""}}
+			{{if $countingtracker}}
+				{{if .IsPremium}}
+					{{$topuser := ""}}{{range dbTopEntries "counting_tracker" 1 0}}{{$topuser = print "<@" .UserID "> - " .Value "x"}}{{end}}
+					{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker") "\nTop user: " $topuser}}
+				{{end}}
+				{{$topic = print $topic "\nDatabase filled: " (fdiv (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100) "%"}}
+			{{end}}
+			{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " $current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/Counting")}}
+			{{dbSetExpire 2000 "counting_topic" "on cooldown" 301}}
+		{{end}}
+	{{end}}
+{{else}}
+	{{/*Database Anti overflow*/}}
+	{{if not (dbGet 2000 "counting_warning")}}
+		{{dbSetExpire 2000 "counting_warning" true 604800}}
+		{{sendMessage nil (complexMessage "content" (print "<@" $.Guild.OwnerID ">, a custom command requires your attention!") "embed" (cembed "title" "‼️The YAGPDB database is almost full‼️" "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png") "description" (print "**The YAGPDB database is to " (fdiv (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100) "% full!\nTo ensure the functionality of thise code I will delete the counting trackers of the people who counted the least amount of times from now on.**\nTo stop that, please make sure the database isn't that full.\nIf you are unsure how to do that please join the [official support server](https://discord.gg/4udtcA5) and message `Black Wolf#0001` for help.") "color" 0xB62138))}}
+	{{else}}
+		{{range (dbBottomEntries "counting_tracker" 1 0)}}
+			{{dbDel .UserID .Key}}
+		{{end}}
+	{{end}}
+{{end}}

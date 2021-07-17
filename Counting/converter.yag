@@ -1,0 +1,42 @@
+{{/*NOTE: DO NOT USE THIS CUSTOM COMMAND IF YOU HAVE NO IDEA WHAT IT DOES!!!!*/}}
+{{/*
+	Trigger: convert
+	Trigger Type: Command
+	
+	Copyright (c): Black Wolf, 2021
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+
+
+{{/*This uses the code from the bypas limit from my github*/}}
+{{$skip := 0}}{{$count := 0}}{{$id := 0}}{{$converted := 0}}{{$all := 0}}
+{{if .ExecData}}
+	{{$skip = .ExecData.skip}}{{$id = .ExecData.id}}{{$converted = .ExecData.converted}}{{$all = .ExecData.all}}
+{{else}}
+	{{$all = (dbCount 118)}}
+	{{$id = sendMessageRetID nil (print "The converter will now convert your database from the old counting system to the new one.\nDone: 0/" $all)}}
+{{end}}
+{{$slow := 4}}{{if .IsPremium}}{{$slow = 24}}{{end}}
+{{range (dbTopEntries `counter\_tracker\_%` $slow 0)}}
+	{{$userid := index (split .Key "_") 2|toInt}}
+	{{dbSet $userid "counting_tracker" .Value}}
+	{{dbDel .UserID .Key}}
+	{{$skip = add $skip 1}}
+	{{$count = add $count 1}}
+	{{$converted = add $converted 1}}
+{{end}}
+
+{{/*If you got no entries from dbTopEntries $count will stay 0 and end the custom command*/}}
+{{if ne $count 0}}
+	{{editMessage nil $id (print "The converter will now convert your database from the old counting system to the new one.\nDone: " $converted "/" $all)}}
+	{{execCC .CCID nil 10 (sdict "id" $id "converted" $converted "all" $all)}}
+{{else}}
+	{{dbSet 2000 "lastCounter" (str (dbGet 118 "counter_user").Value)}}
+	{{dbDel 118 "counter_user"}}
+	{{dbSet 2000 "counting_counter" (dbGet 118 "counter_count").Value}}
+	{{dbDel 118 "counter_count"}}
+	{{deleteMessage nil $id 0}}
+	{{sendMessage nil (print "Done converting the old counting system to the new one. " (add 2 $converted) " entries got converted.")}}
+{{end}}
