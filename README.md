@@ -192,7 +192,7 @@ If [that license](#small-license-text) can not be found in the code on this repo
 #### Small license text
 
 ```
-Copyright (c): Black Wolf, 2020
+Copyright (c): Black Wolf, 2021
 License: MIT
 Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 ```
