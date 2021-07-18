@@ -23,7 +23,7 @@ You can toggle if the same user that last counted can count again. That means if
 
 #### Counting tracker
 
-The counting tracker will track how often a user counted. You can use this together with the codes [topcount](topcount.yag), [counter](counter.yag) and [counter](counter.yag) which will have to be added in order to display the top people that counted and how often you counted.  
+The counting tracker will track how often a user counted. You can use this together with the codes [topcount](topcount.yag), [counter](counter.yag) and [pagination](pagination.yag) which will have to be added in order to display the top people that counted and how often you counted.  
 
 <p float="left">
 	<img src="../../assets/Counting/topcount.png?raw=true" width="30%" />
