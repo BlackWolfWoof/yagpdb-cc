@@ -7,7 +7,7 @@ Features that can be toggled:
 
 #### Counting role
 
-The counting role will be a role that gets given if the user counted. You can hoist it and move it to the top so people will see who just counted and then also want to count to be displayed ath the top of the server.  
+The counting role will be a role that gets given if the user counted. You can hoist it and move it to the top so people will see who just counted and then also want to count to be displayed at the top of the server.  
 Enable this feature by setting `$countingrole` from `0` to a role id.
 
 <img src="../../assets/Counting/counting_role.gif?raw=true" width="60%"/>
