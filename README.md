@@ -228,8 +228,9 @@ If you are looking for more community made custom commands you can join my [Disc
 
 ## 💩Wall of shame💩
 
-<sub> I hate to see when people just remove the copyright from code and think that is perfectly fine. I have created this GitHub repo because I wanted to share my cool ideas I had to the community. And going ahead and ripping someones name from their code or even replacing it with their own is unaccaptable. For that I created this wall of shame and if you find yourself here you should know that you are the reason I hate to publish my code online and that I would share more stuff if you wouldn't have been such an asshole.  
-Everybody that gets added here is blocked by me and I will refuse to help them with anything and other voluntary helpers are also notified about someone being added here.</sub>
+<sub> I hate to see when people just remove the copyright from code and think that is perfectly fine. I have created this GitHub repository because I wanted to share my cool ideas with the community. Going ahead and ripping someone's name from their code, or even replacing it with their own is unaccaptable. For that reason, I created this wall of shame and if you find yourself here you should know that you are the reason I hate to publish my code. And that I would share more stuff if you wouldn't have been such an asshole.
+  
+Everybody here is blocked by me and I will refuse to help them with anything. Other voluntary helpers are also notified about someone being added here.</sub>
 
 Username + Tag|User ID|Date|Logs|Reason
 ---|---|---|---|---
