@@ -1,6 +1,6 @@
 # Anti Phishing
 
-With this code you will gent notified about a phishing scam link or they will be deleted. This can be used against those annoing Steam phishing links on all servers.  
+With this code you will get notified about a phishing scam link or they will be deleted. This can be used against those annoying Steam phishing links on all servers.  
 If you find a link that wasn't added yet and wasn't detected you can always message me on [my Discord server](https://discord.gg/GRns3fg) to add them to the code.
 
 ### Usage
@@ -11,8 +11,8 @@ Add both custom commands to your server, configure the variables at the top of t
 
 Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ---|---|---|---|---
-\A|Regex|**[Donload Link](anti_phishing.yag)**|[Phishing List](phishing_list.yag)|❌
-setup|Command|**[Donload Link](phishing_list.yag)**|❌|❌
+\A|Regex|**[Download Link](anti_phishing.yag)**|[Phishing List](phishing_list.yag)|❌
+setup|Command|**[Download Link](phishing_list.yag)**|❌|❌
 
 ### Important
 
