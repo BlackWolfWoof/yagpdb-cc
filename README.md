@@ -18,6 +18,15 @@ So if you are looking for new custom commands take a look ;) there
 To receive update notifications for these custom commands join my [discord server](https://discord.gg/GRns3fg) and <u>**follow**</u> the announcement channel `#│📢cc-updates` or give yourself the <u>**role that pings**</u> you on important updates.  
 
 <details>
+<summary>Auto Moderation</summary>
+
+- [Open Folder](Auto_Moderation/Anti_Phishing)  
+**•** [anti phishing](Auto_Moderation/Anti_Phishing/anti_phishing.yag) - With this code you can protect your servers against those steam trade phishing link sending self-bots  
+**•** [domain list](Auto_Moderation/Anti_Phishing/phishing_list.yag) - The domain list for the anti-phishing code  
+
+</details>
+
+<details>
 <summary>Autohelp Embed</summary>
 
 - [Open Folder](Autohelp_Embed)  
