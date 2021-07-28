@@ -49,8 +49,8 @@
 		{{if and $countingrole (dbGet .User.ID "countingroleblock"|not)}}
 			{{if not $blockrole}}
 				{{addRoleID $countingrole}}
-				{{if ne (toInt (dbGet 2000 "countingrole").Value) .User.ID}}
-					{{takeRoleID (toInt (dbGet 2000 "countingrole").Value) $countingrole}}
+				{{if ne ($cr := toInt (dbGet 2000 "countingrole").Value) .User.ID}}
+					{{takeRoleID $cr $countingrole}}
 				{{end}}
 				{{dbSet 2000 "countingrole" (str .User.ID)}}
 			{{end}}
