@@ -40,6 +40,6 @@ Remember to configure your variables in the code. Here is what each variable doe
 
 **A moderator or admin role will be pinged so they can act:**
 ```go
-{{$modrole := false}}
+{{$modrole := 607846078863376394}}
 {{/*Input a staff role id in there which will be used to notify the staff about the link. This should be enabled if $delete is set to false.*/}}
 ```
