@@ -82,14 +82,6 @@ To receive update notifications for these custom commands join my [discord serve
 </details>
 
 <details>
-<summary>Example Code</summary>
-
-- [Open folder](Example_Code)  
-**•** [creating embeds](Example_Code/creating_embeds.yag) - WIP
-
-</details>
-
-<details>
 <summary>Misc</summary>
 
 - [Open folder](Misc)  
