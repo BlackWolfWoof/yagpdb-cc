@@ -30,9 +30,22 @@ I'd highly recommend you to check out the [learning page](https://learn.yagpdb.x
 		"url" "https://github.com/BlackWolfWoof/yagpdb-cc/blob/assets/cat2.jpeg?raw=true")
 	)}}
 ```
-<img src="../../assets/Example_Code/cembed.png?raw=true" width="60%"/>
+<img src="../../assets/Example_Code/cembed.png?raw=true" width="40%"/>
 
 
 There is stuff you can and cannot use in your embeds here in the [discord docs](https://discord.com/developers/docs/resources/channel#embed-object-embed-structure) I have hilighted a bit for you.  
 
 <img src="../../assets/Example_Code/discord_docs_embed.png?raw=true" width="60%"/>
+
+### The pipe
+
+You may have seen us using `|` before and if you are still confused then this simple example should help you understanding when and how to use it.  
+I myself like to use it to make my code more compact or easier to read because for me it is more difficult reading the code because of all the `((()))`.  
+
+<img src="../../assets/Example_Code/pipe.png?raw=true" width="60%"/>
+
+Without | `{{mult 2 (mult 10 (fdiv 20 5))}}` = 80
+With 	| `{{fdiv 20 5|mult 10|mult 2}}` = 80
+
+Everything infront of the `|` will be added to the back of the code as you can see by the math example in the picture above.  
+This way you can evade using many parenthesis.  
