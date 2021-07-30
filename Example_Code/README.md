@@ -44,8 +44,8 @@ I myself like to use it to make my code more compact or easier to read because f
 
 <img src="../../assets/Example_Code/pipe.png?raw=true" width="60%"/>
 
-Without | `{{mult 2 (mult 10 (fdiv 20 5))}}` = 80
-With 	| `{{fdiv 20 5|mult 10|mult 2}}` = 80
+Without | `{{mult 2 (mult 10 (fdiv 20 5))}}` = 80  
+With 	| `{{fdiv 20 5|mult 10|mult 2}}` = 80  
 
 Everything infront of the `|` will be added to the back of the code as you can see by the math example in the picture above.  
 This way you can evade using many parenthesis.  
