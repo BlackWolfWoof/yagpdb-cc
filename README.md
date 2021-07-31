@@ -207,7 +207,8 @@ Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 
 If you are searching for more custom commands or even want to add some you will find a lot of them there :).  
 
-[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=yagpdb-cc&repo=yagpdb-cc&icon_color=e74c3c&bg_color=151515&text_color=fff)](https://github.com/yagpdb-cc/yagpdb-cc)
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=yagpdb-cc&repo=yagpdb-cc&icon_color=e74c3c&bg_color=151515&text_color=fff)](https://yagpdb-cc.github.io/)  
+*If you are looking for a link to the repository, [click here.](https://github.com/yagpdb-cc/yagpdb-cc/tree/master/src) Otherwise use the card above to visit the website.*
 
 ### More repositories
 
