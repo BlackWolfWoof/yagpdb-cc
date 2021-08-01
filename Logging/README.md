@@ -14,13 +14,13 @@ You no longer need to hunt in your modlog how often the user was banned kicked o
 Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ---|---|---|---|---
 `\A(?:\-\|<@!?204255221017214977>)\s*(?:warn(s\|ings)\|mutes\|kicks\|bans)\s*`|Regex|**[Download Link](log_get.yag)**|✅|❌
-❌|Reaction add & remove|**[Download Link](banlog_set.yag)**|any of the below codes|❌
+❌|Reaction add & remove|**[Download Link](pagination.yag)**|any of the below codes|❌
 ❌|Ban Message DM|**[Download Link](banlog_set.yag)**|**[log_get](log_get.yag)**|❌
 ❌|Kick Message DM|**[Download Link](kicklog_set.yag)**|**[log_get](log_get.yag)**|❌
 ❌|Mute Message DM|**[Download Link](mutelog_set.yag)**|**[log_get](log_get.yag)**|❌
 ❌|Warn Message DM|**[Download Link](warnlog_set.yag)**|**[log_get](log_get.yag)**|❌
 
-The [log_get](log_get.yag) always has to be on your server.  
+The [log_get](log_get.yag) and [pagination](pagination.yag) always has to be on your server.  
 For the [ban](banlog_set.yag), [kick](kicklog_set.yag), [mute](mutelog_set.yag) and [warn](warnlog_set.yag) you can decide which ones you want to add to the server.  
 
 
