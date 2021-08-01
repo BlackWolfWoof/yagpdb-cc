@@ -31,6 +31,9 @@ There you can set `$warnings` from `true` to `false` to disable the custom warni
 **I already have the paginator code on my server!**  
 Thats great. You can replace the old code you used for the snippet system or counting system with this one as it handles all of them without you having to add several reaction custom commands.
 
+### Usage
+
+After adding all the code you can use `-mutes`, `-kicks`, `-bans` and `-warns` / `-warnings` to view your logs.  
 
 ### Important
 
