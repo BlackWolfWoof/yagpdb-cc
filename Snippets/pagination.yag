@@ -109,8 +109,53 @@
 					{{editMessage nil $.ReactionMessage.ID $embed}}
 				{{end}}
 			{{end}}
-
-
+		{{else if ($rf := reFindAllSubmatches `(Mutes|Bans|Kicks|Warnings|Warns) - User : (\d+)` .Name)}}
+			{{$authorname := .Name}}
+			{{$r := (reFindAllSubmatches `\?author=(\d+)\?messageid=(\d+)` .IconURL)}}
+			{{if eq $.Reaction.Emoji.Name "🗑️" "🗑"}}
+				{{if or (eq (str $.User.ID) (index $r 0 1)) (in (split (index (split (exec "viewperms") "\n") 2) ", ") "ManageMessages")}}
+					{{deleteMessage nil $.Message.ID 0}}
+					{{deleteMessage nil (index $r 0 2) 0}}
+				{{end}}
+			{{end}}
+			{{$page := toInt (reFind `\d+` $msg.Footer.Text)}}
+			{{if eq $.Reaction.Emoji.Name "◀️"}}
+				{{$page = sub $page 1|add -1}}
+			{{else if eq $.Reaction.Emoji.Name "▶️"}}
+				{{$page = add $page 1|add -1}}
+			{{else}}
+				{{$page = -1}}
+			{{end}}
+			{{$dblogs := sdict}}{{with dbGet (index $rf 0 2|toInt) "logs"}}{{$dblogs = .Value}}{{end}}
+			{{$type := reFind `warn|mute|kick|ban` (lower .Name)}}
+			{{if ne $page -1}}
+				{{$c := 0}}{{$grab := ""}}
+				{{range $name, $value := $dblogs}}
+					{{- if in $name $type}}
+						{{- $c = add 1 $c}}
+						{{- if and (gt $c (mult $page 5)) (le $c (add 1 $page|mult 5))}}
+							{{- with $value}}
+								{{- if (index .c 0)}}{{.Set "c" (print "\n🔎Where: <#" (index .c 0) "> `" (index .c 1) "`")}}{{else}}{{.Set "c" ""}}{{end}}
+								{{- if .d}}{{.Set "d" (print "\n<:voice:711600648659140678>Duration: <t:" (.ctime.Add (print .d "s"|toDuration)).Unix ":R>")}}{{else}}{{.Set "d" ""}}{{end}}
+								{{- if .l}}{{.Set "l" (print "\n<:log:603248981132181504>Logs: [Message Logs](https://yagpdb.xyz/public/" $.Guild.ID "/log/" .l ")")}}{{end}}
+								{{- $grab = print $grab "**<:cc_ID:780036580592189460>" (title $type) " ID: " (slice $name 4) "**" .c "\n🕐When: <t:" $value.ctime.Unix ":d><t:" $value.ctime.Unix ":t>\n🛡️Author: <@" .aid "> `" .as "`" .d .l "\n<:status:704342789177212979>Reason: " .r "\n\n"}}
+							{{- end}}
+						{{- end}}
+					{{- end}}
+				{{end}}
+				{{if not $grab}}{{$grab = "Nobody here but us chickens🐔"}}{{end}}
+				
+				{{editMessage nil $.Message.ID (cembed
+					"author" $msg.Author
+					"description" (print "**Total " (index $rf 0 1) ": " $c "**\n\n" $grab)
+					"footer" (sdict "text" (print "React with 🗑️ to delete this message.\nPage: " (add 1 $page))))}}
+				{{$page := add 1 $page}}
+				{{$max := fdiv $c 5|roundCeil|toInt}}
+				{{deleteAllMessageReactions nil $.Message.ID}}
+				{{if and (ne $page $max) (eq $page 1)}}{{addMessageReactions nil $.Message.ID "blank:656125423247425557" "▶️" "🗑️"}}{{end}}
+				{{if and (ne $page 1) (eq $page $max)}}{{addMessageReactions nil $.Message.ID "◀️" "blank:656125423247425557" "🗑️"}}{{end}}
+				{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil $.Message.ID "◀️" "▶️" "🗑️"}}{{end}}
+			{{end}}
 		{{end}}
 	{{end}}
 {{end}}

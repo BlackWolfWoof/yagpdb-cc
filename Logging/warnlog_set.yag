@@ -1,0 +1,33 @@
+{{/*
+	Trigger Type: Warn DM
+
+	Save this code in 'Tools & Utilities > Moderation > Warnings > Warn DM'
+
+	Copyright (c): Black Wolf, 2021
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+
+{{define "logs"}}{{.TemplateArgs.Set "logs" (reReplace `https:\/\/yagpdb.xyz\/public\/\d+\/log\/` (exec "logs") "")}}{{end}}
+{{$o := sdict "logs" ""}}{{if .Channel}}{{$v0 := sendTemplate .Channel.ID "logs" $o}}{{end}}
+
+{{$dblogs := sdict}}{{with dbGet .User.ID "logs"}}{{$dblogs = .Value}}{{end}}
+
+{{if eq $o.logs "This channel is blacklisted from creating message logs, this can be changed in the control panel."}}{{$o.Set 0}}{{end}}
+{{$dblogs.Set (print "warn" currentTime.Unix) (sdict "c" (cslice .Channel.ID .Channel.Name) "l" $o.logs "ctime" currentTime "aid" .Author.ID "as" .Author.String "r" (or .Reason 0))}}
+
+{{/*Anti Overflow*/}}
+{{if gt ($x := json $dblogs|len) 95000}}
+	{{range (seq 0 2)}}
+		{{- $oldest := currentTime}}{{$get := ""}}
+		{{- range $name, $value := $dblogs}}
+			{{- if $oldest.After $value.ctime}}
+				{{- $oldest = $value.ctime}}
+				{{- $get = $name}}
+			{{- end}}
+		{{- end}}
+		{{- $dblogs.Del $get}}
+	{{- end}}
+{{end}}
+{{dbSet .User.ID "logs" $dblogs}}

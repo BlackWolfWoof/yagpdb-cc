@@ -1,0 +1,52 @@
+{{/*
+	Trigger: \A(?:\-|<@!?204255221017214977>)\s*(?:warn(s|ings)|mutes|kicks|bans)\s*
+	Trigger Type: Regex
+
+	Note: Replace the first - in Trigger with your prefix!
+
+	Copyright (c): Black Wolf, 2021
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+{{$warnings := true}}
+{{/*If this is set to false the code will ignore -warnings and -warns so you can still use the inbuilt one*/}}
+
+
+
+{{$type := reFind `warn|mute|kick|ban` (lower .Cmd)}}
+{{if or $warnings (ne $type "warn")}}
+	{{$args := parseArgs 0 (print .Cmd " <Mention/ID (optional)>")
+		(carg "userid" "ID")}}
+	{{$user := .User.ID}}
+	{{with ($args.Get 0)}}{{$user = .}}{{end}}
+
+	{{$dblogs := sdict}}{{with dbGet $user "logs"}}{{$dblogs = .Value}}{{end}}
+
+
+	{{$c := 0}}{{$grab := ""}}
+	{{range $name, $value := $dblogs}}
+		{{- if and (hasPrefix $name $type)}}
+			{{- $c = add 1 $c}}
+			{{- if le $c 5}}
+				{{- with $value}}
+					{{- if (index .c 0)}}{{.Set "c" (print "\n🔎Where: <#" (index .c 0) "> `" (index .c 1) "`")}}{{else}}{{.Set "c" ""}}{{end}}
+					{{- if .d}}{{.Set "d" (print "\n<:voice:711600648659140678>Duration: <t:" (.ctime.Add (print .d "s"|toDuration)).Unix ":R>")}}{{else}}{{.Set "d" ""}}{{end}}
+					{{- if .l}}{{.Set "l" (print "\n<:log:603248981132181504>Logs: [Message Logs](https://yagpdb.xyz/public/" $.Guild.ID "/log/" .l ")")}}{{end}}
+					{{- $grab = print $grab "**<:cc_ID:780036580592189460>" (title $type) " ID: " (slice $name 4) "**" .c "\n🕐When: <t:" $value.ctime.Unix ":d><t:" $value.ctime.Unix ":t>\n🛡️Author: <@" .aid "> `" .as "`" .d .l "\n<:status:704342789177212979>Reason: " .r "\n\n"}}
+				{{- end}}
+			{{- end}}
+		{{- end}}
+	{{- end}}
+	{{if not $grab}}{{$grab = "Nobody here but us chickens🐔"}}{{end}}
+
+	{{$mid := sendMessageRetID nil (cembed
+		"author" (sdict "icon_url" (print "https://cdn.discordapp.com/emojis/714491414100181092.png?author=" .User.ID "?messageid=" .Message.ID) "name" (print (title $type) "s - User : " $user))
+		"description" (print "**Total " (title $type) "s: " $c "**\n\n" $grab)
+		"footer" (sdict "text" "React with 🗑️ to delete this message.\nPage: 1"))}}
+
+	{{if ge $c 5}}
+	{{addMessageReactions nil $mid "blank:656125423247425557" "▶️"}}
+	{{end}}
+	{{addMessageReactions nil $mid "🗑️"}}
+{{end}}
