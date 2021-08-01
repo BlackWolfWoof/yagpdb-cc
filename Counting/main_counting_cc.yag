@@ -59,11 +59,7 @@
 
 		{{/*Counting tracker part*/}}
 		{{if $countingtracker}}
-			{{with (dbGet .User.ID "counting_tracker")}}
-				{{dbSet $.User.ID "counting_tracker" (toInt .Value|add 1|str)}}
-			{{else}}
-				{{dbSet $.User.ID "counting_tracker" 1}}
-			{{end}}
+			{{$_ := dbIncr $.User.ID "counting_tracker" (toInt .Value|add 1|str)}}
 
 			{{/*Database Anti overflow*/}}
 			{{if le 95 (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 100|roundCeil|toInt)}}
@@ -72,17 +68,20 @@
 		{{end}}
 
 		{{/*Channel Topic*/}}
-		{{if not (dbGet 2000 "counting_topic")}}
+		{{$unix := currentTime.Unix}}
+		{{with (reFindAllSubmatches `Data for YAGPDB: (\d+)` .Channel.Topic)}}
+		{{$unix = index . 0 1}}
+		{{end}}
+		{{if ge currentTime.Unix (toInt $unix)}}
 			{{$topic := ""}}
 			{{if $countingtracker}}
 				{{if .IsPremium}}
-					{{$topuser := ""}}{{range dbTopEntries "counting_tracker" 1 0}}{{$topuser = print "<@" .UserID "> - " .Value "x"}}{{end}}
-					{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker") "\nTop user: " $topuser}}
+					{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}{{sendMessage nil "11"}}
 				{{end}}
+				{{range dbTopEntries "counting_tracker" 1 0}}{{sendMessage nil "10"}}{{$topic = print $topic "\nTop user: <@" .UserID "> - " .Value "x"}}{{end}}
 				{{$topic = print $topic "\nDatabase filled: " (fdiv (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100) "%"}}
 			{{end}}
-			{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " $current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting")}}
-			{{dbSetExpire 2000 "counting_topic" "on cooldown" 301}}
+			{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " $current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting\n\n||Data for YAGPDB: " (toDuration "5m"|currentTime.Add).Unix "||")}}
 		{{end}}
 	{{end}}
 {{else}}
