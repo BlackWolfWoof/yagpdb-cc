@@ -3,6 +3,13 @@
 **Q: What is sticky message 2?**  
 A: Sticky message 2 is an advanced version of the sticky message I added to the YAGPDB Community & Support server. It makes it easier for us volunteers to for example announce to users in several channels that the bot is having issues. It works the same as the [other sticky message](../v1/sticky_message.yag) I have coded but with this version you can:
 
+### Flags you can use
+
+With the flag `-d` you can overwrite the default cooldown of the sticky message.  
+Example: `-sm Hello -d 5m`.  
+With the flag `-img` you can attach images to the embed.   Example: `-sm Hello world -img https://github.com/BlackWolfWoof/yagpdb-cc/blob/assets/cat2.jpeg?raw=true`
+
+
 ### You can change the permission who can enable and disable the message  
 
 ```go
