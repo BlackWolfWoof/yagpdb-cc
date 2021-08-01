@@ -76,9 +76,9 @@
 			{{$topic := ""}}
 			{{if $countingtracker}}
 				{{if .IsPremium}}
-					{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}{{sendMessage nil "11"}}
+					{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}
 				{{end}}
-				{{range dbTopEntries "counting_tracker" 1 0}}{{sendMessage nil "10"}}{{$topic = print $topic "\nTop user: <@" .UserID "> - " .Value "x"}}{{end}}
+				{{range dbTopEntries "counting_tracker" 1 0}}{{$topic = print $topic "\nTop user: <@" .UserID "> - " .Value "x"}}{{end}}
 				{{$topic = print $topic "\nDatabase filled: " (fdiv (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100) "%"}}
 			{{end}}
 			{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " $current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting\n\n||Data for YAGPDB: " (toDuration "5m"|currentTime.Add).Unix "||")}}
