@@ -18,7 +18,7 @@ Once it detects a raid, the custom command in the join message will enable an au
 <p float="left">
 	<img src="../../../assets/Auto_Moderation/Anti_Raid/antiraid_on.png?raw=true" width="30%" />
 	<img src="../../../assets/Auto_Moderation/Anti_Raid/antiraid_off.png?raw=true" width="30%" />
-	<img src="../../../assets/Auto_Moderation/Anti_Raid/antiraid_cp.png?raw=true" width="30%" />
+	<img src="../../../assets/Auto_Moderation/Anti_Raid/antiraid_cp.png?raw=true" width="60%" />
 </p>
 
 
