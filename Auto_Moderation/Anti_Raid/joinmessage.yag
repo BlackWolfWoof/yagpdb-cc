@@ -1,0 +1,47 @@
+{{/*
+	Trigger Type: Join Message (Server)
+
+	Save this code in 'Notifications & Feeds > General > Join message in server channel
+	
+	Copyright (c): Black Wolf, 2021
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+
+{{$debug := false}}{{$channel := .Channel.ID}}
+{{/*If $debug is set to true it will output a 'Ruleset enabled' and 'Ruleset disabled' into the join leave log channel. By replacing .Channel.ID with another channel ID you can change where that debug message goes*/}}
+
+{{$ruleset := "placeholder"}}
+{{/*Replace placeholder by the name of your automod v2 ruleset. Make sure they are the same or else it will not work!*/}}
+
+{{$seconds := 60}}{{$people := 5}}
+{{/*This will activate the code if $people (example 5) join within $seconds (example 60)*/}}
+
+{{$effect := "kick"}}
+{{/*You can decide bewteen "kick" "ban" and "mute". You should keep this the same effect as used in automod v2.*/}}
+
+
+{{/*Do not edit the code below if you don't know what you are doing*/}}
+{{dbSetExpire .User.ID "join_track" true $seconds}}
+{{$entries := dbCount "join_track"}}
+{{if and (ge $entries $people) (reFind `cc_autokick: Disabled` (execAdmin "automod r"))}}
+	{{$msg := execAdmin "automod toggle cc_autokick"|print "__**ANTI RAID:**__ "}}
+	{{if $debug}}
+		{{sendMessage $channel $msg}}
+	{{end}}
+	{{range dbTopEntries "join_track" 5 0}}
+		{{- if eq $effect "mute"}}
+			{{$_ := execAdmin "mute" .User.ID "0" "YAGPDB ANTI RAID"}}
+		{{- else if eq $effect "kick"}}
+			{{$_ := execAdmin "kick" .UserID "YAGPDB ANTI RAID"}}
+		{{- else if eq $effect "ban"}}
+			{{$_ := execAdmin "ban" .UserID "YAGPDB ANTI RAID" "-d 300y" "-ddays 7"}}
+		{{- end}}
+	{{end}}
+{{end}}
+{{if and (lt $entries $people) (reFind `cc_autokick: Enabled` (execAdmin "automod r"))}}
+	{{$msg := execAdmin "automod toggle cc_autokick"|print "__**ANTI RAID:**__ "}}
+	{{if $debug}}
+		{{sendMessage $channel $msg}}
+	{{end}}
+{{end}}
