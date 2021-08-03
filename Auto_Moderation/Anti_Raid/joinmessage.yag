@@ -24,8 +24,8 @@
 {{/*Do not edit the code below if you don't know what you are doing*/}}
 {{dbSetExpire .User.ID "join_track" true $seconds}}
 {{$entries := dbCount "join_track"}}
-{{if and (ge $entries $people) (reFind `cc_autokick: Disabled` (execAdmin "automod r"))}}
-	{{$msg := execAdmin "automod toggle cc_autokick"|print "__**ANTI RAID:**__ "}}
+{{if and (ge $entries $people) (reFind (print $ruleset ": Disabled") (execAdmin "automod r"))}}
+	{{$msg := execAdmin (print "automod toggle " $ruleset)|print "__**ANTI RAID:**__ "}}
 	{{if $debug}}
 		{{sendMessage $channel $msg}}
 	{{end}}
@@ -39,8 +39,8 @@
 		{{- end}}
 	{{end}}
 {{end}}
-{{if and (lt $entries $people) (reFind `cc_autokick: Enabled` (execAdmin "automod r"))}}
-	{{$msg := execAdmin "automod toggle cc_autokick"|print "__**ANTI RAID:**__ "}}
+{{if and (lt $entries $people) (reFind (print $ruleset ": Enabled") (execAdmin "automod r"))}}
+	{{$msg := execAdmin (print "automod toggle " $ruleset)|print "__**ANTI RAID:**__ "}}
 	{{if $debug}}
 		{{sendMessage $channel $msg}}
 	{{end}}

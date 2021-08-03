@@ -24,15 +24,12 @@ Once it detects a raid, the custom command in the join message will enable an au
 
 ### Setup & Requirements
 
-| ❓ If this sounds too complicated to set up, please watch this video LINKHERE |
+| ❓ If this sounds too complicated to set up, please watch this video https://youtu.be/SZMi7FMOFh4 |
 | --- |
 
 Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ---|---|---|---|---
 ❌|Join Message Server|**[Download Link](joinmessage.yag)**|❌|❌
-
-| ❗ You have to additionally set up automod v2 and make sure yagpdb can mute / kick / ban the new members |
-| --- |
 
 - Create an automod v2 ruleset and copy the name of that ruleset into `$ruleset`.  
 - Turn off the ruleset so it doesn't trigger right away.  
