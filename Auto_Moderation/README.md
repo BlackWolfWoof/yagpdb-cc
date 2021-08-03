@@ -6,7 +6,4 @@ In [Anti Phishing](Anti_Phishing) you will be able to find custom commands that 
 
 ## Anti join spam
 
-OwO What's this?  
-I heared something amazing is gonna be uploaded here soon :)  
-And the code was even already tested on big servers.  
-**Stay tuned**
+In [Anti-raid](Anti_Raid) you will find custom commands that will help stop those pesky raids.
