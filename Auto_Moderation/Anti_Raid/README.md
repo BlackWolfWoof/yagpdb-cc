@@ -16,9 +16,9 @@ Once it detects a raid, the custom command in the join message will enable an au
 *The following screenshots show the code in action. In the final version you will not see that join and leave log. The on and off message can be toggled by setting `$debug` to true.*  
 
 <p float="left">
-	<img src="../../assets/Auto_Moderation/Anti_Raid/antiraid_on.png?raw=true" width="30%" />
-	<img src="../../assets/Auto_Moderation/Anti_Raid/antiraid_off.png?raw=true" width="30%" />
-	<img src="../../assets/Auto_Moderation/Anti_Raid/antiraid_cp.png?raw=true" width="30%" />
+	<img src="../../../assets/Auto_Moderation/Anti_Raid/antiraid_on.png?raw=true" width="30%" />
+	<img src="../../../assets/Auto_Moderation/Anti_Raid/antiraid_off.png?raw=true" width="30%" />
+	<img src="../../../assets/Auto_Moderation/Anti_Raid/antiraid_cp.png?raw=true" width="30%" />
 </p>
 
 
