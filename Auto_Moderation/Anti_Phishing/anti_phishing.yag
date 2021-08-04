@@ -1,9 +1,6 @@
 {{/*
 	Trigger: \A
 	Trigger Type: Regex
-
-	Usage:
-	Add this custom command to your server and 
 	
 	Copyright (c): Black Wolf, 2021
 	License: MIT
@@ -27,11 +24,14 @@
 
 
 {{/*CODE, DO NOT TOUCH*/}}
-{{$db := dbGet 2000 "phishing_list"}}
-{{if not $db}}
-	{{sendMessage nil (print "In order to ensure the functionality of custom command #" .CCID " (anti-phishing), you will need to download and run this code on your server once.\nhttps://github.com/BlackWolfWoof/yagpdb-cc")}}
+{{$db := "dlcordapp.com"}}
+{{range dbGetPattern 2000 "phishing_list%" 5 0}}
+	{{$db = joinStr "|" $db (reReplace `\.` .Value `\.`)}}
+{{end}}
+{{if eq (len $db) 13}}
+	{{sendMessage nil (print "In order to ensure the functionality of custom command #" .CCID " (anti-phishing), you will need to download, add and run all phishing_list's on your server and run them once.\nhttps://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Auto_Moderation/Anti_Phishing")}}
 {{else}}
-	{{if ($out := reFind (reReplace `\.` $db.Value `\.`) .Message.Content)}}
+	{{if ($out := reFind $db .Message.Content)}}
 		{{if $action}}
 			{{$duration := sdict "mute" "300y" "ban" "-d 300y"}}
 			{{if eq "kick" (lower $action)}}
