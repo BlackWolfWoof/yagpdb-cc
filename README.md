@@ -24,6 +24,10 @@ To receive update notifications for these custom commands join my [discord serve
 **•** [anti phishing](Auto_Moderation/Anti_Phishing/anti_phishing.yag) - With this code you can protect your servers against those steam trade phishing link sending self-bots  
 **•** [domain list](Auto_Moderation/Anti_Phishing/phishing_list.yag) - The domain list for the anti-phishing code  
 
+- [Open Folder](Auto_Moderation/Anti_Raid)  
+**•** [anti raid](Auto_Moderation/Anti_Raid/joinmessage.yag) - This code will toggle the automod ruleset to remove raiders  
+**•** Remember that you also need an automod v2 ruleset as explained in the readme : )
+
 </details>
 
 <details>
