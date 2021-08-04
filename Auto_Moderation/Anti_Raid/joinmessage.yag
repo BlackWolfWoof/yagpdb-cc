@@ -31,7 +31,7 @@
 	{{end}}
 	{{range dbTopEntries "join_track" 5 0}}
 		{{- if eq $effect "mute"}}
-			{{$_ := execAdmin "mute" .User.ID "0" "YAGPDB ANTI RAID"}}
+			{{$_ := execAdmin "mute" .UserID "0" "YAGPDB ANTI RAID"}}
 		{{- else if eq $effect "kick"}}
 			{{$_ := execAdmin "kick" .UserID "YAGPDB ANTI RAID"}}
 		{{- else if eq $effect "ban"}}
