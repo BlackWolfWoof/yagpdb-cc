@@ -1,7 +1,7 @@
 # Anti Raid
 
 Whenever a lot of users join at the same time and maybe even start spamming all at once you know how difficult it can be to ban kick or mute all of those accounts in time.  
-| ✅ This script has been tested on a big server with 60,000 members and has prooven itself doing it's job nearly perfect. |
+| ✅ This script has been tested on a big server with 60,000 members and has proven itself doing it's job nearly perfect. |
 | --- |
 
 This script automatically turns on an automod v2 rule which will then moderate all incoming accounts.  
