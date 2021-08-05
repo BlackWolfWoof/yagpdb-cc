@@ -31,7 +31,7 @@
 {{if eq (len $db) 13}}
 	{{sendMessage nil (print "In order to ensure the functionality of custom command #" .CCID " (anti-phishing), you will need to download, add and run all phishing_list's on your server and run them once.\nhttps://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Auto_Moderation/Anti_Phishing")}}
 {{else}}
-	{{if ($out := reFind $db .Message.Content)}}
+	{{if ($out := reFind (print `\bhttps?://(` $db `)\b`) .Message.Content)}}
 		{{if $action}}
 			{{$duration := sdict "mute" "300y" "ban" "-d 300y"}}
 			{{if eq "kick" (lower $action)}}
