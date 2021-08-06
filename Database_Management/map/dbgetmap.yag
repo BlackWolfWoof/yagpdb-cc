@@ -35,7 +35,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{$db := sdict $t1.Value}}
 		{{if $db.Get ($args.Get 2)}}
 			{{$var2 := reReplace `\\\\` (json ($db.Get ($args.Get 2))) `\`}}
-			{{$embed := sdict "title" "📤 Database Info" "color" 0x00D66C "fields" (cslice (sdict "name" "**• Key Name:**" "value" (str $t1.Key) "inline" true) (sdict "name" "**• Key ID:**" "value" (str $t1.ID) "inline" true) (sdict "name" "**• User ID:**" "value" (str $t1.UserID) "inline" true) (sdict "name" "**• Sdict Name:**" "value" ($args.Get 2) "inline" true) (sdict "name" "**• Sdict Value Info:**" "value" (print "Type: `" (printf "%T" ($db.Get ($args.Get 2))) "`\nCharacters: " (len $var2) "/" (add (len $var2) (reReplace `\\\\` (json $db) `\`|len|sub 100000)) "\nSize: " (printf "%.2f" (fdiv (len $var2) 1000)) "kb") "inline" true))}}
+			{{$embed := sdict "title" "📤 Database Info" "color" 0x00D66C "fields" (cslice (sdict "name" "**• Key Name:**" "value" (str $t1.Key) "inline" true) (sdict "name" "**• Key ID:**" "value" (str $t1.ID) "inline" true) (sdict "name" "**• User ID:**" "value" (str $t1.UserID) "inline" true) (sdict "name" "**• Sdict Name:**" "value" ($args.Get 2) "inline" true) (sdict "name" "**• Sdict Value Info:**" "value" (print "Type: `" (printf "%T" ($db.Get ($args.Get 2))) "`\nCharacters: " (len $var2) "/" (add (len $var2) (reReplace `\\\\` (json $db) `\`|len|sub 100000)) "\nSize: " (printf "%.2f" (fdiv (len $var2) 1000)) "kB") "inline" true))}}
 			{{$x := ""}}{{$out := print $var2}}{{$valuestr := sdict}}
 			{{if or (gt (len $var2) 999) (gt (urlescape $out|len|add 119) 1024)}}
 				{{$x = sendMessageRetID nil (complexMessage "file" $var2)}}

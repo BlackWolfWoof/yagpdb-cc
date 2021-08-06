@@ -33,7 +33,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{- range $name,$value := $db}}
 		{{- $value1 := json $value}}
 		{{- if gt (len $value1) 30}}{{$value1 = print (slice $value1 0 30) "..."}}{{end}}
-		{{- $fields = $fields.Append (sdict "name" (print "**#" $count " Search Result:**") "value" (print "Sdict name: " $name "\nType: `" (printf "%T" $value) "`\nCharacters: " (len (reReplace `\\\\` (json $value) `\`)) "/" (add (len (reReplace `\\\\` (json $value) `\`)) (sub 100000 (len $shit))) "\nSize: " (printf "%.2f" (fdiv (len (reReplace `\\\\` $value1 `\`)) 1000)) "kb\nValue:\n```json\n" (reReplace `\\\\` $value1 `\`) "```") "inline" false)}}
+		{{- $fields = $fields.Append (sdict "name" (print "**#" $count " Search Result:**") "value" (print "Sdict name: " $name "\nType: `" (printf "%T" $value) "`\nCharacters: " (len (reReplace `\\\\` (json $value) `\`)) "/" (add (len (reReplace `\\\\` (json $value) `\`)) (sub 100000 (len $shit))) "\nSize: " (printf "%.2f" (fdiv (len (reReplace `\\\\` $value1 `\`)) 1000)) "kB\nValue:\n```json\n" (reReplace `\\\\` $value1 `\`) "```") "inline" false)}}
 		{{- $count = add $count 1}}{{$c = add $c 1}}
 		{{- end}}
 		{{$embed := sdict "title" "📄 Database entries" "color" 0x00D66C "fields" $fields}}
