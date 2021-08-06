@@ -39,7 +39,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 			(sdict "name" "**• Key Name:**" "value" (str $db.Key) "inline" true)
 			(sdict "name" "**• Key ID:**" "value" (str $db.ID) "inline" true)
 			(sdict "name" "**• User ID:**" "value" (str $db.UserID) "inline" true)
-			(sdict "name" "**• Value Info:**" "value" (print "Type: `" (printf "%T" $db.Value) "`\nCharacters: " (len (reReplace `\\\\` (json $db.Value) `\`)) "/100000\nSize: " (printf "%.2f" (fdiv (len (json $db.Value)) 1000)) "kb") "inline" true))}}
+			(sdict "name" "**• Value Info:**" "value" (print "Type: `" (printf "%T" $db.Value) "`\nCharacters: " (len (reReplace `\\\\` (json $db.Value) `\`)) "/100000\nSize: " (printf "%.2f" (fdiv (len (json $db.Value)) 1000)) "kB") "inline" true))}}
 
 		{{$x := ""}}{{$out := print (reReplace `\\\\` (json $db.Value) `\`)}}{{$valuestr := sdict}}
 		{{if or (gt (len (reReplace `\\\\` (json $db.Value) `\`)) 999) (gt (add (len (urlescape $out)) 119) 1024)}}
