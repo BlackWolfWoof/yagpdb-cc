@@ -21,9 +21,32 @@
 {{/*Make sure to also add the 'Pagination', 'Leaderboard' and 'Counter' code when setting this to true*/}}
 
 
+
+
 {{$dbcount := dbCount}}{{$_ := 50}}{{if .IsPremium}}{{$_ = 500}}{{end}}
+{{/*Channel Topic*/}}
+{{define "topic"}}
+	{{$unix := currentTime.Unix}}
+	{{with (reFindAllSubmatches `Next possible edit: <t:(\d+):[RT]>` .Channel.Topic)}}
+		{{$unix = index . 0 1}}
+	{{end}}
+	{{if ge currentTime.Unix (toInt $unix)}}
+		{{$topic := ""}}
+		{{if .ct}}
+			{{if .IsPremium}}
+				{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}
+			{{end}}
+			{{range dbTopEntries "counting_tracker" 1 0}}{{$topic = print $topic "\nTop user: <@" .UserID "> - " .Value "x"}}{{end}}
+			{{$topic = print $topic "\nDatabase filled: " (fdiv (mult (mult .Guild.MemberCount .us|fdiv .dbc) 10000|roundCeil) 100) "%"}}
+		{{end}}
+		{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " .current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\nNext possible edit: <t:" (toDuration "5m"|currentTime.Add).Unix ":T>\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting")}}
+	{{else}}
+		{{scheduleUniqueCC .CCID nil (sub $unix currentTime.Unix) "counting_cc" "channelname"}}
+	{{end}}
+{{end}}
+
+{{$current := add 1 (toInt (dbGet 2000 "counting_counter").Value)}}
 {{if not .ExecData}}
-	{{$current := add 1 (toInt (dbGet 2000 "counting_counter").Value)}}
 	{{$lastCounter := ""}}{{with dbGet 2000 "lastCounter"}}{{$lastCounter = .Value}}{{end}}
 	{{if or (reFind `^\d+$` .Message.Content|not) (ne (str $current) .Message.Content)}}
 		{{/*Wrong number*/}}
@@ -37,7 +60,7 @@
 		{{deleteTrigger 1}}
 	{{else}}
 		{{/*Current counting number +1*/}}
-		{{$current := dbIncr 2000 "counting_counter" 1|toInt}}
+		{{$current = dbIncr 2000 "counting_counter" 1|toInt}}
 
 		{{/*If antiad on block counting role*/}}
 		{{$blockrole := false}}
@@ -63,27 +86,16 @@
 
 			{{/*Database Anti overflow*/}}
 			{{if le 95 (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 100|roundCeil|toInt)}}
-				{{execCC .CCID nil 0 true}}
+				{{execCC .CCID nil 0 "overflow"}}
 			{{end}}
 		{{end}}
 
 		{{/*Channel Topic*/}}
-		{{$unix := currentTime.Unix}}
-		{{with (reFindAllSubmatches `Data for YAGPDB: (\d+)` .Channel.Topic)}}
-		{{$unix = index . 0 1}}
-		{{end}}
-		{{if ge currentTime.Unix (toInt $unix)}}
-			{{$topic := ""}}
-			{{if $countingtracker}}
-				{{if .IsPremium}}
-					{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}
-				{{end}}
-				{{range dbTopEntries "counting_tracker" 1 0}}{{$topic = print $topic "\nTop user: <@" .UserID "> - " .Value "x"}}{{end}}
-				{{$topic = print $topic "\nDatabase filled: " (fdiv (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100) "%"}}
-			{{end}}
-			{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " $current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting\n\n||Data for YAGPDB: " (toDuration "5m"|currentTime.Add).Unix "||")}}
-		{{end}}
+		{{template "topic" (sdict "Channel" .Channel "IsPremium" .IsPremium "Guild" .Guild "CCID" .CCID "ct" $countingtracker "us" $_ "dbc" $dbcount "current" $current "ExecData" .ExecData)}}
 	{{end}}
+{{else if eq .ExecData "channelname"}}
+	{{/*Channel topic*/}}
+	{{template "topic" (sdict "Channel" .Channel "IsPremium" .IsPremium "Guild" .Guild "CCID" .CCID "ct" $countingtracker "us" $_ "dbc" $dbcount "current" (sub $current 1) "ExecData" .ExecData)}}
 {{else}}
 	{{/*Database Anti overflow*/}}
 	{{if not (dbGet 2000 "counting_warning")}}
