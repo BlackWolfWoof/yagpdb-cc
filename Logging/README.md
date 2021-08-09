@@ -62,5 +62,6 @@ The `Save this code in 'Tools & Utilities > Moderation > Mute > Mute DM'` are th
 | ⚠️ Remember, by just replacing your current warn, mute, kick and ban dm code, it will no longer dm the user! |
 | ---- |
 
-With that I mean these messages here. Make sure you the hilighted code if you still want to dm the user as usual when they are getting warned, muted, kicked or banned.
+With that I mean these messages here. Make sure you the hilighted code if you still want to dm the user as usual when they are getting warned, muted, kicked or banned.  
+
 <img src="../../assets/Logging/dm.png?raw=true" width="60%"/>
