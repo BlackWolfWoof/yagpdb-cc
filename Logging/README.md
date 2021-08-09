@@ -25,17 +25,37 @@ Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 The [log_get](log_get.yag) and [pagination](pagination.yag) always has to be on your server.  
 For the [ban](banlog_set.yag), [kick](kicklog_set.yag), [mute](mutelog_set.yag) and [warn](warnlog_set.yag) you can decide which ones you want to add to the server.  
 
-
-**I want to use the inbuilt warning command and not the custom one!**  
-No worries, you can turn that off in the [log_get](log_get.yag) settings.  
-There you can set `$warnings` from `true` to `false` to disable the custom warning log from displaying when you run -warnings or -warns.  
-
 **I already have the paginator code on my server!**  
 Thats great. You can replace the old code you used for the snippet system or counting system with this one as it handles all of them without you having to add several reaction custom commands.
+
+**Toggeling warning replacement**  
+```go
+{{$warnings := true}}
+{{/*If this is set to false the code will ignore -warnings and -warns so you can still use the inbuilt one*/}}
+```
+
+**Permission check**  
+```go
+{{$permcalc := sdict
+"warn" "ManageMessages"
+"mute" "ManageRoles"
+"kick" "KickMembers"
+"ban" "BanMembers"}}
+{{/*You can replace ManageMessages, ManageRoles, KickMembers and BanMembers with any of the following permissions if you want.
+You'll need these permissions to delete an entry or even view them, if $view is set to false.*/}}
+{{/*Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+```
+
+**Restrict viewing entries**  
+```go
+{{$view := true}}
+{{/*By setting this to true, anyone can view warnings, mutes, kicks and bans. If you set it to false only people with the permissions from $permcalc can view it.*/}}
+```
 
 ### Usage
 
 After adding all the code you can use `-mutes`, `-kicks`, `-bans` and `-warns` / `-warnings` to view your logs.  
+To delete them you can use `-delmute`, `-delkick`, `-delban` and `-delwarn` / `-delwarnings`.  
 
 ### Important
 

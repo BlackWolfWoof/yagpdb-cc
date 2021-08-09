@@ -1,5 +1,5 @@
 {{/*
-	Trigger: \A(?:\-|<@!?204255221017214977>)\s*(?:warn(s|ings)|mutes|kicks|bans)\s*
+	Trigger: \A(?:\-|<@!?204255221017214977>)\s*((?:warn(s|ings)|mutes|kicks|bans)|del(?:warn(ings?|s?)|mutes?|kicks?|bans?))\s*
 	Trigger Type: Regex
 
 	Note: Replace the first - in Trigger with your prefix!
@@ -12,41 +12,75 @@
 {{$warnings := true}}
 {{/*If this is set to false the code will ignore -warnings and -warns so you can still use the inbuilt one*/}}
 
+{{$permcalc := sdict
+"warn" "ManageMessages"
+"mute" "ManageRoles"
+"kick" "KickMembers"
+"ban" "BanMembers"}}
+{{/*You can replace ManageMessages, ManageRoles, KickMembers and BanMembers with any of the following permissions if you want.
+You'll need these permissions to delete an entry or even view them, if $view is set to false.*/}}
+{{/*Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+
+{{$view := true}}
+{{/*By setting this to true, anyone can view warnings, mutes, kicks and bans. If you set it to false only people with the permissions from $permcalc can view it.*/}}
 
 
+
+{{/*DO NOT TOUCH CODE BELOW*/}}
 {{$type := reFind `warn|mute|kick|ban` (lower .Cmd)}}
-{{if or $warnings (ne $type "warn")}}
-	{{$args := parseArgs 0 (print .Cmd " <Mention/ID (optional)>")
-		(carg "userid" "ID")}}
-	{{$user := .User.ID}}
-	{{with ($args.Get 0)}}{{$user = .}}{{end}}
+{{$perms := in (split (index (split (exec "viewperms") "\n") 2) ", ") ($permcalc.Get $type)}}
 
-	{{$dblogs := sdict}}{{with dbGet $user "logs"}}{{$dblogs = .Value}}{{end}}
+{{if or $view $perms}}
+	{{if or $warnings (ne $type "warn")}}
+		{{$args := parseArgs 0 (print .Cmd " <Mention/ID (optional)>")
+			(carg "userid" "ID") (carg "int" "Unix")}}
+		{{$user := .User.ID}}
+		{{with ($args.Get 0)}}{{$user = .}}{{end}}
 
+		{{$dblogs := sdict}}{{with dbGet $user "logs"}}{{$dblogs = .Value}}{{end}}
 
-	{{$c := 0}}{{$grab := ""}}
-	{{range $name, $value := $dblogs}}
-		{{- if and (hasPrefix $name $type)}}
-			{{- $c = add 1 $c}}
-			{{- if le $c 5}}
-				{{- with $value}}
-					{{- if (index .c 0)}}{{.Set "c" (print "\n🔎Where: <#" (index .c 0) "> `" (index .c 1) "`")}}{{else}}{{.Set "c" ""}}{{end}}
-					{{- if .d}}{{.Set "d" (print "\n<:voice:711600648659140678>Duration: <t:" (.ctime.Add (print .d "s"|toDuration)).Unix ":R>")}}{{else}}{{.Set "d" ""}}{{end}}
-					{{- if .l}}{{.Set "l" (print "\n<:log:603248981132181504>Logs: [Message Logs](https://yagpdb.xyz/public/" $.Guild.ID "/log/" .l ")")}}{{end}}
-					{{- $grab = print $grab "**<:cc_ID:780036580592189460>" (title $type) " ID: " (slice $name 4) "**" .c "\n🕐When: <t:" $value.ctime.Unix ":d><t:" $value.ctime.Unix ":t>\n🛡️Author: <@" .aid "> `" .as "`" .d .l "\n<:status:704342789177212979>Reason: " .r "\n\n"}}
+		{{if not (inFold .Cmd `del`)}}
+			{{$c := 0}}{{$grab := ""}}
+			{{range $name, $value := $dblogs}}
+				{{- if and (hasPrefix $name $type)}}
+					{{- $c = add 1 $c}}
+					{{- if le $c 5}}
+						{{- with $value}}
+							{{- if (index .c 0)}}{{.Set "c" (print "\n🔎Where: <#" (index .c 0) "> `" (index .c 1) "`")}}{{else}}{{.Set "c" ""}}{{end}}
+							{{- if .d}}{{.Set "d" (print "\n<:voice:711600648659140678>Duration: <t:" (.ctime.Add (print .d "s"|toDuration)).Unix ":R>")}}{{else}}{{.Set "d" ""}}{{end}}
+							{{- if .l}}{{.Set "l" (print "\n<:log:603248981132181504>Logs: [Message Logs](https://yagpdb.xyz/public/" $.Guild.ID "/log/" .l ")")}}{{end}}
+							{{- $grab = print $grab "**<:cc_ID:780036580592189460>" (title $type) " ID: " (slice $name 4) "**" .c "\n🕐When: <t:" $value.ctime.Unix ":d><t:" $value.ctime.Unix ":t>\n🛡️Author: <@" .aid "> `" .as "`" .d .l "\n<:status:704342789177212979>Reason: " .r "\n\n"}}
+						{{- end}}
+					{{- end}}
 				{{- end}}
 			{{- end}}
-		{{- end}}
-	{{- end}}
-	{{if not $grab}}{{$grab = "Nobody here but us chickens🐔"}}{{end}}
+			{{if not $grab}}{{$grab = "Nobody here but us chickens🐔"}}{{end}}
 
-	{{$mid := sendMessageRetID nil (cembed
-		"author" (sdict "icon_url" (print "https://cdn.discordapp.com/emojis/714491414100181092.png?author=" .User.ID "?messageid=" .Message.ID) "name" (print (title $type) "s - User : " $user))
-		"description" (print "**Total " (title $type) "s: " $c "**\n\n" $grab)
-		"footer" (sdict "text" "React with 🗑️ to delete this message.\nPage: 1"))}}
+			{{$mid := sendMessageRetID nil (cembed
+				"author" (sdict "icon_url" (print "https://cdn.discordapp.com/emojis/714491414100181092.png?author=" .User.ID "?messageid=" .Message.ID) "name" (print (title $type) "s - User : " $user))
+				"description" (print "**Total " (title $type) "s: " $c "**\n\n" $grab)
+				"footer" (sdict "text" "React with 🗑️ to delete this message.\nPage: 1"))}}
 
-	{{if ge $c 5}}
-	{{addMessageReactions nil $mid "blank:656125423247425557" "▶️"}}
+			{{if ge $c 5}}
+			{{addMessageReactions nil $mid "blank:656125423247425557" "▶️"}}
+			{{end}}
+			{{addMessageReactions nil $mid "🗑️"}}
+		{{else}}
+			{{if $perms}}
+				{{$args := parseArgs 2 (print .Cmd " <Mention/ID> <" (title $type) "ID>")
+					(carg "userid" "ID") (carg "int" "Unix")}}
+				{{with $dblogs.Get ($args.Get 1|print $type)}}
+					{{$dblogs.Del ($args.Get 1|print $type)}}
+					{{dbSet $user "logs" $dblogs}}
+					{{addReactions "👌"}}
+				{{else}}
+					{{sendMessage nil (print "The " $type " with the ID `" ($args.Get 1) "` doesn't exist.\nSyntax: " .Cmd " <Mention/ID (optional)> <" (title $type) "ID> ")}}
+				{{end}}
+			{{else}}
+				{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" ($permcalc.Get $type) "` to use this command!") "color" 0xDD2E44)}}
+			{{end}}
+		{{end}}
 	{{end}}
-	{{addMessageReactions nil $mid "🗑️"}}
+{{else}}
+	{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" ($permcalc.Get $type) "` to use this command!") "color" 0xDD2E44)}}
 {{end}}
