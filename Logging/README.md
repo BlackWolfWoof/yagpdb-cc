@@ -1,5 +1,7 @@
 # Logging
 
+| 📢 Read the entire README.md as it contains important information about the setup and usage! |
+| ---- |
 
 ## A warning & ban & kick & mute log
 
@@ -56,3 +58,8 @@ An example, this is how [the mute one](mutelog_set.yag) looks at the top:
 */}}
 ```
 The `Save this code in 'Tools & Utilities > Moderation > Mute > Mute DM'` are the instructions on where to add it to your server.
+
+| ⚠️ Remember, by just replacing your current warn, mute, kick and ban dm code, it will no longer dm the user! |
+| ---- |
+With that I mean these messages here. Make sure you the hilighted code if you still want to dm the user as usual when they are getting warned, muted, kicked or banned.
+<img src="../../assets/Logging/dm.png?raw=true" width="60%"/>
