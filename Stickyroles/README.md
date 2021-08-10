@@ -15,7 +15,7 @@ What we can do is save the roles whenever the user reacts to a message or sends 
 
 ## Usage / Setup
 
-In order for the code to work as intended you have to add all of the custom commands in this folder to your server. If you just have a small server you do not need to add [Leave_Message](Leave_Message.yag) to your server.  
+In order for the code to work as intended you have to add all of the custom commands in this folder to your server. If you do not have a lot of members joining and leaving then you do not need to add [Leave_Message](Leave_Message.yag) to your server.  
 When you have finished adding everything you should give a friend or your second account some roles, write a message or react & re-join the server to make sure you have set up everything right.  
 Make sure to configure the variables at the top of the code in the [Join_Message](Join_Message.yag).  
 Here are a few examples of how it can look like:
@@ -53,7 +53,7 @@ Here are a few examples of how it can look like:
 
 ## Filling the database
 
-If your server has many members then it can happen that you run out of database space for yagpdb.  
+It can happen that you run out of database space for yagpdb.  
 Thats why I included [Leave_Message](Leave_Message.yag) in here which sets the database entry to expire after N amout of time.  
 The default is 1 year which should be ok for small or even big servers. If you run into issues pick a smaller duration tho.
 ```go
