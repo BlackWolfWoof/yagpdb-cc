@@ -13,6 +13,11 @@ Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ---|---|---|---|---
 \A|Regex|**[Download Link](anti_phishing.yag)**|[Phishing List](phishing_list.yag)|❌
 setup|Command|**[Download Link](phishing_list.yag)**|❌|❌
+setup2|Command|**[Download Link](phishing_list2.yag)**|❌|❌
+setup3|Command|**[Download Link](phishing_list3.yag)**|❌|❌
+setup4|Command|**[Download Link](phishing_list4.yag)**|❌|❌
+
+Make sure to run at all setup / phishing_list codes at least once to import them into the database.  
 
 ### Important
 
