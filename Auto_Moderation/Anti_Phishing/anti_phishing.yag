@@ -24,41 +24,35 @@
 
 
 {{/*CODE, DO NOT TOUCH*/}}
-{{$db := "dlcordapp.com"}}
-{{range dbGetPattern 2000 "phishing_list%" 5 0}}
-	{{$db = joinStr "|" $db (reReplace `\.` .Value `\.`)}}
-{{end}}
-{{if eq (len $db) 13}}
+{{$db := cslice "dlcordapp.com"}}
+{{range dbGetPattern 2000 "phishing_list%" 10 0 -}}
+	{{- range (split .Value "|") .}}
+		{{- $db = $db.Append . -}}
+	{{- end -}}
+{{- end}}
+{{if eq (len $db) 1}}
 	{{sendMessage nil (print "In order to ensure the functionality of custom command #" .CCID " (anti-phishing), you will need to download, add and run all phishing_list's on your server and run them once.\nhttps://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Auto_Moderation/Anti_Phishing")}}
 {{else}}
-	{{if ($out := reFind (print `\bhttps?://(` $db `)\b`) .Message.Content)}}
-		{{if $action}}
-			{{$duration := sdict "mute" "300y" "ban" "-d 300y"}}
-			{{if eq "kick" (lower $action)}}
-				{{$_ := execAdmin "kick" .User.ID (print "ANTI RAID KICK - Sending phishing links")}}
-			{{else}}
-				{{$_ := execAdmin $action .User.ID ($duration.Get (lower $action)) (print "ANTI RAID " (upper $action) " - Sending phishing links")}}
-			{{end}}
-		{{end}}
-		{{if $delete}}
-			{{deleteTrigger 1}}
-		{{else}}
-			{{$embed := cembed
-				"title" "Phishing Link Detected"
-				"url" "https://github.com/BlackWolfWoof/yagpdb-cc/"
-				"fields" (cslice
-					(sdict "name" "**• What is this**" "value" (print "The bot detected the phishing link `" $out "` sent by " .User.Mention ".") "inline" false)
-					(sdict "name" "**• Information**" "value" "[Phishing](https://en.wikipedia.org/wiki/Phishing) is used to get your sensitive information such as your password, e-mail address and steal your account." "inline" false)
-					(sdict "name" "**• I am a moderator, what should I do now**" "value" "Copy the message link, report the message and then delete it as shown in the picture below.\nAfter that create a [ticket on the discord form](https://support.discord.com/hc/en-us/requests/new?ticket_form_id=360000029731) and report the message." "inline" false)
-					(sdict "name" "**• I am not a moderator, what should I do now**" "value" "Do the same as explained above for the moderators.\nAfter that ask a moderator to report & delete the message via the delete dialogue." "inline" false)
-					(sdict "name" "**• I am unsure what to do**" "value" "Then watch this quick video showing what to do step by step\nhttps://youtu.be/_sE6M22qy8E" "inline" false))
-				"color" 0xBE1932
-				"image" (sdict "url" "https://cdn.discordapp.com/attachments/650634380049645583/869978006729424957/dar.png")}}
-			{{if $modrole}}
-				{{sendMessageNoEscape nil (complexMessage "content" (print (mentionRoleID $modrole) ", a custom command requires your attention!") "embed" $embed)}}
-			{{else}}
-				{{sendMessage nil $embed}}
-			{{end}}
-		{{end}}
+	{{- range $db -}}
+		{{- if eq (lower $.Message.Content) (lower .) -}}
+			{{- if $action -}}
+				{{- $duration := sdict "mute" "300y" "ban" "-d 300y" -}}
+				{{- if eq "kick" (lower $action) -}}
+					{{- $_ := execAdmin "kick" $.User.ID (print "ANTI RAID KICK - Sending phishing links") -}}
+				{{- else -}}
+					{{- $_ := execAdmin $action $.User.ID ($duration.Get (lower $action)) (print "ANTI RAID " (upper $action) " - Sending phishing links") -}}
+				{{- end -}}
+			{{- end -}}
+			{{- if $delete -}}
+				{{- deleteTrigger 1 -}}
+			{{- else -}}
+				{{- $embed := cembed "title" "Phishing Link Detected" "url" "https://github.com/BlackWolfWoof/yagpdb-cc/" "fields" (cslice (sdict "name" "**• What is this**" "value" (print "The bot detected the phishing link `" . "` sent by " $.User.Mention ".") "inline" false) (sdict "name" "**• Information**" "value" "[Phishing](https://en.wikipedia.org/wiki/Phishing) is used to get your sensitive information such as your password, e-mail address and steal your account." "inline" false) (sdict "name" "**• I am a moderator, what should I do now**" "value" "Copy the message link, report the message and then delete it as shown in the picture below.\nAfter that create a [ticket on the discord form](https://support.discord.com/hc/en-us/requests/new?ticket_form_id=360000029731) and report the message." "inline" false) (sdict "name" "**• I am not a moderator, what should I do now**" "value" "Do the same as explained above for the moderators.\nAfter that ask a moderator to report & delete the message via the delete dialogue." "inline" false) (sdict "name" "**• I am unsure what to do**" "value" "Then watch this quick video showing what to do step by step\nhttps://youtu.be/_sE6M22qy8E" "inline" false)) "color" 0xBE1932 "image" (sdict "url" "https://cdn.discordapp.com/attachments/650634380049645583/869978006729424957/dar.png") -}}
+				{{- if $modrole -}}
+					{{- sendMessageNoEscape nil (complexMessage "content" (print (mentionRoleID $modrole) ", a custom command requires your attention!") "embed" $embed) -}}
+				{{- else -}}
+					{{- sendMessage nil $embed -}}
+				{{- end -}}
+			{{- end -}}
+		{{- end -}}
 	{{end}}
 {{end}}
