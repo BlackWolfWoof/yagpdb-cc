@@ -24,17 +24,16 @@
 
 
 {{/*CODE, DO NOT TOUCH*/}}
-{{$db := cslice "dlcordapp.com"}}
+{{$db := "dlcordapp.com"}}
 {{range dbGetPattern 2000 "phishing_list%" 10 0 -}}
-	{{- range (split .Value "|") .}}
-		{{- $db = $db.Append . -}}
-	{{- end -}}
+	{{- $db = print $db "|" .Value -}}
 {{- end}}
-{{if eq (len $db) 1}}
+{{$db := reReplace `\.` $db `\.`}}
+{{if eq (len $db) 14}}
 	{{sendMessage nil (print "In order to ensure the functionality of custom command #" .CCID " (anti-phishing), you will need to download, add and run all phishing_list's on your server and run them once.\nhttps://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Auto_Moderation/Anti_Phishing")}}
 {{else}}
-	{{- range $db -}}
-		{{- if inFold $.Message.Content . -}}
+	{{- with reFind $db $.Message.Content -}}
+		{{- with reFind (print `\b(?:https?)?(?:.+\.)?` . `\b`) $.Message.Content -}}
 			{{- if $action -}}
 				{{- $duration := sdict "mute" "300y" "ban" "-d 300y" -}}
 				{{- if eq "kick" (lower $action) -}}
@@ -54,5 +53,5 @@
 				{{- end -}}
 			{{- end -}}
 		{{- end -}}
-	{{end}}
+	{{- end -}}
 {{end}}
