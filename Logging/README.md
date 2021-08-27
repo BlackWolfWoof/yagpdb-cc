@@ -28,7 +28,7 @@ For the [ban](banlog_set.yag), [kick](kicklog_set.yag), [mute](mutelog_set.yag) 
 **I already have the paginator code on my server!**  
 Thats great. You can replace the old code you used for the snippet system or counting system with this one as it handles all of them without you having to add several reaction custom commands.
 
-**Toggeling warning replacement**  
+**Toggling warning replacement**  
 ```go
 {{$warnings := true}}
 {{/*If this is set to false the code will ignore -warnings and -warns so you can still use the inbuilt one*/}}
