@@ -34,8 +34,8 @@ To receive update notifications for these custom commands join my [discord serve
 <summary>Autohelp Embed</summary>
 
 - [Open Folder](Autohelp_Embed)  
-**•** [command](Autohelp_Embed/command.yag) - Command that displays the main page of the controllable embed on reaction  
-**•** [reaction](Autohelp_Embed/reaction.yag) - Reaction code that edits the embed on reaction  
+**•** [command](Autohelp_Embed/command.yag) - Command that displays the main page  
+**•** [reaction](Autohelp_Embed/reaction.yag) - Reaction code that sends a dm to the user on reaction  
 
 </details>
 
