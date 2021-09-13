@@ -25,11 +25,11 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{$count := add $page 1}}
 	{{$fields := cslice (sdict "name" "**• Searching Info:**" "value" (print "Total Results: " $total) "inline" false)}}
 	{{- range (dbTopEntries "%" 10 $page)}}
-	{{- $value := json .Value}}
+	{{- $value := printf "%+v" .Value}}
 	{{- if gt (len $value) 30}}{{$value = print (slice $value 0 30) "..."}}{{end}}
 	{{- $userm := .UserID}}
 	{{- with (getMember .UserID)}}{{$userm = print .User.Mention " `" .User.String "`"}}{{end}}
-	{{- $fields = $fields.Append (sdict "name" (print "**#" $count " Search Result:**") "value" (print "User: " $userm "\nKey name: " .Key "\nKey ID: " .ID "\nType: `" (printf "%T" .Value) "`\nCharacters: " (len (json .Value)) "/100000\nSize: " (printf "%.2f" (fdiv (len (json .Value)) 1000)) "kB\nValue:\n```json\n" (reReplace `\\\\` $value `\`) "```") "inline" false)}}
+	{{- $fields = $fields.Append (sdict "name" (print "**#" $count " Search Result:**") "value" (print "User: " $userm "\nKey name: " .Key "\nKey ID: " .ID "\nType: `" (printf "%T" .Value) "`\nCharacters: " (len (printf "%+v" .Value)) "/100000\nSize: " (printf "%.2f" (fdiv (len (printf "%+v" .Value)) 1000)) "kB\nValue:\n```json\n" (reReplace `\\\\` $value `\`) "```") "inline" false)}}
 	{{- $count = add $count 1}}{{$c = add $c 1}}
 	{{- end}}
 	{{$embed := sdict "title" "📄 Database entries" "color" 0x00D66C "fields" $fields}}
