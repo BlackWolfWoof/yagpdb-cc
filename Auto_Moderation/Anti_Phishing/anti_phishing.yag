@@ -9,7 +9,7 @@
 
 {{$action := "kick"}}
 {{/*Select which action you want to take: "mute", "kick", "ban", false (disabled)*/}}
-{{/*Make sure you have the module that is seleted enabled and set up on the yagpdb control panel / website*/}}
+{{/*Make sure you have the module that is selected enabled and set up on the yagpdb control panel / website*/}}
 
 {{$message := true}}
 {{/*Enables the how to report message. Cannot be used if $delete is on true*/}}
