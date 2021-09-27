@@ -17,7 +17,7 @@
 	(carg "string" "reason")}}
 {{$user := userArg ($args.Get 0)}}
 {{sendMessage nil (cembed
-	"description" (print "🔨 **Banned " $user.Username "**#" $user.Discriminator " *(ID " $user.ID ")*" "\n📄**Reason:** " (or ($args.Get 1) "Banned by Admin") " ([Logs](https://bit.ly/2ZhbSUj))")
+	"description" (print "🔨 **Banned " $user.Username "**#" $user.Discriminator " *(ID " $user.ID ")*" "\n📄**Reason:** " (or ($args.Get 1) "Banned by Admin") " ([Logs](https://www.youtube.com/watch?v=dQw4w9WgXcQ))")
 	"color" 14043208
 	"author" (sdict
 		"name" (print .User.String " (ID " .User.ID ")")
