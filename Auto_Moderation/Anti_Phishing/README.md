@@ -11,7 +11,7 @@ Add both custom commands to your server, configure the variables at the top of t
 
 Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ---|---|---|---|---
-\A|Regex|**[Download Link](anti_phishing.yag)**|setup 1 - 6|❌
+\A|Regex|**[Download Link](anti_phishing.yag)**|setup 1 - 7|❌
 
 **Add all files with the name `phishing_list` as command to your server and run it.**
 
