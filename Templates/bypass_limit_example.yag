@@ -1,5 +1,5 @@
 {{/*
-	This is a code example for https://github.com/BlackWolfWoof/yagpdb-cc/blob/master/Templates/bypass%20limit.gotmpl
+	This is a code example for https://github.com/BlackWolfWoof/yagpdb-cc/blob/master/Templates/bypass_limit.yag
 	It will give every user reputation that is mentioned in the custom command.
 
 	Copyright (c): Black Wolf, 2021
