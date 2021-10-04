@@ -1,6 +1,9 @@
 # Anti Phishing
 
-With this code you will get notified about a phishing scam link or they will be deleted. This can be used against those annoying Steam phishing links on all servers.  
+| ❓ Too lazy to read? Watch this tutorial that will show you how to set it up! https://youtu.be/cVzNCs1FtXM |
+| --- |
+
+With this code you will get notified about a phishing scam link or they will be deleted. This can be used against those annoying Steam & Discord phishing links on all servers.  
 If you find a link that wasn't added yet and wasn't detected you can always message me on [my Discord server](https://discord.gg/GRns3fg) to add them to the code.
 
 ### Usage
@@ -16,6 +19,7 @@ Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 **Add all files with the name `phishing_list` as command to your server and run it.**
 
 Make sure to run at all setup / phishing_list codes at least once to import them into the database.  
+
 
 ### Important
 
@@ -46,3 +50,6 @@ Remember to configure your variables in the code. Here is what each variable doe
 {{$modrole := 607846078863376394}}
 {{/*Input a staff role id in there which will be used to notify the staff about the link. This should be enabled if $delete is set to false.*/}}
 ```
+
+| ❓ Still need help with the setup or have questions? Join the [official yagpdb support & community server](https://discord.gg/4udtcA5) |
+| --- |
