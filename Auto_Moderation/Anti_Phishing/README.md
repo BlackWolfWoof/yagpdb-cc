@@ -1,8 +1,13 @@
 # Anti Phishing
 
+# READ THIS FIRST!! (Updated 12.10.2021)
+## A user with the name [Benricheson101](https://github.com/Benricheson101/) made an anti phishing bot which uses an 24/7 up to date api, [that you can invite via this link](https://discord.com/oauth2/authorize?client_id=892420397570592768&scope=bot%20applications.commands&permissions=268446726).  
+## The project is open source and can be viewed [here](https://github.com/Benricheson101/anti-phishing-bot). 
+## Use clash commands to set up the bot  
 | ❓ Too lazy to read? Watch this tutorial that will show you how to set it up! https://youtu.be/cVzNCs1FtXM |
 | --- |
 
+**If you still want to do it via YAGPDB tho then you can do that too. I will slow down updating the phishing lists here from now on.**  
 With this code you will get notified about a phishing scam link or they will be deleted. This can be used against those annoying Steam & Discord phishing links on all servers.  
 If you find a link that wasn't added yet and wasn't detected you can always message me on [my Discord server](https://discord.gg/GRns3fg) to add them to the code.
 
