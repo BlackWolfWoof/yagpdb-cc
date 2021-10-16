@@ -3,7 +3,7 @@
 # READ THIS FIRST!! (Updated 12.10.2021)
 ## A user with the name [Benricheson101](https://github.com/Benricheson101/) made an anti phishing bot which uses an 24/7 up to date api, [that you can invite via this link](https://discord.com/oauth2/authorize?client_id=892420397570592768&scope=bot%20applications.commands&permissions=268446726).  
 ## The project is open source and can be viewed [here](https://github.com/Benricheson101/anti-phishing-bot). 
-## Use clash commands to set up the bot  
+## Use slash commands to set up the bot  
 | ❓ Too lazy to read? Watch this tutorial that will show you how to set it up! https://youtu.be/cVzNCs1FtXM |
 | --- |
 
