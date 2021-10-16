@@ -25,7 +25,7 @@
 
 {{/*CODE, DO NOT TOUCH*/}}
 {{$db := "dlcordapp.com"}}
-{{range dbGetPattern 2000 "phishing_list%" 10 0 -}}
+{{range dbGetPattern 2000 "phishing_list%" 20 0 -}}
 	{{- $db = print $db "|" .Value -}}
 {{- end}}
 {{$db := reReplace `\.` $db `\.`}}
