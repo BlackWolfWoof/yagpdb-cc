@@ -1,12 +1,38 @@
 # Anti Phishing
+The code will no longer get updated due to the list getting to long and there being other alternatives such as using the Fish bot.  
+**I recommend you use the `Fish` bot, which is a bot that was only made for those phishing links. It can be set up via slash commands `/config set`.  
+It has features like auto kick, ban, mute, delete message, whitelist admin roles and more.**
 
-# READ THIS FIRST!! (Updated 12.10.2021)
-## An anti phishing bot with the name of 'Fish' now exixts to fight those phishing links and moderate your server with the lastest list of discord & steam phishing site urls. [Invite Bot](https://discord.com/oauth2/authorize?client_id=892420397570592768&scope=bot%20applications.commands&permissions=268446726).  
-## Use slash commands to set up the bot  
+The following bots currently use the up to date api that will protect you against those phishing links:  
+Name|Bot invite|Website|Support Server
+---|---|---|---
+**Fish**|**[Add](https://discord.com/oauth2/authorize?client_id=892420397570592768&scope=bot%20applications.commands&permissions=268446726)**||**[Server](https://discord.gg/urbJB4Ggsy)**  
+AutoModerator Bot|[Add](https://discord.com/oauth2/authorize?client_id=847081327950168104&permissions=0&scope=applications.commands%20bot)|[Website](https://automoderator.app/)|[Server](https://discord.gg/tgZ2pSgXXv)  
+Slingex|[Add](https://discord.com/oauth2/authorize?client_id=764153912190042133&scope=bot+applications.commands&permissions=2081287415)|[Website](https://slingex.xyz)|[Server](https://discord.com/invite/KXQhCBy)  
+Waifu|[Add](https://discord.com/oauth2/authorize?client_id=434556304661544960&scope=bot+applications.commands&permissions=403041526)|[Website](https://fluxpoint.dev/waifu)|[Server](https://discord.gg/TjF6QDC)  
+
+You have a big server and don't trust any of these bots? Message me on the [yagpdb discord server](https://discord.gg/4udtcA5) and I can get you in contact with the maintainers of the phishing bot api.  
+
+<img src="../../../assets/archived.png?raw=true" width="60%"/>
+
+No longer want to have the domain lists in your yagpdb database?  
+Remove them by creating a custom command and running this code:  
+```go
+{{dbDel 2000 "phishing_list"}}
+{{dbDel 2000 "phishing_list2"}}
+{{dbDel 2000 "phishing_list3"}}
+{{dbDel 2000 "phishing_list4"}}
+{{dbDel 2000 "phishing_list5"}}
+{{dbDel 2000 "phishing_list6"}}
+{{dbDel 2000 "phishing_list7"}}
+{{dbDel 2000 "phishing_list8"}}
+Doneso!
+```
+
+
 | ❓ Too lazy to read? Watch this tutorial that will show you how to set it up! https://youtu.be/cVzNCs1FtXM |
 | --- |
 
-**If you still want to do it via YAGPDB tho then you can do that too. I will slow down updating the phishing lists here from now on.**  
 With this code you will get notified about a phishing scam link or they will be deleted. This can be used against those annoying Steam & Discord phishing links on all servers.  
 If you find a link that wasn't added yet and wasn't detected you can always message me on [my Discord server](https://discord.gg/GRns3fg) to add them to the code.
 
