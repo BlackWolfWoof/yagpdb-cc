@@ -6,6 +6,7 @@ It has features like auto kick, ban, mute, delete message, whitelist admin roles
 The following bots currently use the up to date api that will protect you against those phishing links:  
 Name|Bot invite|Website|Support Server
 ---|---|---|---
+**Syrus**|**[Add](https://discord.com/oauth2/authorize?client_id=844868880152526868&permissions=551936&scope=bot)**||**[Server](https://discord.gg/qKMvzySeTW)**  
 **Fish**|**[Add](https://discord.com/oauth2/authorize?client_id=892420397570592768&scope=bot%20applications.commands&permissions=268446726)**||**[Server](https://discord.gg/urbJB4Ggsy)**  
 AutoModerator Bot|[Add](https://discord.com/oauth2/authorize?client_id=847081327950168104&permissions=0&scope=applications.commands%20bot)|[Website](https://automoderator.app/)|[Server](https://discord.gg/tgZ2pSgXXv)  
 Slingex|[Add](https://discord.com/oauth2/authorize?client_id=764153912190042133&scope=bot+applications.commands&permissions=2081287415)|[Website](https://slingex.xyz)|[Server](https://discord.com/invite/KXQhCBy)  
