@@ -39,7 +39,7 @@
 			{{end}}
 			{{$topic = print $topic "\nDatabase filled: " (fdiv (mult (mult .Guild.MemberCount .us|fdiv .dbc) 10000|roundCeil) 100) "%"}}
 		{{end}}
-		{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " .current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\nNext possible edit: <t:" (toDuration "5m"|currentTime.Add).Unix ":T>\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting")}}
+		{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " .current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\nNext possible edit: <t:" (toDuration "5m10s"|currentTime.Add).Unix ":T>\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting")}}
 	{{else}}
 		{{scheduleUniqueCC .CCID nil (sub $unix currentTime.Unix) "counting_cc" "channelname"}}
 	{{end}}
