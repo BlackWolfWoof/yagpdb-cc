@@ -39,7 +39,19 @@ You'll need these permissions to delete an entry or even view them, if $view is 
 
 		{{$dblogs := sdict}}{{with dbGet $user "logs"}}{{$dblogs = .Value}}{{end}}
 
-		{{if not (inFold .Cmd `del`)}}
+		{{if not (inFold .Cmd `del`)}}{{$fix := false}}
+			{{/*Backwards compat fix for "ban" to "bans" :')*/ -}}
+			{{range $name, $value := $dblogs}}
+				{{- with reFindAllSubmatches `ban(\d+)` $name -}}
+					{{- $fix = true -}}
+					{{- $dblogs.Del $name -}}
+					{{- $dblogs.Set (index . 0 1|print "bans") $value -}}
+				{{- end -}}
+			{{end}}
+			{{if $fix}}
+				{{dbSet $user "logs" $dblogs}}
+			{{end}}
+
 			{{$c := 0}}{{$grab := ""}}
 			{{range $name, $value := $dblogs}}
 				{{- if and (hasPrefix $name $type)}}
