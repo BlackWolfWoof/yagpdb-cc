@@ -1,6 +1,8 @@
 {{/*
-	Trigger: count
-	Trigger Type: Command
+	Trigger: (?i)\A-(?:set)?count
+	Trigger Type: Regex
+	
+	Make sure to replace the - in the regex to your server's prefix!
 	
 	Copyright (c): Black Wolf, 2021
 	License: MIT
