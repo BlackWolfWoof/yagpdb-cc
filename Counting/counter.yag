@@ -7,15 +7,26 @@
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
 
-{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
-{{$args := parseArgs 0 (print $prefix "count <Mention/ID (optional)>")
-	(carg "userid" "ID")}}
-{{$user := .User}}
-{{if ($args.Get 0)}}
-{{$user = userArg ($args.Get 0)}}
-{{end}}
-{{with (dbGet $user.ID "counting_tracker")}}
-{{$user.String}} counted {{.Value}} times.
-{{else}}
-{{$user.String}} hasn't counted yet
+{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}{{$user:= .User}}{{$cmd:= lower .Cmd}}{{$args:= ""}}
+{{if eq $cmd (print $prefix "count")}}
+    {{$args = parseArgs 0 (print $prefix "count <Mention/ID (optional)>") (carg "userid" "ID")}}
+    {{if ($args.IsSet 0)}}
+        {{$user = userArg ($args.Get 0)}}
+    {{end}}
+    {{with (dbGet $user.ID "counting_tracker")}}
+        {{$user.String}} counted {{.Value}} times.
+    {{else}}
+        {{$user.String}} hasn't counted yet
+    {{end}}
+{{else if eq $cmd (print $prefix "setcount")}}
+    {{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") "Administrator")}}
+        {{$args = parseArgs 1 (print $prefix "setcount <amount>") (carg "int" "Integer to set the counter to")}}
+        {{if ge ($args.Get 0) 0}}
+            {{dbSet 2000 "counting_counter" ($args.Get 0)}} Doneso 👌
+        {{else}}
+            {{.User.Mention}}, the new number needs to be an integer above 0!
+        {{end}}
+    {{else}}
+        {{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the `Administrator` permission to run this command!") "color" 0xDD2E44)}}
+    {{end}}
 {{end}}
