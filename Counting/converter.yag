@@ -33,9 +33,8 @@
 	{{editMessage nil $id (print "The converter will now convert your database from the old counting system to the new one.\nDone: " $converted "/" $all)}}
 	{{execCC .CCID nil 10 (sdict "id" $id "converted" $converted "all" $all)}}
 {{else}}
-	{{dbSet 2000 "lastCounter" (str (dbGet 118 "counter_user").Value)}}
+	{{dbSet 2000 "counting" (sdict "counter" (toInt (dbGet 118 "counter_count").Value) "lastCounter" (toInt (dbGet 118 "counter_user").Value) "countingrole" 0)}}
 	{{dbDel 118 "counter_user"}}
-	{{dbSet 2000 "counting_counter" (dbGet 118 "counter_count").Value}}
 	{{dbDel 118 "counter_count"}}
 	{{deleteMessage nil $id 0}}
 	{{sendMessage nil (print "Done converting the old counting system to the new one. " (add 2 $converted) " entries got converted.")}}

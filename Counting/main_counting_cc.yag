@@ -24,6 +24,18 @@
 
 
 {{$dbcount := dbCount}}{{$_ := 50}}{{if .IsPremium}}{{$_ = 500}}{{end}}
+{{$db := sdict "counter" 0 "lastCounter" 0 "countingrole" 0}}{{with dbGet 2000 "counting"}}{{$db = .Value}}{{end}}
+{{/*Converter for a bug fix*/}}
+{{with dbGet 2000 "counting_counter"}}
+	{{$db.Set "counter" (toInt .Value)}}
+	{{$db.Set "lastCounter" (toInt (dbGet 2000 "lastCounter").Value|add -1)}}
+	{{$db.Set "countingrole" (toInt (dbGet 2000 "countingrole").Value)}}
+	{{dbSet 2000 "counting" $db}}
+	{{dbDel 2000 "counting_counter"}}
+	{{dbDel 2000 "lastCounter"}}
+	{{dbDel 2000 "countingrole"}}
+{{end}}
+
 {{/*Channel Topic*/}}
 {{define "topic"}}
 	{{$unix := currentTime.Unix}}
@@ -33,34 +45,33 @@
 	{{if ge currentTime.Unix (toInt $unix)}}
 		{{$topic := ""}}
 		{{if .ct}}
+			{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}
 			{{if .IsPremium}}
-				{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}
 				{{range dbTopEntries "counting_tracker" 1 0}}{{$topic = print $topic "\nTop user: <@" .UserID "> - " .Value "x"}}{{end}}
 			{{end}}
 			{{$topic = print $topic "\nDatabase filled: " (fdiv (mult (mult .Guild.MemberCount .us|fdiv .dbc) 10000|roundCeil) 100) "%"}}
 		{{end}}
-		{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " .current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\nNext possible edit: <t:" (toDuration "5m10s"|currentTime.Add).Unix ":T>\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting")}}
+		{{editChannelTopic nil (print "🗒️ YAGPDB counting channel\n\n**Stats:**\nCurrent number: " .current $topic "\n\n*The channel topic can only update every 5 minutes if someone counts*\nNext possible edit: <t:" (toDuration "5m"|currentTime.Add).Unix ":T>\n\nIf you are interested in adding this code to your own server visit https://github.com/BlackWolfWoof/yagpdb-cc/tree/master/Counting")}}
 	{{else}}
 		{{scheduleUniqueCC .CCID nil (sub $unix currentTime.Unix) "counting_cc" "channelname"}}
 	{{end}}
 {{end}}
 
-{{$current := add 1 (toInt (dbGet 2000 "counting_counter").Value)}}
+{{$current := add 1 $db.counter}}
 {{if not .ExecData}}
-	{{$lastCounter := ""}}{{with dbGet 2000 "lastCounter"}}{{$lastCounter = .Value}}{{end}}
 	{{if or (reFind `^\d+$` .Message.Content|not) (ne (str $current) .Message.Content)}}
 		{{/*Wrong number*/}}
 		{{$x := sendMessageRetID nil (print .User.Mention ", that was the wrong number! The next number is " $current)}}
 		{{deleteMessage nil $x 5}}
 		{{deleteTrigger 1}}
-	{{else if and (eq (str .User.ID) $lastCounter) (not $sameuser)}}
+	{{else if and (eq .User.ID $db.lastCounter) (not $sameuser)}}
 		{{/*$sameuser part*/}}
 		{{$x := sendMessageRetID nil (print .User.Mention ", you cannot count twice in a row!")}}
 		{{deleteMessage nil $x 5}}
 		{{deleteTrigger 1}}
 	{{else}}
 		{{/*Current counting number +1*/}}
-		{{$current = dbIncr 2000 "counting_counter" 1|toInt}}
+		{{$db.Set "counter" $current}}
 
 		{{/*If antiad on block counting role*/}}
 		{{$blockrole := false}}
@@ -72,13 +83,14 @@
 		{{if and $countingrole (dbGet .User.ID "countingroleblock"|not)}}
 			{{if not $blockrole}}
 				{{addRoleID $countingrole}}
-				{{if ne ($cr := toInt (dbGet 2000 "countingrole").Value) .User.ID}}
-					{{takeRoleID $cr $countingrole}}
+				{{if ne $db.countingrole .User.ID}}
+					{{takeRoleID $db.countingrole $countingrole}}
 				{{end}}
-				{{dbSet 2000 "countingrole" (str .User.ID)}}
+				{{$db.Set "countingrole" .User.ID}}
 			{{end}}
 		{{end}}
-		{{dbSet 2000 "lastCounter" (str .User.ID)}}
+		{{$db.Set "lastCounter" .User.ID}}
+		{{dbSet 2000 "counting" $db}}
 
 		{{/*Counting tracker part*/}}
 		{{if $countingtracker}}
