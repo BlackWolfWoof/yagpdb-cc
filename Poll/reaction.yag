@@ -7,39 +7,46 @@
 */}}
 {{/*When using poll as trigger make sure to disable the default poll command here --> https://i.imgur.com/8WlHqyo.gif*/}}
 
-{{$single := false}}{{$c := 0}}{{$c1 := 0}}
-{{with .Message.Embeds}}{{with (index . 0).Author}}{{with .IconURL}}{{if reFind `\?single=true` .}}{{$single = true}}{{end}}{{end}}{{end}}{{end}}
-{{if $single}}
+{{$single := 0}}{{$c := 0}}{{$c1 := 0}}
+{{with .Message.Embeds}}{{with (index . 0).Author}}{{with .IconURL}}{{if in . `?single=true`}}{{$single = 2}}{{else if in . `?single=false`}}{{$single = 1}}{{end}}{{end}}{{end}}{{end}}
+{{if eq $single 2}}
 	{{if .ExecData}}
 		{{$r := .ExecData}}
 		{{range .Message.Reactions}}
-			{{if ne $c 10}}
-				{{if and (not .Me)}}
-					{{if eq .Emoji.ID 0}}
-						{{deleteMessageReaction nil $.Message.ID $.User.ID .Emoji.Name}}
-						{{$c = add 1 $c}}
-					{{else}}
-						{{deleteMessageReaction nil $.Message.ID $.User.ID (print .Emoji.Name ":" .Emoji.ID)}}
-						{{$c = add 1 $c}}
-					{{end}}
-				{{else}}
-					{{if ne $r.Emoji.Name .Emoji.Name}}
-						{{if eq .Emoji.ID 0}}
-							{{deleteMessageReaction nil $.Message.ID $.User.ID .Emoji.Name}}
-							{{$c = add 1 $c}}
-						{{else}}
-							{{deleteMessageReaction nil $.Message.ID $.User.ID (print .Emoji.Name ":" .Emoji.ID)}}
-							{{$c = add 1 $c}}
-						{{end}}
-					{{end}}
-				{{end}}
-			{{end}}
-			{{if ne $c1 10}}
-				{{cancelScheduledUniqueCC $.CCID (print "poll" $.User.ID)}}
-				{{$c1 = add $c1 1}}
-			{{end}}
+			{{- if ne $c 10}}
+				{{- if not .Me}}
+					{{- deleteAllMessageReactions nil $.Message.ID .Emoji.APIName}}
+					{{- $c = add 1 $c}}
+				{{- else}}
+					{{- if ne $r.Emoji.Name .Emoji.Name}}
+						{{- deleteMessageReaction nil $.Message.ID $.User.ID .Emoji.APIName}}
+						{{- $c = add 1 $c}}
+					{{- end}}
+				{{- end}}
+			{{- end}}
+			{{- if ne $c1 10}}
+				{{- cancelScheduledUniqueCC $.CCID (print "poll" $.User.ID)}}
+				{{- $c1 = add $c1 1}}
+			{{- end}}
 		{{end}}
 	{{else}}
+		{{range .Message.Reactions}}
+			{{- if lt $c 2}}
+				{{- if not .Me}}
+					{{- deleteAllMessageReactions nil $.Message.ID .Emoji.APIName}}
+					{{- $c = add 1 $c}}
+				{{- end}}
+			{{- end}}
+		{{- end}}
 		{{scheduleUniqueCC .CCID nil 10 (print "poll" .User.ID) .Reaction}}
 	{{end}}
+{{else if eq $single 1}}
+	{{range .Message.Reactions}}
+		{{- if le $c 10}}
+			{{- if not .Me}}
+				{{- deleteAllMessageReactions nil $.Message.ID .Emoji.APIName}}
+				{{- $c = add 1 $c}}
+			{{- end}}
+		{{- end}}
+	{{- end}}
 {{end}}

@@ -9,11 +9,10 @@
 {{/*When using poll as trigger make sure to disable the default poll command here --> https://i.imgur.com/8WlHqyo.gif*/}}
 {{$num := dict 0 "1️⃣" 1 "2️⃣" 2 "3️⃣" 3 "4️⃣" 4 "5️⃣" 5 "6️⃣" 6 "7️⃣" 7 "8️⃣" 8 "9️⃣" 9 "🔟"}}
 {{/*To replace the emojis you can do this as example:
-Replace 1️⃣ with a:FoxxoWow:838423818288234497, foxheart:630074801213538357 or ❤
-OTHER FORMATS WILL NOT WORK!!!*/}}
+Replace the keycap 1️⃣ with the emoji you like. If you wanna get the right emoji format use \:emoji: in chat to get it and then copy it.*/}}
 
 {{if gt (.CmdArgs|len) 2}}
-{{$color := 0}}{{$old := 0}}
+	{{$color := 0}}{{$old := 0}}
 	{{range .Guild.Roles}}
 		{{- if and (in $.Member.Roles .ID) (ne .Color 0) (gt .Position $old)}}
 			{{- $old = .Position}}
@@ -21,7 +20,7 @@ OTHER FORMATS WILL NOT WORK!!!*/}}
 		{{- end}}
 	{{- end}}
 	{{$args := parseArgs 0 "" (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "") (carg "string" "")}}
-	{{$avatar := .User.AvatarURL "1024"}}
+	{{$avatar := print (.User.AvatarURL "1024") "?single=false"}}
 	{{if (reFind `(?i)-single` .StrippedMsg)}}
 		{{$avatar = print $avatar "?single=true"}}
 	{{end}}
@@ -44,15 +43,21 @@ OTHER FORMATS WILL NOT WORK!!!*/}}
 		{{end}}
 	{{end}}
 	{{range $c,$in := slice $CmdArgs 1 (len $CmdArgs)}}
-		{{if reFind `\Aa:` ($num.Get $c)}}
-			{{$desc = print $desc "\n<" ($num.Get $c) "> " $in}}
-		{{else if reFind `\d+\z` ($num.Get $c)}}
-			{{$desc = print $desc "\n<:" ($num.Get $c) "> " $in}}
-		{{else}}
-			{{$desc = print $desc "\n" ($num.Get $c) " " $in}}
-		{{end}}
-		{{addMessageReactions nil $x ($num.Get $c)}}
-	{{end}}
+		{{- $emoji := ""}}
+		{{- if eq "" (index ($output := index (reFindAllSubmatches `^<?:?(?:(.+)>|(.+))?$` ($num.Get $c)) 0) 2)}}
+			{{- $emoji = index $output 1}}
+		{{- else}}
+			{{- $emoji = index $output 2}}
+		{{- end}}
+		{{- if hasPrefix $emoji `a:`}}
+			{{- $desc = print $desc "\n<" $emoji "> " $in}}
+		{{- else if reFind `\d+\z` $emoji}}
+			{{- $desc = print $desc "\n<:" $emoji "> " $in}}
+		{{- else}}
+			{{- $desc = print $desc "\n" $emoji " " $in}}
+		{{- end}}
+		{{- addMessageReactions nil $x $emoji}}
+	{{- end}}
 	{{$embed := sdict
 		"title" ($args.Get 0)
 		"description" $desc
