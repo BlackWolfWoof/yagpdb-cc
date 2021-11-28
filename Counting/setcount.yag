@@ -1,0 +1,38 @@
+{{/*
+	Trigger: setcount
+	Trigger Type: Command
+
+	Usage:
+	-setcount <number>
+	
+	Copyright (c): Black Wolf#0001, 2021
+	License: MIT
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
+*/}}
+{{/*The bot will check if the user has this permission.
+Available permissions: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, UseExternalEmojis, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ChangeNickname, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+{{$perms := "Administrator"}}
+
+
+
+
+{{$args := parseArgs 1 (print .Cmd " <Number>") (carg "int" "")}}
+{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
+{{$db := sdict "counter" 0 "lastCounter" 0 "countingrole" 0}}{{with dbGet 2000 "counting"}}{{$db = .Value}}{{end}}
+{{/*Converter for a bug fix*/}}
+{{with dbGet 2000 "counting_counter"}}
+	{{$db.Set "counter" (toInt .Value)}}
+	{{$db.Set "lastCounter" (toInt (dbGet 2000 "lastCounter").Value|add -1)}}
+	{{$db.Set "countingrole" (toInt (dbGet 2000 "countingrole").Value)}}
+	{{dbDel 2000 "counting_counter"}}
+	{{dbDel 2000 "lastCounter"}}
+	{{dbDel 2000 "countingrole"}}
+{{end}}
+
+{{$db.Set "counter" ($args.Get 0)}}
+{{dbSet 2000 "counting" $db}}
+{{json $db}}
+Doneso! Your count is now set to {{$args.Get 0}}
+{{else}}
+	{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
+{{end}}
