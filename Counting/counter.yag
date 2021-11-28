@@ -7,8 +7,7 @@
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
 
-{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
-{{$args := parseArgs 0 (print $prefix "count <Mention/ID (optional)>")
+{{$args := parseArgs 0 (print .Cmd "count <Mention/ID (optional)>")
 	(carg "userid" "ID")}}
 {{$user := .User}}
 {{if ($args.Get 0)}}
