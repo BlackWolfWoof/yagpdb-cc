@@ -94,7 +94,7 @@
 
 		{{/*Counting tracker part*/}}
 		{{if $countingtracker}}
-			{{$num := 0}}{{with (dbGet .User.ID "counting_tracker")}}{{$num = toInt .Value|add 1}}{{end}}
+			{{$num := 1}}{{with (dbGet .User.ID "counting_tracker")}}{{$num = toInt .Value|add 1}}{{end}}
 			{{dbSet .User.ID "counting_tracker" (str $num)}}
 			{{/*Database Anti overflow*/}}
 			{{if ge (fdiv (mult (mult $.Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100|toInt) 95}}
