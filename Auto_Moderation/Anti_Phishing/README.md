@@ -1,15 +1,17 @@
 # Anti Phishing
 The code will no longer get updated due to the list getting to long and there being other alternatives such as using the Fish bot.  
-**I recommend you use the `Fish` bot, which is a bot that was only made for those phishing links. It can be set up via slash commands `/config set`.  
-It has features like auto kick, ban, mute, delete message, whitelist admin roles and more.**
+**I recommend you use the `Fish` bot, which is a bot that was made to defend against those phishing links. It can be set up via slash commands with `/config set` as example.  
+It has features like auto kick, ban, mute, delete message, whitelist admin roles, notify the user in dm and more.**
 
-The following bots currently use the up to date api that will protect you against those phishing links:  
-Name|Bot invite|Website|Support Server
----|---|---|---
-**Fish**|**[Add](https://discord.com/oauth2/authorize?client_id=892420397570592768&scope=bot%20applications.commands&permissions=268446726)**||**[Server](https://discord.gg/urbJB4Ggsy)**  
-AutoModerator Bot|[Add](https://discord.com/oauth2/authorize?client_id=847081327950168104&permissions=0&scope=applications.commands%20bot)|[Website](https://automoderator.app/)|[Server](https://discord.gg/tgZ2pSgXXv)  
-Slingex|[Add](https://discord.com/oauth2/authorize?client_id=764153912190042133&scope=bot+applications.commands&permissions=2081287415)|[Website](https://slingex.xyz)|[Server](https://discord.com/invite/KXQhCBy)  
-Waifu|[Add](https://discord.com/oauth2/authorize?client_id=434556304661544960&scope=bot+applications.commands&permissions=403041526)|[Website](https://fluxpoint.dev/waifu)|[Server](https://discord.gg/TjF6QDC)  
+The following bots currently use the api that will protect you even against brand new phishing links:  
+Name|Bot Invite|Website|Support Server|Stats
+---|---|---|---|---
+**Fish**|**[Add](https://discord.com/oauth2/authorize?client_id=892420397570592768&scope=bot%20applications.commands&permissions=268446726)**||**[Join](https://discord.gg/urbJB4Ggsy)**|**[Website](https://fish.wah.wtf/)**  
+AutoModerator Bot|[Add](https://discord.com/oauth2/authorize?client_id=847081327950168104&permissions=0&scope=applications.commands%20bot)|[Website](https://automoderator.app/)|[Join](https://discord.gg/tgZ2pSgXXv)  
+Slingex|[Add](https://discord.com/oauth2/authorize?client_id=764153912190042133&scope=bot+applications.commands&permissions=2081287415)|[Website](https://slingex.xyz)|[Join](https://discord.com/invite/KXQhCBy)  
+Waifu|[Add](https://discord.com/oauth2/authorize?client_id=434556304661544960&scope=bot+applications.commands&permissions=403041526)|[Website](https://fluxpoint.dev/waifu)|[Join](https://discord.gg/TjF6QDC)  
+SafeLink|[Add](https://discord.com/oauth2/authorize?client_id=819742627032596480&permissions=268725318&scope=bot+applications.commands)|[Website](https://safelink.gg/)|[Join](https://discord.gg/yQrtSs2FBF)  
+Dyno|[Add](https://dyno.gg/invite)|[Website](https://dyno.gg/)|[Join](https://dyno.gg/discord)  
 
 You have a big server and don't trust any of these bots? Message me on the [yagpdb discord server](https://discord.gg/4udtcA5) and I can get you in contact with the maintainers of the phishing bot api.  
 
