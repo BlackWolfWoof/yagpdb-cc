@@ -31,6 +31,7 @@ Remove them by creating a custom command and running this code:
 Doneso!
 ```
 
+---
 
 | ❓ Too lazy to read? Watch this tutorial that will show you how to set it up! https://youtu.be/cVzNCs1FtXM |
 | --- |
