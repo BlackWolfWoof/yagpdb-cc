@@ -30,7 +30,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 			
 			{{if eq $t2 "none" "n"}}{{$type = "None"}}{{end}}
 			{{if eq $t2 "command" "cm" "cmd"}}{{$type = "Command"}}{{end}}
-			{{if eq $t2 "starts with" "s" "sw"}}{{$type = "Starts With"}}{{end}}
+			{{if eq $t2 "starts with" "s" "sw"}}{{$type = "StartsWith"}}{{end}}
 			{{if eq $t2 "contains" "co" "con"}}{{$type = "Contains"}}{{end}}
 			{{if eq $t2 "regex" "reg"}}{{$type = "Regex"}}{{end}}
 			{{if eq $t2 "exact match" "exact" "e" "em"}}{{$type = "Exact"}}{{end}}
