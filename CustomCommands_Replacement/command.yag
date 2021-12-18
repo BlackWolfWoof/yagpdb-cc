@@ -121,7 +121,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 				{{- end}}
 			{{end}}
 		{{else}}
-			{{sendMessage nil (cembed "title" "Error" "description" (print "<:cross:705738821110595607> the custom command `" $trigger "` was not found.\nUse `" $prefix "cc` to view a list of all custom commands.") "color" 0xDD2E44)}}
+			{{sendMessage nil (cembed "title" "Error" "description" (print "<:cross:705738821110595607> The custom command `" $trigger "` was not found.\nUse `" $prefix "cc` to view a list of all custom commands.") "color" 0xDD2E44)}}
 		{{end}}
 	{{end}}
 {{else}}
