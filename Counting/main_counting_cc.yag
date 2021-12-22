@@ -42,7 +42,8 @@
 	{{with (reFindAllSubmatches `Next possible edit: <t:(\d+):[RT]>` .Channel.Topic)}}
 		{{$unix = index . 0 1}}
 	{{end}}
-	{{if ge currentTime.Unix (toInt $unix)}}
+	{{if and (ge currentTime.Unix (toInt $unix)) (dbGet 2000 "cc_edit_cooldown"|not)}}
+		{{dbSetExpire 2000 "cc_edit_cooldown" true 10}}
 		{{$topic := ""}}
 		{{if .ct}}
 			{{$topic = print $topic "\nUsers that counted: " (dbCount "counting_tracker")}}
