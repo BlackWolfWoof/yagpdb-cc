@@ -31,7 +31,7 @@ Available permissions: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 {{$db.Set "counter" ($args.Get 0)}}
 {{dbSet 2000 "counting" $db}}
-{{json $db}}
+{{$silent := json $db}}
 Doneso! Your count is now set to {{$args.Get 0}}
 {{else}}
 	{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
