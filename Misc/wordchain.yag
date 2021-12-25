@@ -20,27 +20,23 @@
 		{{deleteMessage nil $x 5}}
 		{{deleteTrigger 1}}
 	{{else}}
-		{{with (reFindAllSubmatches `(?i)\A(\w)(?:\S+)?\z` (lower .Message.Content))}}
-			{{if eq (index . 0 1) $char}}
-				{{with reFindAllSubmatches `(?i)\A\S*(\w)\S?\z` $.Message.Content}}
-					{{dbSet 2000 "wordchain" (cslice $.User.ID (index . 0 1|lower))}}
-				{{else}}
-					{{deleteTrigger 1}}
-				{{end}}
+		{{if eq (slice (toRune .Message.Content) 0 1|str|lower) $char}}
+			{{with reFindAllSubmatches `(?i)\A(\p{L})(\p{L})*\z` (lower $.Message.Content)}}
+				{{dbSet 2000 "wordchain" (cslice $.User.ID (or (index . 0 2) (index . 0 1)|lower))}}
 			{{else}}
-				{{$x := sendMessageRetID nil (print $.User.Mention ", start your word with the letter `" (lower $char) "`!")}}
+				{{$x := sendMessageRetID nil (print $.User.Mention ", do not use special characters!")}}
 				{{deleteMessage nil $x 5}}
 				{{deleteTrigger 1}}
 			{{end}}
 		{{else}}
-			{{$x := sendMessageRetID nil (print .User.Mention ", start your word with the letter `" (lower $char) "`!")}}
+			{{$x := sendMessageRetID nil (print $.User.Mention ", start your word with the letter `" (lower $char) "`!")}}
 			{{deleteMessage nil $x 5}}
 			{{deleteTrigger 1}}
 		{{end}}
 	{{end}}
 {{else}}
-	{{with reFindAllSubmatches `(?i)\A\S+(\w)\S?\z` .Message.Content}}
-		{{dbSet 2000 "wordchain" (cslice $.User.ID (index . 0 1|lower))}}
+	{{with reFindAllSubmatches `(?i)\A(\p{L})(\p{L})*\z` .Message.Content}}
+		{{dbSet 2000 "wordchain" (cslice $.User.ID (or (index . 0 2) (index . 0 1)|lower))}}
 	{{else}}
 		{{deleteTrigger 1}}
 	{{end}}
