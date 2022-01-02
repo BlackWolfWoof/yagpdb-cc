@@ -87,7 +87,7 @@ NOTE: This might dm the user and lets them know they have been muted*/}}
 						{{- range seq 0 (len $permissions)}}
 							{{- if (mod $pbit 2)}}
 								{{- if eq (index $permissions . ) "SEND_MESSAGES"}}
-									{{- if eq "role" $type}}
+									{{- if eq 0 $type}}
 										{{- $roles = joinStr ", " $roles ($.Guild.GetRole $roleid).Name}}
 									{{- else}}
 										{{- $roles = joinStr ", " $roles (getMember $roleid).User.String}}
@@ -103,7 +103,7 @@ NOTE: This might dm the user and lets them know they have been muted*/}}
 							{{- range seq 0 (len $permissions)}}
 								{{- if (mod $pbit 2)}}
 									{{- if eq (index $permissions . ) "SEND_MESSAGES"}}
-										{{- if eq "role" $type}}
+										{{- if eq 0 $type}}
 											{{- $muted = false}}
 										{{- end}}
 									{{- end}}
