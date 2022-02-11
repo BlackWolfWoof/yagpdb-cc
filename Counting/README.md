@@ -43,7 +43,7 @@ Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ### Usage (with tracker & leaderboard)
 
 Add the [main counting command](main_counting_cc.yag) to your server and set it up as shown below. Then configure the variables to your liking.
-Then add the [topcount](topcount.yag), [counter](counter.yag) and the [pagination](pagination.yag).  
+Then add the [topcount](topcount.yag), [setcount](setcount.yag), [counter](counter.yag) and the [pagination](pagination.yag).  
 Make sure you set up everything as shown below.
 
 ### Setup & Requirements (with tracker & leaderboard)
@@ -54,6 +54,7 @@ Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 topcount|Command|**[Download Link](topcount.yag)**|[Main counting cc](main_counting_cc.yag)|❌
 ❌|Reaction (add & remove)|**[Download Link](pagination.yag)**|[topcount](topcount.yag)|❌
 count|Command|**[Download Link](counter.yag)**|[Main counting cc](main_counting_cc.yag)|❌
+setcount|Command|**[Download Link](setcount.yag)**|[Main counting cc](main_counting_cc.yag)|❌
 
 ### Important
 If you have been using the old counting system from yagpdb before you can use the [converter](converter.yag) to switch to this updated system. While adding all custom commands and running the [converter](converter.yag) you shouldn't let any users count and lock the counting channel until the converter and you are done converting and adding all custom commands you want.
