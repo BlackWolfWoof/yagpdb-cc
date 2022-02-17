@@ -80,6 +80,8 @@
 							{{sendMessage nil (printf "Invalid character `%q` in snippet name!" $err)}}
 						{{else if not ($args.Get 2)}}
 							{{sendMessage nil "Snippet name cannot be empty."}}
+						{{else if and ($args.Get 3) (not (reFind `\A(?i)https?:(?://([^/?#]*))?(?:[^?\n#\s]*?/[^?\n#\s]+\.(jpe?g|png|[gt]if|web[pm]|mp4|mov))(?:\?([^?\n#\s]*))?(?:#(.*))?\z` ($args.Get 3)))}}
+							{{sendMessage nil "You must provide a valid image file URL (to the image itself!)"}}
 						{{else}}
 							{{dbSet 0 (print "snippet_" ($args.Get 2|lower)) (sdict "image" ($args.Get 3) "value" ($args.Get 4) "author" .User.String)}}
 							{{addReactions "👌"}}
