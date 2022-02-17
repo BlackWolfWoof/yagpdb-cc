@@ -75,8 +75,13 @@
 				{{if eq (index .CmdArgs 1|lower) "add" "new" "create"}}
 					{{/*Add New Snippet*/}}
 						{{$args := parseArgs 5 (print "`;" (index .CmdArgs 0|lower) " " (index .CmdArgs 1|lower) " <Name1/Name2> <ImagURL> <Text>` Leave image as `\"\"` if you have no image") (carg "string" "") (carg "string" "") (carg "string" "name") (carg "string" "image") (carg "string" "content")}}
-						{{dbSet 0 (print "snippet_" ($args.Get 2|lower)) (sdict "image" ($args.Get 3) "value" ($args.Get 4) "author" .User.String)}}
-						{{addReactions "👌"}}
+
+						{{if $err := reFind "[^\\w/]" ($args.Get 2)}}
+							{{sendMessage nil (printf "Invalid character `%q` in snippet name!" $err)}}
+						{{else}}
+							{{dbSet 0 (print "snippet_" ($args.Get 2|lower)) (sdict "image" ($args.Get 3) "value" ($args.Get 4) "author" .User.String)}}
+							{{addReactions "👌"}}
+						{{end}}
 				{{else if eq (index .CmdArgs 1|lower) "del" "delete" "rem" "remove"}}
 					{{/*Delete Snippet*/}}
 						{{$args := parseArgs 3 (print "`;" (index .CmdArgs 0|lower) " " (index .CmdArgs 1|lower) " <Name1/Name2>`") (carg "string" "") (carg "string" "") (carg "string" "name")}}
