@@ -78,6 +78,8 @@
 
 						{{if $err := reFind "[^\\w/]" ($args.Get 2)}}
 							{{sendMessage nil (printf "Invalid character `%q` in snippet name!" $err)}}
+						{{else if not ($args.Get 2)}}
+							{{sendMessage nil "Snippet name cannot be empty."}}
 						{{else}}
 							{{dbSet 0 (print "snippet_" ($args.Get 2|lower)) (sdict "image" ($args.Get 3) "value" ($args.Get 4) "author" .User.String)}}
 							{{addReactions "👌"}}
