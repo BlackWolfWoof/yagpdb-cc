@@ -36,7 +36,7 @@
 			"footer" (sdict
 				"text" (print "Command triggered by " .User.String ". Message from"))
 			"timestamp" $msg.Timestamp}}
-		
+
 		{{/*Anti overflow embed*/}}
 		{{$fields := cslice}}{{$desc := ""}}
 		{{if gt (len $mc) 2000}}
@@ -48,7 +48,7 @@
 		{{else}}
 			{{$desc = (print "\n\n**[Message](" (index $m 0 0) ") in <#" $msg.ChannelID ">**\n" $mc)}}
 		{{end}}
-		
+
 		{{if and $msg.Content (not $msg.Embeds)}}
 			{{$e.Set "description" $desc}}
 		{{end}}
@@ -97,15 +97,23 @@
 			{{end}}
 		{{end}}
 		{{if $msg.Embeds}}
-			{{if $reminder}}{{$embed2 := ""}}
+			{{if $reminder}}{{$msg2 := sdict}}
 				{{if eq (index $msg.Embeds 0).Type "rich"}}
-					{{$embed2 = index $msg.Embeds 0}}
-					{{sendMessage nil (complexMessage "embed" $embed2 "content" $content)}}
+					{{$embed2 := index $msg.Embeds 0}}
+					{{$msg2 = sdict "embed" $embed2 "content" $content}}
 				{{else if ne (index $msg.Embeds 0).Type "image"}}
-					{{sendMessage nil $mc}}
+					{{$msg2.Set "content" $mc}}
 				{{end}}
+
+				{{$mentions := reFindAll `<@!?\d{17,19}>` $msg2.content}}{{$content2 := reSplit `<@!?\d{17,19}>` $msg2.content}}{{$msg2.Set "content" ""}}
+				{{range $i, $u := $mentions}}
+					{{- $uStr := $u}}{{with getMember $u}}{{$uStr = print "@" .User.String}}{{end}}
+					{{- $msg2.Set "content" (print $msg2.content (index $content2 $i) $uStr) -}}
+				{{end}}
+
+				{{$msg2.Set "content" (print $msg2.content (len $content2|add -1|index $content2))}}
 				{{$e.Set "description" (print "**[Embed Link](" (index $m 0 0) ") to <#" $msg.ChannelID ">**")}}
-				{{sendMessage nil (cembed $e)}}
+				{{sendMessage nil (complexMessage $msg2)}}{{sendMessage nil (cembed $e)}}
 			{{end}}
 		{{end}}
 		{{if and (eq (len (index $m 0 0)) (len .Message.Content)) (not .Message.Attachments)}}
