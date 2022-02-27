@@ -106,8 +106,9 @@
 				{{end}}
 
 				{{$mentions := reFindAll `<@!?\d{17,19}>` $msg2.content}}{{$content2 := reSplit `<@!?\d{17,19}>` $msg2.content}}{{$msg2.Set "content" ""}}
-				{{range $i, $u := $mentions}}
-					{{- $uStr := $u}}{{with getMember $u}}{{$uStr = print "@" .User.String}}{{end}}
+				{{range $i, $u := $mentions}}{{$tmp := ""}}
+					{{- $uStr := ""}}{{range $msg.Mentions}}{{if in $u (str .ID)}}{{$uStr = print "@" .String}}{{end}}{{end}}
+					{{- if not $uStr}}{{with getMember $u}}{{$uStr = print "@" .User.String}}{{else}}{{$uStr = $u}}{{end}}{{end}}
 					{{- $msg2.Set "content" (print $msg2.content (index $content2 $i) $uStr) -}}
 				{{end}}
 
