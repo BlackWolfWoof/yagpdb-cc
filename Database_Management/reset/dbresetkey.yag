@@ -31,8 +31,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 				{{deleteMessage nil .msgid 0}}
 			{{end}}
 		{{else}}
-			{{$cslice := split "abcdefghijklmnopqrstuvwxyz" ""|shuffle}}
-			{{$random := ""}}{{range (seq 0 10)}}{{$r := index (shuffle (cslice 0 1)) 0}}{{if eq $r 1}}{{$random = print $random (upper (index $cslice .))}}{{else}}{{$random = print $random (index $cslice .)}}{{end}}{{end}}
+			{{$random := ""}}{{range seq 0 10}}{{$x := 97}}{{if randInt 2}}{{$x = 65}}{{end}}{{$random = printf "%s%c" $random (add $x 26|randInt $x)}}{{end}}
 			{{$x := sendMessageRetID nil (cembed "title" "Hold up!" "description" (print "**YOU ARE ABOUT TO DELETE `" ($args.Get 0|dbCount) "` ENTRIES WITH THE NAME `" ($args.Get 0) "` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n__If you still want to proceed type__") "footer" (sdict "text" (print $prefix "dbresetkey " $random) "icon_url" "https://cdn.discordapp.com/emojis/650328464825516062.png") "color" 0xBE1931 "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png"))}}
 			{{dbSetExpire .User.ID "dbresetkey" (sdict "code" $random "msgid" $x "key" ($args.Get 0)) 60}}
 			{{deleteMessage nil $x 60}}
