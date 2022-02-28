@@ -31,10 +31,14 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 					{{deleteMessage nil .msgid 0}}
 				{{end}}
 		{{else}}
-			{{$args := parseArgs 1 (print $prefix "dbresetuser <UserID/Code>")
-				(carg "userid" "<UserID/Code>")}}
+			{{$args := parseArgs 1 (print $prefix "dbresetuser <UserID/Code>") (carg "userid" "<UserID/Code>")}}
 			{{$random := ""}}{{range seq 0 10}}{{$x := 97}}{{if randInt 2}}{{$x = 65}}{{end}}{{$random = printf "%s%c" $random (add $x 26|randInt $x)}}{{end}}
-			{{$x := sendMessageRetID nil (cembed "title" "Hold up!" "description" (print "**YOU ARE ABOUT TO DELETE `" ($args.Get 0|dbCount) "` ENTRIES WITH THE USERID `" ($args.Get 0) "` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n__If you still want to proceed type__") "footer" (sdict "text" (print $prefix "dbresetuser " $random) "icon_url" "https://cdn.discordapp.com/emojis/650328464825516062.png") "color" 0xBE1931 "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png"))}}
+			{{$x := sendMessageRetID nil (cembed
+				"title" "Hold up!"
+				"description" (printf "⚠️ **YOU ARE ABOUT TO DELETE `%d` ENTRIES WITH THE USERID `%d` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n<:s:650328464825516062> __If you still want to proceed run__ `%sdbresetuser %s`\nThe above code will expire <t:%d:R> (60 seconds from now)" ($args.Get 0|dbCount) ($args.Get 0) $prefix $random (mult .TimeSecond 60|toDuration|currentTime.Add).Unix)
+				"thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png")
+				"color" 0xBE1931
+			)}}
 			{{dbSetExpire .User.ID "dbresetuser" (sdict "code" $random "msgid" $x "user" ($args.Get 0)) 60}}
 			{{deleteMessage nil $x 60}}
 		{{end}}

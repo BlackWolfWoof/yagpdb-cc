@@ -18,7 +18,12 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
 		{{if eq (len .CmdArgs) 0}}
 			{{$random := ""}}{{range seq 0 10}}{{$x := 97}}{{if randInt 2}}{{$x = 65}}{{end}}{{$random = printf "%s%c" $random (add $x 26|randInt $x)}}{{end}}
-			{{$x := sendMessageRetID nil (cembed "title" "Hold up!" "description" (print "**YOU ARE ABOUT TO DELETE THE `ENTIRE` YAGPDB DATABASE (`" dbCount "` ENTRIES) ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n__If you still want to proceed type__") "footer" (sdict "text" (print $prefix "dbresetall " $random) "icon_url" "https://cdn.discordapp.com/emojis/650328464825516062.png") "color" 0xBE1931 "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png"))}}
+			{{$x := sendMessageRetID nil (cembed
+				"title" "Hold up!"
+				"description" (printf "⚠️ **YOU ARE ABOUT TO DELETE THE `ENTIRE` YAGPDB DATABASE (`%d` ENTRIES) ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n<:s:650328464825516062> __If you still want to proceed run__ `%sdbresetall %s`\nThe above code will expire in <t:%d:R> (60 seconds from now)" dbCount $prefix $random (mult .TimeSecond 60|toDuration|currentTime.Add).Unix)
+				"thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png")
+				"color" 0xBE1931
+			)}}
 			{{dbSetExpire .User.ID "dbresetall" (sdict "code" $random "msgid" $x) 60}}
 			{{deleteMessage nil $x 60}}
 		{{else}}
