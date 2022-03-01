@@ -14,26 +14,32 @@
 Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
 
 {{if not .ExecData}}
-	{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
+
 	{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
+		{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
+
 		{{if eq (len .CmdArgs) 0}}
 			{{$rand := ""}}{{range seq 0 10}}{{$x := 97}}{{if randInt 2}}{{$x = 65}}{{end}}{{$rand = printf "%s%c" $rand (add $x 26|randInt $x)}}{{end}}
+
 			{{$msgID := sendMessageRetID nil (cembed
 				"title" "Hold up!"
 				"description" (printf "⚠️ **YOU ARE ABOUT TO DELETE THE `ENTIRE` YAGPDB DATABASE (`%d` ENTRIES) ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n<:s:650328464825516062> __If you still want to proceed run__ `%sdbresetall %s`\nThe above code will expire in <t:%d:R> (60 seconds from now)" dbCount $prefix $rand (mult .TimeSecond 60|toDuration|currentTime.Add).Unix)
 				"thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png")
 				"color" 0xBE1931
 			)}}
-			{{dbSetExpire .User.ID "dbresetall" (sdict "code" $rand "msgid" $msgID) 60}}
+
 			{{deleteMessage nil $msgID 60}}
+			{{dbSetExpire .User.ID "dbresetall" (sdict "code" $rand "msgid" $msgID) 60}}
 		{{else}}
 			{{with (dbGet .User.ID "dbresetall").Value}}
 				{{if eq $.StrippedMsg .code}}
-					{{$all := dbCount}}
-					{{$msgID := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (0/" $all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
-					{{execCC $.CCID nil 6 (sdict "id" $msgID "all" $all "time" currentTime "count" 0)}}
 					{{deleteTrigger 1}}
 					{{deleteMessage nil .msgid 0}}
+
+					{{$all := dbCount}}
+					{{$msgID := sendMessageRetID nil (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `0/%d`\nEstimated end time: <t:%d:T> (<t:%[2]d:R>)\nDon't run `dbresetall` before the end time!\nYou will be pinged when the database is cleared :)" $all (or (and $.IsPremium 9) 1|mult 100|fdiv $all|mult 8.0|add currentTime.Unix 8)) "color" 0xFAA61A)}}
+
+					{{execCC $.CCID nil 6 (sdict "id" $msgID "all" $all "time" currentTime "count" 0)}}
 				{{else}}
 					{{sendMessage nil (print "Wrong code provided. Use `" $prefix "dbresetall` to get a new code")}}
 				{{end}}
@@ -48,26 +54,22 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{$data := .ExecData}}
 	{{$count := 1}}
 
-	{{if .IsPremium}}
-		{{range seq 0 9}}
-			{{- if $count}}
-				{{- $count = dbDelMultiple (sdict "pattern" "%") 100 0}}
-				{{- $data.Set "count" (add $data.count $count)}}
-			{{- end -}}
-		{{end}}
-	{{else}}
-		{{$count = dbDelMultiple (sdict "pattern" "%") 100 0}}
-		{{$data.Set "count" (add $data.count $count)}}
+	{{range seq 0 (or (and .IsPremium 9) 1)}}
+		{{- if $count}}
+			{{- $count = dbDelMultiple (sdict "pattern" "%") 100 0}}
+			{{- $data.Set "count" (add $data.count $count)}}
+		{{- end -}}
 	{{end}}
 
-	{{if $count}}
-		{{editMessage nil $data.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub $data.all dbCount) "/" $data.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetall again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
+	{{if $dbcount := dbCount}}
+		{{editMessage nil $data.id (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `%d/%d`\nEstimated end time: <t:%d:T> (<t:%[3]d:R>)\nDon't run `dbresetall` before the end time!\nYou will be pinged when the database is cleared :)" $data.count $data.all (or (and $.IsPremium 9) 1|mult 100|fdiv (sub $data.all $data.count)|mult 8.0|add 8 currentTime.Unix)) "color" 0xFAA61A)}}
 		{{execCC .CCID nil 8 $data}}
 	{{else}}
-		{{sendMessage nil (complexMessage "content" .User.Mention "embed" (cembed
-		"title" "I am done resetting the database! <:wolfyey:664130162023202816>"
-		"description" (print "Deleted entries: " $data.count "\nElapsed time: " (toDuration (print ((currentTime.Sub $data.time).Seconds|roundCeil) "s")))
-		"color" 0x43B581))}}
 		{{deleteMessage nil $data.id 0}}
+		{{sendMessage nil (complexMessage "content" .User.Mention "embed" (cembed
+			"title" "I am done resetting the database! <:wolfyey:664130162023202816>"
+			"description" (printf "Deleted entries: `%d`\nElapsed time: `%.2fs` (%s)" $data.count ($t:=currentTime.Sub $data.time).Seconds (humanizeDurationSeconds $t))
+			"color" 0x43B581
+		))}}
 	{{end}}
 {{end}}
