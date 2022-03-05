@@ -40,8 +40,9 @@
 {{end}}
 
 {{/*Embed Media*/}}
-{{range (seq 1 6)}}{{if not $.Message.Embeds}}{{sleep 1}}{{end}}{{end}}
-{{range .Message.Embeds}}
+{{$emb := .Message.Embeds}}
+{{range (seq 1 6)}}{{if not ($emb = (getMessage nil $.Message.ID).Embeds)}}{{sleep 1}}{{end}}{{end}}
+{{range $emb}}
 	{{if eq .Type "video" "image" "gifv"}}
 	{{else}}
 		{{$woulddelete3 = true}}
