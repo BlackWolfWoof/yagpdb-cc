@@ -6,7 +6,7 @@
 
 	Note: Please configure the variables after pasting the code into your control panel and also make sure to limit this to a channel if needed!
 
-	Copyright (c): Black Wolf, 2021
+	Copyright (c): Black Wolf, 2022
 	License: MIT
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
@@ -19,44 +19,44 @@
 
 
 
-{{$woulddelete1 := false}}{{$woulddelete2 := false}}{{$woulddelete3 := false}}
+{{/*Don't touch variables below*/}}
+{{$woulddelete := false}}{{$skip := false}}
+
 {{/*Attachment Media*/}}
 {{range .Message.Attachments}}
-	{{if not (reFind `(?i)\.(?:jpg|jpeg|png|gif|tif|webp|mp4|webm|mov)` .Filename)}}
-		{{$woulddelete1 = true}}
-	{{end}}
-{{else}}
-	{{$woulddelete1 = true}}
-{{end}}
-
-{{/*Media Link*/}}
-{{range (reFindAll `https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)` .Message.Content)}}
-	{{range (reFindAll `(?i)https?:(?://([^/?#]*))?(?:[^?\n#\s]*?/[^?\n#\s]+\.(jpg|jpeg|png|gif|tif|webp|mp4|webm|mov))(?:\?([^?\n#\s]*))?(?:#(.*))?` .)}}
+	{{if (reFind `(?i)\.(jpg|jpeg|png|gif|tif|webp|mp4|webm|mov)\z` .Filename)}}
+		{{$skip = true}}
 	{{else}}
-		{{$woulddelete2 = true}}
+		{{$woulddelete = true}}
 	{{end}}
 {{else}}
-	{{$woulddelete2 = true}}
+	{{$woulddelete = true}}
 {{end}}
 
 {{/*Embed Media*/}}
-{{$emb := .Message.Embeds}}
-{{range (seq 1 6)}}{{if not ($emb = (getMessage nil $.Message.ID).Embeds)}}{{sleep 1}}{{end}}{{end}}
-{{range $emb}}
-	{{if eq .Type "video" "image" "gifv"}}
-	{{else}}
-		{{$woulddelete3 = true}}
+{{if not $skip}}
+	{{$emb := .Message.Embeds}}{{$tmp := true}}
+	{{range (seq 0 2)}}{{if not ($emb = (getMessage nil $.Message.ID).Embeds)}}{{sleep 1}}{{end}}{{end}}
+	{{range $emb}}
+		{{if .Thumbnail}}
+			{{$tmp = false}}
+		{{end}}
 	{{end}}
-{{else}}
-	{{$woulddelete3 = true}}
+	{{if $tmp}}
+		{{$woulddelete = true}}
+	{{else}}
+		{{$woulddelete = false}}
+	{{end}}
 {{end}}
 
 {{/*Delete Message*/}}
-{{if and $delete $woulddelete1 $woulddelete2 $woulddelete3}}
-	{{deleteTrigger 0}}
+{{if $delete}}
+	{{if $woulddelete}}
+		{{deleteTrigger 0}}
+	{{end}}
 {{end}}
 
 {{/*Add Reactions*/}}
-{{if and (or (not $woulddelete1) (not $woulddelete2) (not $woulddelete3)) $react}}
+{{if and (not $woulddelete) $react}}
 	{{range $emojis}}{{addReactions .}}{{end}}
 {{end}}
