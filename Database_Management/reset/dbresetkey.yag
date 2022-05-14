@@ -26,7 +26,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 				{{deleteTrigger 1}}
 
 				{{$all := dbCount .key}}
-				{{$msgID := sendMessageRetID nil (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `0/%d`\nEstimated end time: <t:%d:T> (<t:%[2]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $all (or (and $.IsPremium 9) 1|mult 100|fdiv $all|mult 8.0|add currentTime.Unix 8)) "color" 0xFAA61A)}}
+				{{$msgID := sendMessageRetID nil (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `0/%d`\nEstimated end time: <t:%d:T> (<t:%[2]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $all (or (and $.IsPremium 10) 2|mult 100|fdiv $all|mult 8.0|add currentTime.Unix 8)) "color" 0xFAA61A)}}
 
 				{{execCC $.CCID nil 6 (sdict "id" $msgID "all" $all "time" currentTime "key" .key "count" 0)}}
 			{{else}}
@@ -50,17 +50,17 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{end}}
 {{else}}
 	{{$data := .ExecData}}
-	{{$count := 1}}
+	{{$count := 100}}
 
-	{{range seq 0 (or (and .IsPremium 9) 1)}}
-		{{- if $count}}
+	{{range seq 0 (or (and .IsPremium 10) 2)}}
+		{{- if eq $count 100}}
 			{{- $count = dbDelMultiple (sdict "pattern" $data.key) 100 0}}
 			{{- $data.Set "count" (add $data.count $count)}}
 		{{- end -}}
 	{{end}}
 
-	{{if $dbcount := dbCount $data.key}}
-		{{editMessage nil $data.id (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `%d/%d`\nEstimated end time: <t:%d:T> (<t:%[3]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $data.count $data.all (or (and $.IsPremium 9) 1|mult 100|fdiv (sub $data.all $data.count)|mult 8.0|add 8 currentTime.Unix)) "color" 0xFAA61A)}}
+	{{if eq $count 100}}
+		{{editMessage nil $data.id (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `%d/%d`\nEstimated end time: <t:%d:T> (<t:%[3]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $data.count $data.all (or (and $.IsPremium 10) 2|mult 100|fdiv (sub $data.all $data.count)|mult 8.0|add 8 currentTime.Unix)) "color" 0xFAA61A)}}
 		{{execCC .CCID nil 8 $data}}
 	{{else}}
 		{{deleteMessage nil $data.id 0}}
