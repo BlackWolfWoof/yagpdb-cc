@@ -19,15 +19,15 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 		{{with (dbGet .User.ID "dbresetkey").Value}}
 			{{dbDel $.User.ID "dbresetkey"}}
-			{{deleteMessage nil .msgid 0}}
+			{{deleteMessage nil .MsgID 0}}
 
-			{{if eq ($args.Get 0|str) .code}}
+			{{if eq ($args.Get 0|str) .Code}}
 				{{deleteTrigger 1}}
 
-				{{$all := dbCount .key}}
-				{{$msgID := sendMessageRetID nil (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `0/%d`\nEstimated end time: <t:%d:T> (<t:%[2]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $all (or (and $.IsPremium 10) 2|mult 100|fdiv $all|mult 8.0|add currentTime.Unix 8)) "color" 0xFAA61A)}}
+				{{$initial := dbCount .Key}}
+				{{$msgID := sendMessageRetID nil (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `0/%d`\nEstimated end time: <t:%d:T> (<t:%[2]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $initial (or (and $.IsPremium 10) 2|mult 100|fdiv $initial|mult 8.0|add currentTime.Unix 8)) "color" 0xFAA61A)}}
 
-				{{execCC $.CCID nil 6 (sdict "id" $msgID "all" $all "time" currentTime "key" .key "count" 0)}}
+				{{execCC $.CCID nil 6 (sdict "MsgID" $msgID "Initial" $initial "Start" currentTime "Key" .Key "Count" 0)}}
 			{{else}}
 				{{sendMessage nil (print "Wrong code provided. Use `" $.ServerPrefix "dbresetkey <Key>` and generate a new code.")}}
 			{{end}}
@@ -42,7 +42,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 			)}}
 
 			{{deleteMessage nil $msgID 60}}
-			{{dbSetExpire .User.ID "dbresetkey" (sdict "code" $rand "msgid" $msgID "key" ($args.Get 0)) 60}}
+			{{dbSetExpire .User.ID "dbresetkey" (sdict "Code" $rand "MsgID" $msgID "Key" ($args.Get 0)) 60}}
 		{{end}}
 	{{else}}
 		{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
@@ -53,19 +53,19 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 	{{range seq 0 (or (and .IsPremium 10) 2)}}
 		{{- if eq $count 100}}
-			{{- $count = dbDelMultiple (sdict "pattern" $data.key) 100 0}}
-			{{- $data.Set "count" (add $data.count $count)}}
+			{{- $count = dbDelMultiple (sdict "pattern" $data.Key) 100 0}}
+			{{- $data.Set "Count" (add $data.Count $count)}}
 		{{- end -}}
 	{{end}}
 
 	{{if eq $count 100}}
-		{{editMessage nil $data.id (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `%d/%d`\nEstimated end time: <t:%d:T> (<t:%[3]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $data.count $data.all (or (and $.IsPremium 10) 2|mult 100|fdiv (sub $data.all $data.count)|mult 8.0|add 8 currentTime.Unix)) "color" 0xFAA61A)}}
+		{{editMessage nil $data.MsgID (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `%d/%d`\nEstimated end time: <t:%d:T> (<t:%[3]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $data.Count $data.Initial (or (and $.IsPremium 10) 2|mult 100|fdiv (sub $data.Initial $data.Count)|mult 8.0|add 8 currentTime.Unix)) "color" 0xFAA61A)}}
 		{{execCC .CCID nil 8 $data}}
 	{{else}}
-		{{deleteMessage nil $data.id 0}}
+		{{deleteMessage nil $data.MsgID 0}}
 		{{sendMessage nil (complexMessage "content" .User.Mention "embed" (cembed
-			"title" (print "I am done resetting \"" $data.key "\"! <:wolfyey:664130162023202816>")
-			"description" (printf "Key: `%s`\nDeleted entries: `%d`\nElapsed time: `%.2fs` (%s)" $data.key $data.count ($t:=currentTime.Sub $data.time).Seconds (humanizeDurationSeconds $t))
+			"title" (print "I am done resetting \"" $data.Key "\"! <:wolfyey:664130162023202816>")
+			"description" (printf "Key: `%s`\nDeleted entries: `%d`\nElapsed time: `%.2fs` (%s)" $data.Key $data.Count ($t:=currentTime.Sub $data.Start).Seconds (humanizeDurationSeconds $t))
 			"color" 0x43B581
 		))}}
 	{{end}}
