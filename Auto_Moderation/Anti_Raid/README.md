@@ -68,6 +68,6 @@ If you are not sure if you have set it up correctly or have any questions you ca
 ### Important
 
 **You have to tweak the values to your serversize.  
-Pleace decide that on your own, as I cannot guess how many people join how fast normally on your server.  
+Please decide that on your own, as I cannot guess how many people join how fast normally on your server.  
 The default value of 5 people within 60 seconds might be good for small servers, but for big servers a lower seconds value is probably needed.  
-Even for large servers I do not reccomend setting the `$people` higher than `5`. I'd only change the `$seconds` or lower the `$people` variable.**  
+Even for large servers I do not recommend setting the `$people` higher than `5`. I'd only change the `$seconds` or lower the `$people` variable.**  
