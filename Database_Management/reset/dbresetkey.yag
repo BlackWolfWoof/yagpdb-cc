@@ -15,8 +15,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 {{if not .ExecData}}
 	{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
-		{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
-		{{$args := parseArgs 1 (print $prefix "dbresetkey <Key/Code>") (carg "string" "<Key/Code>")}}
+		{{$args := parseArgs 1 (print .ServerPrefix "dbresetkey <Key/Code>") (carg "string" "<Key/Code>")}}
 
 		{{with (dbGet .User.ID "dbresetkey").Value}}
 			{{dbDel $.User.ID "dbresetkey"}}
@@ -30,14 +29,14 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 				{{execCC $.CCID nil 6 (sdict "id" $msgID "all" $all "time" currentTime "key" .key "count" 0)}}
 			{{else}}
-				{{sendMessage nil (print "Wrong code provided. Use `" $prefix "dbresetkey <Key>` and generate a new code.")}}
+				{{sendMessage nil (print "Wrong code provided. Use `" $.ServerPrefix "dbresetkey <Key>` and generate a new code.")}}
 			{{end}}
 		{{else}}
 			{{$rand := ""}}{{range seq 0 10}}{{$x := 97}}{{if randInt 2}}{{$x = 65}}{{end}}{{$rand = printf "%s%c" $rand (add $x 26|randInt $x)}}{{end}}
 
 			{{$msgID := sendMessageRetID nil (cembed
 				"title" "Hold up!"
-				"description" (printf "⚠️ **YOU ARE ABOUT TO DELETE `%d` ENTRIES WITH THE NAME `%s` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n<:s:650328464825516062> __If you still want to proceed run__ `%sdbresetkey %s`\nThe above code will expire <t:%d:R> (60 seconds from now)" ($args.Get 0|dbCount) ($args.Get 0) $prefix $rand (mult .TimeSecond 60|toDuration|currentTime.Add).Unix)
+				"description" (printf "⚠️ **YOU ARE ABOUT TO DELETE `%d` ENTRIES WITH THE NAME `%s` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n<:s:650328464825516062> __If you still want to proceed run__ `%sdbresetkey %s`\nThe above code will expire <t:%d:R> (60 seconds from now)" ($args.Get 0|dbCount) ($args.Get 0) .ServerPrefix $rand (mult .TimeSecond 60|toDuration|currentTime.Add).Unix)
 				"thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png")
 				"color" 0xBE1931
 			)}}
