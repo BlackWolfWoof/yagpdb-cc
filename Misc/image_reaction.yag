@@ -36,7 +36,7 @@
 {{/*Embed Media*/}}
 {{if not $skip}}
 	{{$emb := .Message.Embeds}}{{$tmp := true}}
-	{{range (seq 0 2)}}{{if not ($emb = (getMessage nil $.Message.ID).Embeds)}}{{sleep 1}}{{end}}{{end}}
+	{{range (seq 0 3)}}{{if not ($emb = (getMessage nil $.Message.ID).Embeds)}}{{sleep 1}}{{end}}{{end}}
 	{{range $emb}}
 		{{if .Thumbnail}}
 			{{$tmp = false}}
