@@ -35,7 +35,7 @@
 		{{- else if eq $effect "kick"}}
 			{{$_ := execAdmin "kick" .UserID "YAGPDB ANTI RAID"}}
 		{{- else if eq $effect "ban"}}
-			{{$_ := execAdmin "ban" .UserID "YAGPDB ANTI RAID" "-d 300y" "-ddays 7"}}
+			{{$_ := execAdmin "ban" .UserID "YAGPDB ANTI RAID" "300y" "-ddays 7"}}
 		{{- end}}
 	{{end}}
 {{end}}

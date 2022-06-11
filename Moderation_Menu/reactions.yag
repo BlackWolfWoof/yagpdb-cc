@@ -119,19 +119,19 @@
 	{{/*Checking for time emojis*/}}
 	{{$result := 0}}{{$mute := "0"}}{{$ban := "0"}}
 	{{if eq .Reaction.Emoji.Name "🍏"}}
-		{{$result = 1}}{{$mute = "5m"}}{{$ban = "-d 1d"}}
+		{{$result = 1}}{{$mute = "5m"}}{{$ban = "1d"}}
 	{{end}}
 	{{if eq .Reaction.Emoji.Name "🍎"}}
-		{{$result = 1}}{{$mute = "10m"}}{{$ban = "-d 1w"}}
+		{{$result = 1}}{{$mute = "10m"}}{{$ban = "1w"}}
 	{{end}}
 	{{if eq .Reaction.Emoji.Name "🍊"}}
-		{{$result = 1}}{{$mute = "20m"}}{{$ban = "-d 2mo"}}
+		{{$result = 1}}{{$mute = "20m"}}{{$ban = "2mo"}}
 	{{end}}
 	{{if eq .Reaction.Emoji.Name "🍋"}}
-		{{$result = 1}}{{$mute = "1h"}}{{$ban = "-d 4mo"}}
+		{{$result = 1}}{{$mute = "1h"}}{{$ban = "4mo"}}
 	{{end}}
 	{{if eq .Reaction.Emoji.Name "🍌"}}
-		{{$result = 1}}{{$ban = "-d p"}}
+		{{$result = 1}}{{$ban = ""}}
 	{{end}}
 	{{if eq $result 1}}
 		{{range $call}}
