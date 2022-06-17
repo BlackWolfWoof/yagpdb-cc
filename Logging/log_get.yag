@@ -1,5 +1,5 @@
 {{/*
-	Trigger: \A(?:\-|<@!?204255221017214977>)\s*((?:warn(s|ings)|mutes|kicks|bans)|del(?:warn(ings?|s?)|mutes?|kicks?|bans?))\s*
+	Trigger: \A(?:\-|<@!?204255221017214977>)\s*((?:warn(s|ings)|mutes|timeouts|kicks|bans)|del(?:warn(ings?|s?)|mutes?|kicks?|bans?|timeouts?))\s*
 	Trigger Type: Regex
 
 	Note: Replace the first - in Trigger with your prefix!

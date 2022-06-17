@@ -16,7 +16,7 @@ You no longer need to hunt in your modlog how often the user was banned kicked o
 
 Create a new custom command in **Core** > **Custom commands** and add the [log_get](log_get.yag) code.  
 Trigger type: `Regex`  
-Trigger: `\A(?:\-|<@!?204255221017214977>)\s*((?:warn(s|ings)|mutes|kicks|bans)|del(?:warn(ings?|s?)|mutes?|kicks?|bans?))\s*`
+Trigger: ` \A(?:\-|<@!?204255221017214977>)\s*((?:warn(s|ings)|mutes|timeouts|kicks|bans)|del(?:warn(ings?|s?)|mutes?|kicks?|bans?|timeouts?))\s*`
 | ❗ If your prefix is not `-` then make sure to replace the first `-` in the trigger with your prefix. |
 | ---- |
 
