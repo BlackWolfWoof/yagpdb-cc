@@ -4,7 +4,7 @@
 
 	Note: Replace the first - in Trigger with your prefix!
 
-	Copyright (c): Black Wolf, 2021
+	Copyright (c): Black Wolf, 2022
 	License: MIT
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
@@ -16,18 +16,19 @@
 "warn" "ManageMessages"
 "mute" "ManageRoles"
 "kick" "KickMembers"
-"ban" "BanMembers"}}
+"ban" "BanMembers"
+"timeout" "ManageRoles"}}
 {{/*You can replace ManageMessages, ManageRoles, KickMembers and BanMembers with any of the following permissions if you want.
 You'll need these permissions to delete an entry or even view them, if $view is set to false.*/}}
 {{/*Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
 
 {{$view := true}}
-{{/*By setting this to true, anyone can view warnings, mutes, kicks and bans. If you set it to false only people with the permissions from $permcalc can view it.*/}}
+{{/*By setting this to true, anyone can view warnings, mutes, timeouts, kicks and bans. If you set it to false only people with the permissions from $permcalc can view it.*/}}
 
 
 
 {{/*DO NOT TOUCH CODE BELOW*/}}
-{{$type := reFind `warn|mute|kick|ban` (lower .Cmd)}}
+{{$type := reFind `warn|mute|kick|ban|timeout` (lower .Cmd)}}
 {{$perms := in (split (index (split (exec "viewperms") "\n") 2) ", ") ($permcalc.Get $type)}}
 
 {{if or $view $perms}}
@@ -61,7 +62,7 @@ You'll need these permissions to delete an entry or even view them, if $view is 
 							{{- if (index .c 0)}}{{.Set "c" (print "\n🔎Where: <#" (index .c 0) "> `" (index .c 1) "`")}}{{else}}{{.Set "c" ""}}{{end}}
 							{{- if .d}}{{.Set "d" (print "\n<:voice:711600648659140678>Duration: <t:" (.ctime.Add (print .d "s"|toDuration)).Unix ":R>")}}{{else}}{{.Set "d" ""}}{{end}}
 							{{- if .l}}{{.Set "l" (print "\n<:log:603248981132181504>Logs: [Message Logs](https://yagpdb.xyz/public/" $.Guild.ID "/log/" .l ")")}}{{end}}
-							{{- $grab = print $grab "**<:cc_ID:780036580592189460>" (title $type) " ID: " (slice $name 4) "**" .c "\n🕐When: <t:" $value.ctime.Unix ":d><t:" $value.ctime.Unix ":t>\n🛡️Author: <@" .aid "> `" .as "`" .d .l "\n<:status:704342789177212979>Reason: " .r "\n\n"}}
+							{{- $grab = print $grab "**<:cc_ID:780036580592189460>" (title $type) " ID: " (reReplace `warn|mute|kick|ban|timeout` $name "") "**" .c "\n🕐When: <t:" $value.ctime.Unix ":d><t:" $value.ctime.Unix ":t>\n🛡️Author: <@" .aid "> `" .as "`" .d .l "\n<:status:704342789177212979>Reason: " .r "\n\n"}}
 						{{- end}}
 					{{- end}}
 				{{- end}}
