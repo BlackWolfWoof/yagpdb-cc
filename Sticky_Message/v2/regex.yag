@@ -27,8 +27,6 @@
 	{{if $send}}
 		{{$id := sendMessageRetID nil $message}}
 		{{$dur := toDuration (or $db.Value.cooldown "0s")}}
-		{{if gt $dur (toDuration "1s")}}
-			{{dbSet .Channel.ID "smchannel" (sdict "time" (currentTime.Add $dur) "id" (str $id))}}
-		{{end}}
+		{{dbSet .Channel.ID "smchannel" (sdict "time" (currentTime.Add $dur) "id" (str $id))}}
 	{{end}}
 {{end}}
