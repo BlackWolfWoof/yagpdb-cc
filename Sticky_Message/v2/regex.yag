@@ -14,17 +14,21 @@
 
 
 {{if not $whitelist}}{{$channels = cslice .Channel.ID}}{{end}}
-{{if and (dbGet 0 "stickymessage") (dbGet .Channel.ID "smcooldown"|not) (in $channels .Channel.ID)}}
-	{{$db := (dbGet 0 "stickymessage").Value}}
-	{{$message := cembed "author" (sdict "name" (print "Sticky message by " $db.author) "icon_url" "https://cdn.discordapp.com/emojis/587253903121448980.png") "color" $db.color "description" $db.message "image" (sdict "url" (or $db.img ""))}}
-
-	{{if $db := dbGet .Channel.ID "smchannel"}}
-		{{deleteMessage nil (toInt $db.Value) 0}}
+{{if and ($db := dbGet 0 "stickymessage") (in $channels .Channel.ID)}}
+	{{$message := cembed "author" (sdict "name" (print "Sticky message by " $db.Value.author) "icon_url" "https://cdn.discordapp.com/emojis/587253903121448980.png") "color" $db.Value.color "description" $db.Value.message "image" (sdict "url" (or $db.Value.img ""))}}
+	{{$sm := dbGet .Channel.ID "smchannel"}}
+	{{$send := false}}
+	{{if not $sm}}
+		{{$send = true}}
+	{{else if currentTime.After $sm.Value.time}}
+		{{deleteMessage nil (toInt $sm.Value.id) 0}}
+		{{$send = true}}
 	{{end}}
-	{{$id := sendMessageRetID nil $message}}
-	{{dbSet .Channel.ID "smchannel" (str $id)}}
-	{{$dur := toDuration (or $db.cooldown "0s")}}
-	{{if gt $dur (toDuration "1s")}}
-		{{dbSetExpire .Channel.ID "smcooldown" true (toInt $dur.Seconds)}}
+	{{if $send}}
+		{{$id := sendMessageRetID nil $message}}
+		{{$dur := toDuration (or $db.Value.cooldown "0s")}}
+		{{if gt $dur (toDuration "1s")}}
+			{{dbSet .Channel.ID "smchannel" (sdict "time" (currentTime.Add $dur) "id" (str $id))}}
+		{{end}}
 	{{end}}
 {{end}}

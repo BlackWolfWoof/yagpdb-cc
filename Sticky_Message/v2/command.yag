@@ -38,7 +38,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{else}}
 		{{dbDel 0 "stickymessage"}}
 		{{range dbTopEntries "smchannel" 100 0}}
-			{{deleteMessage .UserID (toInt .Value) 0}}
+			{{deleteMessage .UserID (toInt .Value.id) 0}}
 		{{end}}
 		{{$amount := dbDelMultiple (sdict "pattern" "smchannel") 100 0}}
 		{{sendMessage nil (print "Sticky messages are now disabled and deleted from " $amount " channel(s).")}}
