@@ -35,17 +35,19 @@
 
 {{/*Embed Media*/}}
 {{if not $skip}}
-	{{$emb := .Message.Embeds}}{{$tmp := true}}
-	{{range (seq 0 3)}}{{if not ($emb = (getMessage nil $.Message.ID).Embeds)}}{{sleep 1}}{{end}}{{end}}
-	{{range $emb}}
-		{{if .Thumbnail}}
-			{{$tmp = false}}
+	{{if reFind `https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)` .Message.Content}}
+		{{$emb := .Message.Embeds}}{{$tmp := true}}
+		{{range (seq 0 3)}}{{if not ($emb = (getMessage nil $.Message.ID).Embeds)}}{{sleep 1}}{{end}}{{end}}
+		{{range $emb}}
+			{{if .Thumbnail}}
+				{{$tmp = false}}
+			{{end}}
 		{{end}}
-	{{end}}
-	{{if $tmp}}
-		{{$woulddelete = true}}
-	{{else}}
-		{{$woulddelete = false}}
+		{{if $tmp}}
+			{{$woulddelete = true}}
+		{{else}}
+			{{$woulddelete = false}}
+		{{end}}
 	{{end}}
 {{end}}
 
