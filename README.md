@@ -229,17 +229,3 @@ If you are looking for more community made custom commands you can join my [Disc
 [YAGPDB Documentation](https://docs.yagpdb.xyz/reference/templates) Official documentation  
 [YAGPDB Learning page](https://learn.yagpdb.xyz/) Official learning page  
 [Chill and Play ❤](https://discord.gg/GRns3fg) My server :)  
-
----
-
-## 💩Wall of shame💩
-
-<sub> I hate to see when people just remove the copyright from code and think that is perfectly fine. I have created this GitHub repo because I wanted to share my cool ideas I had to the community. And going ahead and ripping someones name from their code or even replacing it with their own is unaccaptable. For that I created this wall of shame and if you find yourself here you should know that you are the reason I hate to publish my code online and that I would share more stuff if you wouldn't have been such an asshole.  
-Everybody that gets added here is blocked by me and I will refuse to help them with anything and other voluntary helpers are also notified about someone being added here.</sub>
-
-Username + Tag|User ID|Date|Logs|Reason
----|---|---|---|---
-`}{OЯCRUX#0773`|249409309127999488||[Message Link](https://discord.com/channels/166207328570441728/578976698931085333/838438411391598612) - [Server Invite](https://discord.gg/4udtcA5)|Claiming they made it
-`LuckyTarget#5119`|559651275877384193||[Message Link](https://discord.com/channels/166207328570441728/578976698931085333/820236767411044382) - [Server Invite](https://discord.gg/4udtcA5)|Claiming they made it
-
-*If the discord name and tag no longer exists check the userid on <https://discord.id/> to get the new username and tag. You can pr me the new username & tag or create an issue on github and I will update it.*
