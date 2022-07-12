@@ -18,9 +18,9 @@
 		{{if lt (currentUserAgeMinutes) 1440}}
 			{{$embed.Set "fields" ($embed.fields.Append (sdict "name" "**• WARNING:**" "value" "This account is probably an alt or a spam / raid account‼" "inline" true))}}
 			{{$embed.Set "color" 15158332}}
-			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "❗WARNING: User with extremely " (mentionRoleID $roleid) " joined!"))}}
+			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "❗" (mentionRoleID $roleid) "\nWARNING: User with extremely new account joined!"))}}
 		{{else}}
-			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "⚠️User with " (mentionRoleID $roleid) " joined!"))}}
+			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "⚠️ " (mentionRoleID $roleid) "\nUser with extremely new account joined!"))}}
 		{{end}}
 		{{dbSetExpire .User.ID "warningcooldown" true 86400}}
 	{{end}}
