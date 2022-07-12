@@ -20,7 +20,7 @@
 			{{$embed.Set "color" 15158332}}
 			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "❗WARNING: User with extremely new account joined! " (mentionRoleID $roleid)))}}
 		{{else}}
-			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "⚠️User with extremely new account joined! " (mentionRoleID $roleid)))}}
+			{{sendMessageNoEscape $channel (complexMessage "embed" (cembed $embed) "content" (print "⚠️User with new account joined! " (mentionRoleID $roleid)))}}
 		{{end}}
 		{{dbSetExpire .User.ID "warningcooldown" true 86400}}
 	{{end}}
