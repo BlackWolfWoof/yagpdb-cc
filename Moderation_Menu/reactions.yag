@@ -14,7 +14,7 @@
 	{{end}}
 {{end}}
 {{/*Delete Embed*/}}
-{{$t11 := `del(?:(?P<MessageIDEmbed>\d{18})-(?P<MessageIDAuthor>\d{18}))`}}
+{{$t11 := `del(?:(?P<MessageIDEmbed>\d{18,})-(?P<MessageIDAuthor>\d{18,}))`}}
 {{range $call}}
 	{{if and (eq $.Reaction.Emoji.Name "❌") (reFind $t11 .Value)}}
 		{{$m := reFindAllSubmatches $t11 .Value}}
@@ -25,7 +25,7 @@
 		{{end}}
 	{{end}}
 {{end}}
-{{$e1 := `mod(?:(?P<MessageID>\d{18})-(?P<ModUserID>\d{18}))`}}
+{{$e1 := `mod(?:(?P<MessageID>\d{18,})-(?P<ModUserID>\d{18,}))`}}
 {{if and $call (reFind $e1 $grab)}}	{{$matches := reFindAllSubmatches $e1 $grab}}	{{$user := userArg (index (index $matches 0) 2)}}
 	{{$users := "Unknown User"}}
 	{{$usera := "https://cdn.discordapp.com/emojis/565142262401728512.png"}}
