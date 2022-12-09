@@ -3,7 +3,7 @@
 
 	Note: If you enable this custom command make sure to disable the original CustomCommands command. If you do not know how to do so please watch this tutorial https://i.imgur.com/eAvOR2N.gif
 
-	Copyright (c): Black Wolf, 2021
+	Copyright (c): Black Wolf, 2022
 	License: MIT
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
@@ -24,9 +24,11 @@
 
 		{{/*Splitting exec cc output and filtering / compiling output*/}}
 		{{range (split (exec "cc") "\n`#")}}
-			{{- range (reFindAllSubmatches `\s*(\d+):\x60 (?:\x60(.+)\x60: )?(.*) - Group: \x60(.+)\x60` .) -}}
-				{{- $out := ""}}{{$t4 := ""}}{{if ne (index . 2) ""}}{{$t4 = "`"}}{{end -}}
-				{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index . 2) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "<:cross:705738821110595607>") "**\n<:cc_group:779859070122721320>Group: **" (index . 4) "**\n\n" -}}
+			{{- range (reFindAllSubmatches `\s*(?P<CCID>\d+):\x60 (?:- Trigger: (?:\x60(?P<Trigger>.*)\x60) )?- Type: \x60([^\x60]+)\x60\s+(?:- Name: \x60(?P<CCName>.+)\x60 )?- Group: \x60(?P<Group>.+)\x60 - Disabled: \x60(?P<Disabled>true|false)\x60` .) -}}
+			{{- $out := ""}}{{$t4 := ""}}{{if ne (index . 2) ""}}{{$t4 = "`"}}{{end -}}
+			{{- $ccoff1 := ""}}{{$ccoff2 := ""}}{{if eq (index . 6) "true"}}{{$ccoff1 = "~~"}}{{$ccoff2 = "~~ **(Disabled)** <:excl:565142262401728512>"}}{{end -}}
+			{{- $ccname := ""}}{{if (index . 4)}}{{$ccname = print "\n<:cc_name:1050503248840241184>Name: `" (index . 4) "`"}}{{end -}}
+			{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**" $ccname "\n<:sendmessage:704342789172887672>" $ccoff1 "Trigger: " $t4 (or (index . 2) "<:cross:705738821110595607>") $t4 $ccoff2 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "<:cross:705738821110595607>") "**\n<:cc_group:779859070122721320>Group: **" (index . 5) "**\n\n" -}}
 				{{- if ne $group "false" -}}
 					{{- if eq (lower (index . 4)) (lower $group) -}}
 						{{- $out = $t1 -}}

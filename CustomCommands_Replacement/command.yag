@@ -6,12 +6,14 @@
 	
 	Copyright (c): Black Wolf, 2022
 	License: MIT
-	Repository: https://github.com/TheHDCrafter/yagpdb-cc/
+	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
 {{$perms := "ManageServer"}}
 {{/*The bot will check if the user has this permission.
-Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
+Permissions available: Administrator, ManageServer, SendMessages... use the viewperms command to see what other permnissions are avaiable*/}}
 
+{{$cr := "<:cross:705738821110595607>"}}
+{{$ccregex := `\s*(?P<CCID>\d+):\x60 (?:- Trigger: (?:\x60(?P<Trigger>.*)\x60) )?- Type: \x60([^\x60]+)\x60\s+(?:- Name: \x60(?P<CCName>.+)\x60 )?- Group: \x60(?P<Group>.+)\x60 - Disabled: \x60(?P<Disabled>true|false)\x60`}}
 {{if in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms}}
 	{{$page := 1}}{{$grab := ""}}{{$max := 0}}{{$sdict := sdict}}{{$group := false}}{{$type := false}}{{$trigger := false}}{{$out := ""}}
 	{{with .StrippedMsg}}
@@ -45,26 +47,30 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{/*Splitting exec cc output and filtering / compiling output*/}}
 	{{if not $trigger}}
 		{{range (split (exec "cc") "\n`#")}}
-			{{- range (reFindAllSubmatches `\s*(?P<CCID>\d+):\x60 -(?: Trigger: \x60(?P<Trigger>.+)\x60 -)? Type: \x60(?P<Type>.*)\x60 - Group: \x60(?P<Group>.+)\x60 - Disabled: \x60(?P<CCDisabled>false|true)\x60` .) -}}
-				{{- $out = ""}}{{$t4 := ""}}{{if ne (index . 2) ""}}{{$t4 = "`"}}{{end -}}
-				{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index . 2) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) "<:cross:705738821110595607>") "**\n<:cc_group:779859070122721320>Group: **" (index . 4) "**\n\n" -}}
-				{{- if $group -}}
-					{{- if eq (lower (index . 4)) (lower $group) -}}
+			{{- range (reFindAllSubmatches $ccregex .) -}}
+				{{- if not (in . "No id or trigger provided, here is a list of all server commands:") -}}
+					{{- $out = ""}}{{$t4 := ""}}{{if ne (index . 2) ""}}{{$t4 = "`"}}{{end -}}
+					{{- $ccoff1 := ""}}{{$ccoff2 := ""}}{{if eq (index . 6) "true"}}{{$ccoff1 = "~~"}}{{$ccoff2 = "~~ **(Disabled)** <:excl:565142262401728512>"}}{{end -}}
+					{{- $ccname := ""}}{{if (index . 4)}}{{$ccname = print "\n<:cc_name:1050503248840241184>Name: `" (index . 4) "`"}}{{end -}}
+					{{- $t1 := print "<:cc_ID:780036580592189460>ID: **[" (index . 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index . 1) "/)**" $ccname "\n<:sendmessage:704342789172887672>" $ccoff1 "Trigger: " $t4 (or (index . 2) $cr) $t4 $ccoff2 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index . 3) $cr) "**\n<:cc_group:779859070122721320>Group: **" (index . 5) "**\n\n" -}}
+					{{- if $group -}}
+						{{- if eq (lower (index . 4)) (lower $group) -}}
+							{{- $out = $t1 -}}
+						{{- end -}}
+					{{- else if $type -}}
+						{{- if eq (or (index . 3) "None") $type -}}
+							{{- $out = $t1 -}}
+						{{- end -}}
+					{{- else -}}
 						{{- $out = $t1 -}}
 					{{- end -}}
-				{{- else if $type -}}
-					{{- if eq (or (index . 3) "None") $type -}}
-						{{- $out = $t1 -}}
+					{{- if ge (add (len $grab) (len $out)) 2000 -}}
+						{{- $max = add $max 1 -}}
+						{{- $sdict.Set (str $max) $grab -}}
+						{{- $grab = $out -}}
+					{{- else -}}
+						{{- $grab = print $grab $out -}}
 					{{- end -}}
-				{{- else -}}
-					{{- $out = $t1 -}}
-				{{- end -}}
-				{{- if ge (add (len $grab) (len $out)) 2000 -}}
-					{{- $max = add $max 1 -}}
-					{{- $sdict.Set (str $max) $grab -}}
-					{{- $grab = $out -}}
-				{{- else -}}
-					{{- $grab = print $grab $out -}}
 				{{- end -}}
 			{{- end -}}
 		{{end}}
@@ -73,23 +79,29 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 		{{$ccc := 100}}{{if .IsPremium}}{{$ccc = 250}}{{end}}
 
 		{{/*Output*/}}
-		{{$id := sendMessageRetID nil (cembed "thumbnail" (sdict "url" (print $icon (reReplace `\s` (print "?type=" $type "?group=" $group "?page=" $page "?max=" $max "?perms=" $perms) `%20`))) "author" (sdict "name" (print "Custom Commands - " .Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" .Guild.ID "/customcommands/")) "description" ($sdict.Get (str $page)) "color" 7864168 "footer" (sdict "text" (print "Page: " $page "/" $max)) "fields" (cslice (sdict "name" "**• More Info**" "value" (print "Usage: " .Cmd "cc page <Number>, " .Cmd " group <GroupName>, " .Cmd " type <Regex/cmd...>, " .Cmd "cc name <CCID/Trigger/Name>\n\nCustom Commands: **" (sub (len (split (exec "cc") "\n`#")) 1) "/" $ccc "**"))))}}
-		{{if and (ne $page $max) (eq $page 1)}}{{addMessageReactions nil $id "blank:656125423247425557" "▶️"}}{{end}}
-		{{if and (ne $page 1) (eq $page $max)}}{{addMessageReactions nil $id "◀️" "blank:656125423247425557"}}{{end}}
-		{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil $id "◀️" "▶️"}}{{end}}
+		{{if or (gt $page $max) (lt $page 1)}}
+			{{sendMessage nil (cembed "title" "Page not found" "description" (print $cr " The page you are looking for couldn't be found.\nPages available: " $max) "color" 0xDD2E44)}}
+		{{else}}
+			{{$id := sendMessageRetID nil (cembed "thumbnail" (sdict "url" (print $icon (reReplace `\s` (print "?type=" $type "?group=" $group "?page=" $page "?max=" $max "?perms=" $perms) `%20`))) "author" (sdict "name" (print "Custom Commands - " .Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" .Guild.ID "/customcommands/")) "description" ($sdict.Get (str $page)) "color" 7864168 "footer" (sdict "text" (print "Page: " $page "/" $max)) "fields" (cslice (sdict "name" "**• More Info**" "value" (print "Usage: " .Cmd " page <Number>, " .Cmd " group <GroupName>, " .Cmd " type <Regex/cmd...>, " .Cmd " name <CCID/Trigger/Name>\n\nCustom Commands: **" (sub (len (split (exec "cc") "\n`#")) 1) "/" $ccc "**"))))}}
+			{{if and (ne $page $max) (eq $page 1)}}{{addMessageReactions nil $id "blank:656125423247425557" "▶️"}}{{end}}
+			{{if and (ne $page 1) (eq $page $max)}}{{addMessageReactions nil $id "◀️" "blank:656125423247425557"}}{{end}}
+			{{if and (ne $page $max) (ne $page 1)}}{{addMessageReactions nil $id "◀️" "▶️"}}{{end}}
+		{{end}}
 	{{else}}
-		{{$cc := exec "cc" $trigger}}
-		{{$text := ""}}{{$t4 := ""}}
-		{{if not (reFind `^No command by that name or id found, here is a list of them all:` $cc)}}
-			{{$m := (reFindAllSubmatches `^#\s*(\d+) - (.*)(?:(?:: \x60(.*)\x60 - Case sensitive trigger: \x60(.+)\x60)|\b) - Group: \x60(.+)\x60\n\x60\x60\x60txt\n((?:.|\n){0,})\x60\x60\x60$` $cc)}}
-			{{if in $cc "More than 1 matched command"}}
+		{{$cc := exec "cc" $trigger "-raw"}}
+		{{$text := ""}}{{$t4 := ""}} 
+		{{if not (reFind `^No command by that id, trigger or name found, here is a list of them all:` $cc)}}
+			{{$m := (reFindAllSubmatches `(^#\s*(?P<CCID>\d+) (?:- Trigger: \x60(?P<Trigger>.+)\x60 )?- Type: \x60(?P<Type>[^\x60]+)\x60 (?:- Name: \x60(?P<NameComment>[^\x60]*)\x60 )?(?:- Case sensitive trigger: \x60(?P<Case>true|false)\x60 )?- Group: \x60(?P<Group>.*)\x60 - Disabled: \x60(?P<Disabled>true|false)\x60)(?:\n\x60\x60\x60txt\n((?:.|\n)*)\n\x60\x60\x60)$` $cc)}}
+			{{if in $cc "More than 1 matched command\n`"}}{{sendMessage nil (complexMessage "content" "more than one cc" "file" ($cc))}}
 				{{$c := 0}}
-				{{- $grab := print "<:cross:705738821110595607> More than 1 matched command!\nPlease use `" .Cmd " <ID>` to choose a custom command.\n"}}
+				{{- $grab := print $cr " More than 1 matched command!\nPlease use `" .Cmd " <ID>` to choose a custom command.\n"}}
 				{{- range (split $cc "\n`#")}}
 					{{- if ne "More than 1 matched command" .}}
-						{{- $m := (reFindAllSubmatches `\s*(\d+):\x60 (?:\x60(.+)\x60: )?(.*) - Group: \x60(.+)\x60` .) -}}
-						{{- if (index $m 0 3)}}{{$t4 = "`"}}{{end}}
-						{{- $grab = print $grab "\n<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 2) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 3) "<:cross:705738821110595607>") "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 4) "**\n\n"}}
+						{{- $m := (reFindAllSubmatches $ccregex .) -}}
+						{{if (index $m 0 3)}}{{$t4 = "`"}}{{end}}
+						{{$ccoff3 := ""}}{{$ccoff4 := ""}}{{if eq (index $m 0 6) "true"}}{{$ccoff3 = "~~"}}{{$ccoff4 = "~~ **(Disabled)** <:excl:565142262401728512>"}}{{end}}
+						{{$ccname := ""}}{{if (index $m 0 4)}}{{$ccname = print "\n<:cc_name:1050503248840241184>Name: `" (index $m 0 4) "`"}}{{end}}
+						{{- $grab = print $grab "\n<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 2) $cr) $t4 $ccname "\n<:cc_triggertype:779859347365822505>" $ccoff3 "Trigger Type: **" (or (index $m 0 3) $cr) $ccoff4 "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 5) "**\n\n"}}
 					{{- end}}
 					{{- $c = add $c 1}}
 					{{- if eq (len (split $cc "\n`#")) $c}}
@@ -97,11 +109,13 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 					{{- end}}
 				{{- end}}
 			{{else}}
-				{{$t67 := index $m 0 4}}{{if not $t67}}{{$t67 = "<:cross:705738821110595607>"}}{{end}}
+				{{$t67 := index $m 0 6}}{{if not $t67}}{{$t67 = $cr}}{{end}}
 				{{if (index $m 0 3)}}{{$t4 = "`"}}{{end}}{{$file := false}}
-				{{$text = print "<:cc_ID:780036580592189460>ID: **[" (index $m 0 1) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 1) "/)**\n<:sendmessage:704342789172887672>Trigger: " $t4 (or (index $m 0 3) "<:cross:705738821110595607>") $t4 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 2) "<:cross:705738821110595607>") "**\n<:cc_Aa:780097353004482611>Case sensitive: **" (title $t67) "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 5) "**\n\n" -}}
-				{{if not (reFind `\x60\x60\x60` (index $m 0 6))}}
-					{{$t3 := print $text "```go\n" (index $m 0 6) "\n```"}}
+				{{$ccoff1 := ""}}{{$ccoff2 := ""}}{{if eq (index $m 0 8) "true"}}{{$ccoff1 = "~~"}}{{$ccoff2 = "~~ **(Disabled)** <:excl:565142262401728512>"}}{{end}}
+				{{$ccname := ""}}{{if (index $m 0 5)}}{{$ccname = print "\n<:cc_name:1050503248840241184>Name: `" (index $m 0 5) "`"}}{{end}}
+				{{$text = print "<:cc_ID:780036580592189460>ID: **[" (index $m 0 2) "](https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/commands/" (index $m 0 2) "/)**" $ccname "\n<:sendmessage:704342789172887672>" $ccoff1 "Trigger: " $t4 (or (index $m 0 3) $cr) $t4 $ccoff2 "\n<:cc_triggertype:779859347365822505>Trigger Type: **" (or (index $m 0 4) $cr) "**\n<:cc_Aa:780097353004482611>Case sensitive: **" (title $t67) "**\n<:cc_group:779859070122721320>Group: **" (index $m 0 7) "**\n\n" -}}
+				{{if not (reFind `\x60\x60\x60` (index $m 0 9))}}
+					{{$t3 := print $text "```go\n" (index $m 0 9) "\n```"}}
 					{{if gt (len $t3) 2000}}
 						{{$text = print $text "*The custom command code was too long to display. Please view the file instead.*"}}
 						{{$file = true}}
@@ -113,17 +127,20 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 					{{$file = true}}
 					{{$cc := exec "cc" $trigger}}
 				{{end}}
-				{{$embed := cembed "description" $text "color" 7864168 "thumbnail" (sdict "url" $icon) "author" (sdict "name" (print "Custom Commands - " $.Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/"))}}
+				{{$embed := sdict "description" $text "color" 7864168 "thumbnail" (sdict "url" $icon) "author" (sdict "name" (print "Custom Commands - " $.Guild.Name) "icon_url" "https://cdn.discordapp.com/emojis/780080308820901919.png" "url" (print "https://yagpdb.xyz/manage/" $.Guild.ID "/customcommands/"))}}
+				{{if $ccoff1}}
+					{{$embed.Set "color" 0x8D97A1}}
+				{{end}}
 				{{if $file}}
-					{{sendMessage nil (complexMessage "file" (index $m 0 6) "embed" $embed)}}
+					{{sendMessage nil (complexMessage "file" (index $m 0 9) "embed" (cembed $embed))}}
 				{{else}}
-					{{sendMessage nil $embed}}
+					{{sendMessage nil (cembed $embed)}}
 				{{end}}
 			{{end}}
 		{{else}}
-			{{sendMessage nil (cembed "title" "Error" "description" (print "<:cross:705738821110595607> The custom command `" $trigger "` was not found.\nUse `" .Cmd "` to view a list of all custom commands.") "color" 0xDD2E44)}}
+			{{sendMessage nil (cembed "title" "Error" "description" (print $cr " The custom command `" $trigger "` was not found.\nUse `" .Cmd "` to view a list of all custom commands.") "color" 0xDD2E44)}}
 		{{end}}
 	{{end}}
 {{else}}
-	{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
+	{{sendMessage nil (cembed "title" "Missing permissions" "description" (print $cr " You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
 {{end}}
