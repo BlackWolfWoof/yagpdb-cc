@@ -15,54 +15,58 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 
 {{if not .ExecData}}
 	{{if (in (split (index (split (exec "viewperms") "\n") 2) ", ") $perms)}}
-		{{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}
-		{{$args := parseArgs 1 (print $prefix "dbresetkey <Key/Code>")
-			(carg "string" "<Key/Code>")}}
+		{{$args := parseArgs 1 (print .ServerPrefix "dbresetkey <Key/Code>") (carg "string" "<Key/Code>")}}
+
 		{{with (dbGet .User.ID "dbresetkey").Value}}
-			{{if eq ($args.Get 0|str) .code}}
-				{{$x := sendMessageRetID nil (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (0/" (dbCount .key) ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
-				{{dbDel $.User.ID "dbresetkey"}}
-				{{execCC $.CCID nil 6 (sdict "id" $x "all" (dbCount .key) "time" currentTime "key" .key "count" 0)}}
+			{{dbDel $.User.ID "dbresetkey"}}
+			{{deleteMessage nil .MsgID 0}}
+
+			{{if eq ($args.Get 0|str) .Code}}
 				{{deleteTrigger 1}}
-				{{deleteMessage nil .msgid 0}}
+
+				{{$initial := dbCount .Key}}
+				{{$msgID := sendMessageRetID nil (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `0/%d`\nEstimated end time: <t:%d:T> (<t:%[2]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $initial (or (and $.IsPremium 10) 2|mult 100|fdiv $initial|mult 8.0|add currentTime.Unix 8)) "color" 0xFAA61A)}}
+
+				{{execCC $.CCID nil 6 (sdict "MsgID" $msgID "Initial" $initial "Start" currentTime "Key" .Key "Count" 0)}}
 			{{else}}
-				{{dbDel $.User.ID "dbresetkey"}}
-				{{sendMessage nil (print "Wrong code provided. Use `" $prefix "dbresetkey <Key>` and generate a new code.")}}
-				{{deleteMessage nil .msgid 0}}
+				{{sendMessage nil (print "Wrong code provided. Use `" $.ServerPrefix "dbresetkey <Key>` and generate a new code.")}}
 			{{end}}
 		{{else}}
-			{{$cslice := split "abcdefghijklmnopqrstuvwxyz" ""|shuffle}}
-			{{$random := ""}}{{range (seq 0 10)}}{{$r := index (shuffle (cslice 0 1)) 0}}{{if eq $r 1}}{{$random = print $random (upper (index $cslice .))}}{{else}}{{$random = print $random (index $cslice .)}}{{end}}{{end}}
-			{{$x := sendMessageRetID nil (cembed "title" "Hold up!" "description" (print "**YOU ARE ABOUT TO DELETE `" ($args.Get 0|dbCount) "` ENTRIES WITH THE NAME `" ($args.Get 0) "` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n__If you still want to proceed type__") "footer" (sdict "text" (print $prefix "dbresetkey " $random) "icon_url" "https://cdn.discordapp.com/emojis/650328464825516062.png") "color" 0xBE1931 "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png"))}}
-			{{dbSetExpire .User.ID "dbresetkey" (sdict "code" $random "msgid" $x "key" ($args.Get 0)) 60}}
-			{{deleteMessage nil $x 60}}
+			{{$rand := ""}}{{range seq 0 10}}{{$x := 97}}{{if randInt 2}}{{$x = 65}}{{end}}{{$rand = printf "%s%c" $rand (add $x 26|randInt $x)}}{{end}}
+
+			{{$msgID := sendMessageRetID nil (cembed
+				"title" "Hold up!"
+				"description" (printf "⚠️ **YOU ARE ABOUT TO DELETE `%d` ENTRIES WITH THE NAME `%s` FROM THE YAGPDB DATABASE ON THIS SERVER\n\nARE YOU SURE YOU WANT TO DO THIS?**\n**❗There is no going back once you confirmed❗**\n\n<:s:650328464825516062> __If you still want to proceed run__ `%sdbresetkey %s`\nThe above code will expire <t:%d:R> (60 seconds from now)" ($args.Get 0|dbCount) ($args.Get 0) .ServerPrefix $rand (mult .TimeSecond 60|toDuration|currentTime.Add).Unix)
+				"thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png")
+				"color" 0xBE1931
+			)}}
+
+			{{deleteMessage nil $msgID 60}}
+			{{dbSetExpire .User.ID "dbresetkey" (sdict "Code" $rand "MsgID" $msgID "Key" ($args.Get 0)) 60}}
 		{{end}}
 	{{else}}
 		{{sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You are missing the permission `" $perms "` to use this command!") "color" 0xDD2E44)}}
 	{{end}}
 {{else}}
-	{{$c := 1}}
-	{{$count := 0}}
-	{{if .IsPremium}}
-		{{range (seq 0 9)}}
-			{{- if ne $c 0 -}}
-				{{- $c = dbDelMultiple (sdict "pattern" $.ExecData.key) 100 0 -}}
-				{{- $count = add $count $c -}}
-			{{- end -}}
-		{{end}}
-	{{else}}
-		{{$count = dbDelMultiple (sdict "pattern" $.ExecData.key) 100 0}}
+	{{$data := .ExecData}}
+	{{$count := 100}}
+
+	{{range seq 0 (or (and .IsPremium 10) 2)}}
+		{{- if eq $count 100}}
+			{{- $count = dbDelMultiple (sdict "pattern" $data.Key) 100 0}}
+			{{- $data.Set "Count" (add $data.Count $count)}}
+		{{- end -}}
 	{{end}}
-	{{$sdict := .ExecData}}
-	{{$sdict.Set "count" (add $count $sdict.count)}}
-	{{if ne $count 0}}
-		{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all (dbCount .ExecData.key)) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
-		{{execCC .CCID nil 8 $sdict}}
+
+	{{if eq $count 100}}
+		{{editMessage nil $data.MsgID (cembed "description" (printf "<a:load:714051544265392229> Deleting DB entries... `%d/%d`\nEstimated end time: <t:%d:T> (<t:%[3]d:R>)\nDon't run `dbresetkey` before the end time!\nYou will be pinged when the entries are cleared :)" $data.Count $data.Initial (or (and $.IsPremium 10) 2|mult 100|fdiv (sub $data.Initial $data.Count)|mult 8.0|add 8 currentTime.Unix)) "color" 0xFAA61A)}}
+		{{execCC .CCID nil 8 $data}}
 	{{else}}
+		{{deleteMessage nil $data.MsgID 0}}
 		{{sendMessage nil (complexMessage "content" .User.Mention "embed" (cembed
-		"title" (print "I am done resetting \"" $sdict.key "\"! <:wolfyey:664130162023202816>")
-		"description" (print "Deleted entries: " $sdict.count "\nExpired time: " (toDuration (print ((currentTime.Sub $sdict.time).Seconds|roundCeil) "s")))
-		"color" 0x43B581))}}
-		{{deleteMessage nil $sdict.id 0}}
+			"title" (print "I am done resetting \"" $data.Key "\"! <:wolfyey:664130162023202816>")
+			"description" (printf "Key: `%s`\nDeleted entries: `%d`\nElapsed time: `%.2fs` (%s)" $data.Key $data.Count ($t:=currentTime.Sub $data.Start).Seconds (humanizeDurationSeconds $t))
+			"color" 0x43B581
+		))}}
 	{{end}}
 {{end}}
