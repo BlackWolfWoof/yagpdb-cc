@@ -57,7 +57,7 @@ Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, 
 	{{$sdict.Set "count" (add $count $sdict.count)}}
 	{{if ne $count 0}}
 		{{editMessage nil .ExecData.id (cembed "author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/714051544265392229.gif" "name" (print "This might take a while... (" (sub .ExecData.all (dbCount .ExecData.key)) "/" .ExecData.all ")")) "description" "Please wait until the command is done running.\n**Do not run dbresetkey again until it is finished!**\nYou will be pinged if the reset is done :)" "color" 0xFAA61A)}}
-		{{execCC .CCID nil 8 $sdict}}
+		{{execCC .CCID nil 10 $sdict}}
 	{{else}}
 		{{sendMessage nil (complexMessage "content" .User.Mention "embed" (cembed
 		"title" (print "I am done resetting \"" $sdict.key "\"! <:wolfyey:664130162023202816>")
