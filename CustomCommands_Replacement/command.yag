@@ -92,7 +92,7 @@ Permissions available: Administrator, ManageServer, SendMessages... use the view
 		{{$text := ""}}{{$t4 := ""}} 
 		{{if not (reFind `^No command by that id, trigger or name found, here is a list of them all:` $cc)}}
 			{{$m := (reFindAllSubmatches `(^#\s*(?P<CCID>\d+) (?:- Trigger: \x60(?P<Trigger>.+)\x60 )?- Type: \x60(?P<Type>[^\x60]+)\x60 (?:- Name: \x60(?P<NameComment>[^\x60]*)\x60 )?(?:- Case sensitive trigger: \x60(?P<Case>true|false)\x60 )?- Group: \x60(?P<Group>.*)\x60 - Disabled: \x60(?P<Disabled>true|false)\x60)(?:\n\x60\x60\x60txt\n((?:.|\n)*)\n\x60\x60\x60)$` $cc)}}
-			{{if in $cc "More than 1 matched command\n`"}}{{sendMessage nil (complexMessage "content" "more than one cc" "file" ($cc))}}
+			{{if in $cc "More than 1 matched command\n`"}}
 				{{$c := 0}}
 				{{- $grab := print $cr " More than 1 matched command!\nPlease use `" .Cmd " <ID>` to choose a custom command.\n"}}
 				{{- range (split $cc "\n`#")}}
