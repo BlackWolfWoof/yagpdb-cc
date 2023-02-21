@@ -69,7 +69,7 @@ This code lets you run your custom command at the time you want
 
 ### Usage
 
-Configure `$time` and `$timezone` as explained in the comment in the code and paste the code or text you want to send & run at the `{{/*YOUR CODE GOES HERE*/}}` section.
+Configure `$time`, `$timezone` and `$CCID` as explained in the comment in the code.
 
 ### Setup & Requirements
 
