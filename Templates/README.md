@@ -47,8 +47,9 @@ You can only call up to 100 entries at a time with dbTopEntries so don't go over
 
 ## Guild Icon
 
-This will give you the link to your guild icon. It supports animated and non-animated images.  
-Here an example of how it could be used.  
+~~This will give you the link to your guild icon. It supports animated and non-animated images.  
+Here an example of how it could be used.~~  
+**‼️DEPRICATED‼️, (.Guild.IconURL "1024") EXISTS NOW WHICH DOES THE SAME**
 <img src="../../assets/Templates/guild_icon.png?raw=true" width="30%"/>
 
 ### Usage
