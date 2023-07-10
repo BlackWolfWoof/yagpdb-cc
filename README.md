@@ -171,7 +171,6 @@ To receive update notifications for these custom commands join my [discord serve
 - [Open Folder](Templates)  
 **•** [bypass limit](Templates/bypass_limit.yag) - This template shows how you will be able to bypass the X uses per CC limits on some functions  
 **•** [bypass limit example](Templates/bypass_limit_example.yag) - This code is an example that bypasses the execAdmin limit (5 per cc)  
-**•** [guild icon](Templates/guild_icon.yag) - Outputs the guild icon of the server  
 **•** [interval time](Templates/interval_time.yag) - Run your custom command at a specified time  
 **•** [permission checker](Templates/permission_check.yag) - A code snippet for checking permissions of a user  
 **•** [rolecolor](Templates/rolecolor.yag) - Outputs the role color of the highest role the current user has  
