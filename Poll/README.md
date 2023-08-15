@@ -1,7 +1,7 @@
 # Poll Custom Command
 
 ## How to set it up:
-Disable the inbuilt poll custom command with command overwrites and after that add the custom commands.  
+Disable the inbuilt poll command with command overwrites and after that add the custom commands.  
 If you don't know how to disable the default poll command look at this gif that shows how to disable commands.
 
 ![Gif](https://i.imgur.com/odCIiIM.gif)
