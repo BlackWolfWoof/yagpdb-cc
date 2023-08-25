@@ -76,7 +76,7 @@ Configure `$time`, `$timezone` and `$CCID` as explained in the comment in the co
 
 Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 ---|---|---|---|---
-❌|10m Interval|**[Donload Link](interval_time.yag)**|❌|❌
+❌|10m Interval|**[Download Link](interval_time.yag)**|❌|❌
 
 ### Important
 
