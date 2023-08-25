@@ -80,7 +80,7 @@ Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 
 ### Important
 
-Remember to configure your variables in the code or and paste whatever you want the bot to run / say to `{{/*YOUR CODE GOES HERE*/}}`.
+Remember to configure your variables in the code.
 
 ---
 
