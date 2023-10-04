@@ -5,7 +5,7 @@
 Get your profile picture with `-avatar` or someone else's with `-avatar @User`.
 
 *Preview of the command*  
-<img src="../../assets/Misc/avatar.png?raw=true" width="60%"/>
+<img src="../../assets/Misc/avatar_command.png?raw=true" width="60%"/>
 ---
 
 ### Cloneroles
@@ -20,7 +20,7 @@ Fake banning a user with this command :)
 
 #### Preview of the command  
 
-<img src="../../assets/Misc/fakeban.png?raw=true" width="60%"/>
+<img src="../../assets/Misc/fakeban_command.png?raw=true" width="60%"/>
 ---
 
 ### Snowflake Converter
@@ -30,7 +30,7 @@ Does some math to show you the difference between 2 IDs (Snowflakes). Also works
 #### Preview of the command  
 
 <img src="../../assets/Logging/snowflake_command.png?raw=true" width="60%"/>
-
+---
 
 ### Downtime Announcement
 When yagpdb has downtime and comes back online it will send a message how long it was offline.  
@@ -46,7 +46,7 @@ Displays the messages if you copy a message link and send it.
 
 #### Preview of the command  
 
-<img src="../../assets/Misc/downtimeanno.png?raw=true" width="60%"/>
+<img src="../../assets/Misc/msglink.png?raw=true" width="60%"/>
 ---
 
 
@@ -58,7 +58,7 @@ This code adds reactions to all images in chat and can also optionally delete no
 ---
 
 
-### Mute Checker
+### Mute Checker  
 With this code you can check if a role (your muted role) is set up right in every channel and which channels might have issues.  
 It will give you a list of channels that the user will be able to speak in because of the channel permissions and a list of all roles that can still speak in that channel when the user is muted.  
 The code has 2 modes:  
@@ -90,4 +90,3 @@ It displays the time when it happened, when the last update was, the version of 
 
 #### *Preview of the command*  
 <img src="../../assets/Misc/newupdate.png?raw=true" width="60%"/>
----
