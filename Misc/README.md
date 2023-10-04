@@ -6,6 +6,7 @@ Get your profile picture with `-avatar` or someone else's with `-avatar @User`.
 
 *Preview of the command*  
 <img src="../../assets/Misc/avatar_command.png?raw=true" width="60%"/>
+
 ---
 
 ### Cloneroles
@@ -20,7 +21,8 @@ Fake banning a user with this command :)
 
 #### Preview of the command  
 
-<img src="../../assets/Misc/fakeban_command.png?raw=true" width="60%"/>
+<img src="../../assets/Misc/fakeban_command.ong.png?raw=true" width="60%"/>
+
 ---
 
 ### Snowflake Converter
@@ -29,7 +31,8 @@ Does some math to show you the difference between 2 IDs (Snowflakes). Also works
 
 #### Preview of the command  
 
-<img src="../../assets/Logging/snowflake_command.png?raw=true" width="60%"/>
+<img src="../../assets/Misc/snowflake_command.png?raw=true" width="60%"/>
+
 ---
 
 ### Downtime Announcement
@@ -37,6 +40,7 @@ When yagpdb has downtime and comes back online it will send a message how long i
 
 #### *Preview of the command*  
 <img src="../../assets/Misc/downtimeanno.png?raw=true" width="60%"/>
+
 ---
 
 
@@ -47,6 +51,7 @@ Displays the messages if you copy a message link and send it.
 #### Preview of the command  
 
 <img src="../../assets/Misc/msglink.png?raw=true" width="60%"/>
+
 ---
 
 
@@ -55,6 +60,7 @@ This code adds reactions to all images in chat and can also optionally delete no
 
 #### *Preview of the command*  
 <img src="../../assets/Misc/ir.gif?raw=true" width="60%"/>
+
 ---
 
 
@@ -64,6 +70,7 @@ It will give you a list of channels that the user will be able to speak in becau
 The code has 2 modes:  
 `$yagmute := false` - this will just give the user the role you gave it in the command and then check the permissions  
 `$yagmute := true` - this will execute the yagpdb mute command. This should be used if you have setup yagpdb to take away roles on mute. When you use this mode you cannot input a role in the command anymore and it will auto detect yagpdb's mute role.  
+
 ---
 
 
@@ -72,6 +79,7 @@ This code warns you when a Discord user with a new account joins your server.
 
 #### *Preview of the command*  
 <img src="../../assets/Misc/newacc.png?raw=true" width="60%"/>
+
 ---
 
 
