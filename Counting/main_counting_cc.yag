@@ -5,7 +5,7 @@
 	Usage:
 	Limit this custom command to your counting channel and start counting :)
 	
-	Copyright (c): Joe_#2997 (creator) & Black Wolf#0001 (modified) 2021
+	Copyright (c): Joe_#2997 (creator) & @blackwolfwoof (modified) 2021
 	License: MIT
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
@@ -113,7 +113,7 @@
 	{{/*Database Anti overflow*/}}
 	{{if not (dbGet 2000 "counting_warning")}}
 		{{dbSetExpire 2000 "counting_warning" true 604800}}
-		{{sendMessage nil (complexMessage "content" (print "<@" $.Guild.OwnerID ">, a custom command requires your attention!") "embed" (cembed "title" "‼️The YAGPDB database is almost full‼️" "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png") "description" (print "**The YAGPDB database is to " (fdiv (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100) "% full!\nTo ensure the functionality of thise code I will delete the counting trackers of the people who counted the least amount of times from now on.**\nTo stop that, please make sure the database isn't that full.\nIf you are unsure how to do that please join the [official support server](https://discord.gg/4udtcA5) and message `Black Wolf#0001` for help.") "color" 0xB62138))}}
+		{{sendMessage nil (complexMessage "content" (print "<@" $.Guild.OwnerID ">, a custom command requires your attention!") "embed" (cembed "title" "‼️The YAGPDB database is almost full‼️" "thumbnail" (sdict "url" "https://cdn.discordapp.com/emojis/565142262401728512.png") "description" (print "**The YAGPDB database is to " (fdiv (mult (mult .Guild.MemberCount $_|fdiv $dbcount) 10000|roundCeil) 100) "% full!\nTo ensure the functionality of thise code I will delete the counting trackers of the people who counted the least amount of times from now on.**\nTo stop that, please make sure the database isn't that full.\nIf you are unsure how to do that please join the [official support server](https://discord.gg/4udtcA5) and message `@blackwolfwoof` for help.") "color" 0xB62138))}}
 	{{else}}
 		{{range (dbBottomEntries "counting_tracker" 1 0)}}
 			{{dbDel .UserID .Key}}

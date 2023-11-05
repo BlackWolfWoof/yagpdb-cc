@@ -1,7 +1,7 @@
 {{/*
 	Trigger Type: Reaction (add)
 	
-	Made by Black Wolf#0001
+	Made by @blackwolfwoof
 */}}
 
 {{if and (inFold (cslice "1️⃣" "2️⃣" "3️⃣" "4️⃣" "5️⃣" "6️⃣" "7️⃣" "8️⃣" "9️⃣" ) .Reaction.Emoji.Name) (eq .Message.Author.ID $.BotUser.ID)}}

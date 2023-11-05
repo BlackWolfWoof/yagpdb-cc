@@ -6,7 +6,7 @@
 	avatar
 	avatar @member
 
-	Made by Black Wolf#0001
+	Made by @blackwolfwoof
 */}}
 
 {{$prefix := index (reFindAllSubmatches `Prefix of \x60\d+\x60: \x60(.+)\x60` (exec "prefix")) 0 1}}

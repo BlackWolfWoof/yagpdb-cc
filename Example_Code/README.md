@@ -2,7 +2,7 @@
 
 ## Introduction
 If you are new to custom commands or don't know how how to do something you can take a look at these examples that will show you how to use a few functions.  
-You can contact `Black Wolf#0001` on the [official support server for yagpdb](https://discord.gg/4udtcA5) and ask for examples to be added if you have difficulty with something.  
+You can contact `@blackwolfwoof` on the [official support server for yagpdb](https://discord.gg/4udtcA5) and ask for examples to be added if you have difficulty with something.  
 I'd highly recommend you to check out the [learning page](https://learn.yagpdb.xyz/) and the [docs](https://docs.yagpdb.xyz/reference/templates) which will also explain or show what and how you can use functions, variables and more.  
 
 

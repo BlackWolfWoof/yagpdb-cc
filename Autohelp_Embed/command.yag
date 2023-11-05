@@ -2,7 +2,7 @@
 	Trigger Type: Command
 	Trigger: autohelp
 
-	Made by Black Wolf#0001
+	Made by @blackwolfwoof
 */}}
 
 {{$x := sendMessageRetID nil (cembed

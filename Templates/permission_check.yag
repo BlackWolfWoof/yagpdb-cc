@@ -7,7 +7,7 @@
 	v2: Use this if you need to check for multiple permissions in the custom command
 	different channel: Specify a channel you want to get the permissions of a user from
 
-	Made by Black Wolf#0001
+	Made by @blackwolfwoof
 */}}
 
 {{/*The bot will check if the user has this permission.

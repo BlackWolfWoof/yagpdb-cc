@@ -3,7 +3,7 @@
 	$color will return the highest role color that the user has in $color.
 	It will be the same color as displayed in the chat.
 
-	Made by Black Wolf#0001
+	Made by @blackwolfwoof
 */}}
 
 {{$color := 0}}{{$old := 0}}

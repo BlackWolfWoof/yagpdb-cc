@@ -63,7 +63,7 @@ Trigger|Trigger Type|Code|Dependencies|Custom Command Settings
 {{/*You can decide bewteen "kick" "ban" and "mute". You should keep this the same effect as used in automod v2.*/}}
 ```
 
-If you are not sure if you have set it up correctly or have any questions you can join [the support server](https://discord.gg/4udtcA5), provide a link to your dashboard / control panel, and ask `Black Wolf#0001` to take a look at the anti raid code.  
+If you are not sure if you have set it up correctly or have any questions you can join [the support server](https://discord.gg/4udtcA5), provide a link to your dashboard / control panel, and ask `@blackwolfwoof` to take a look at the anti raid code.  
 
 ### Important
 

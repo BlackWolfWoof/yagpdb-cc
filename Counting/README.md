@@ -62,4 +62,4 @@ If you have been using the old counting system from yagpdb before you can use th
 ### Disclamer
 
 If you do not like this code, there is also [another counting code](https://yagpdb-cc.github.io/fun/counting) on the official custom command website.  
-I `Black Wolf#0001` didn't come up with this idea, nor do I own the full code. The following parts of the code were all made a while ago but I re-uploaded & edited them because the old counting custom command on the [YAGPDB Community & Support server](https://discord.gg/4udtcA5) was outdated ~~and messy~~ and people kept having issues with it on their servers when adding it.
+I `@blackwolfwoof` didn't come up with this idea, nor do I own the full code. The following parts of the code were all made a while ago but I re-uploaded & edited them because the old counting custom command on the [YAGPDB Community & Support server](https://discord.gg/4udtcA5) was outdated ~~and messy~~ and people kept having issues with it on their servers when adding it.

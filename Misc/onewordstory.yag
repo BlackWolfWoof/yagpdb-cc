@@ -2,7 +2,7 @@
 	Trigger Type: Regex
 	Trigger: \A
 	
-	Made by Black Wolf#0001
+	Made by @blackwolfwoof
 */}}
 
 {{$user := 0}}
