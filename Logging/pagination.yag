@@ -109,7 +109,7 @@
 					{{editMessage nil $.ReactionMessage.ID $embed}}
 				{{end}}
 			{{end}}
-		{{else if ($rf := reFindAllSubmatches `(Mutes|Bans|Kicks|Warnings|Warns) - User : (\d+)` .Name)}}
+		{{else if ($rf := reFindAllSubmatches `(Mutes|Bans|Kicks|Warnings|Warns|Timeouts) - User : (\d+)` .Name)}}
 			{{$authorname := .Name}}
 			{{$r := (reFindAllSubmatches `\?author=(\d+)\?messageid=(\d+)` .IconURL)}}
 			{{if eq $.Reaction.Emoji.Name "🗑️" "🗑"}}
@@ -127,7 +127,7 @@
 				{{$page = -1}}
 			{{end}}
 			{{$dblogs := sdict}}{{with dbGet (index $rf 0 2|toInt) "logs"}}{{$dblogs = .Value}}{{end}}
-			{{$type := reFind `warn|mute|kick|ban` (lower .Name)}}
+			{{$type := reFind `warn|mute|kick|ban|timeout` (lower .Name)}}
 			{{if ne $page -1}}
 				{{$c := 0}}{{$grab := ""}}
 				{{range $name, $value := $dblogs}}
