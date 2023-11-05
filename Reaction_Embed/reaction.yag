@@ -7,7 +7,7 @@
 */}}
 
 {{$cid := .Reaction.ChannelID}}{{$mid := .Reaction.MessageID}}{{$en := .Reaction.Emoji.Name}}
-{{if eq .Message.Author.ID 204255221017214977}}
+{{if eq .Message.Author.ID $.BotUser.ID}}
 	{{if (eq $en "❤️")}}
 		{{editMessage $cid $mid (cembed
 		"title" "❤️ Example1"

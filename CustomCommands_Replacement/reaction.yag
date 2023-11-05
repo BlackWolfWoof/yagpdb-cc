@@ -62,6 +62,6 @@
 		{{deleteMessageReaction nil $mid .User.ID "◀️" "▶️"}}
 		{{addMessageReactions nil $mid "cross:705738821110595607"}}
 		{{sleep 3}}
-		{{deleteMessageReaction nil $mid 204255221017214977 "cross:705738821110595607"}}
+		{{deleteMessageReaction nil $mid $.BotUser.ID "cross:705738821110595607"}}
 	{{end}}
 {{end}}

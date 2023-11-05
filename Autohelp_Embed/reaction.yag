@@ -4,7 +4,7 @@
 	Made by Black Wolf#0001
 */}}
 
-{{if and (inFold (cslice "1️⃣" "2️⃣" "3️⃣" "4️⃣" "5️⃣" "6️⃣" "7️⃣" "8️⃣" "9️⃣" ) .Reaction.Emoji.Name) (eq .Message.Author.ID 204255221017214977)}}
+{{if and (inFold (cslice "1️⃣" "2️⃣" "3️⃣" "4️⃣" "5️⃣" "6️⃣" "7️⃣" "8️⃣" "9️⃣" ) .Reaction.Emoji.Name) (eq .Message.Author.ID $.BotUser.ID)}}
 	{{if eq .Reaction.Emoji.Name "1️⃣"}}
 	{{sendDM (cembed "color" 0xEBBF0E "title" "1️⃣ Autohelp" "description" "Example 1")}}
 	{{else if eq .Reaction.Emoji.Name "2️⃣"}}

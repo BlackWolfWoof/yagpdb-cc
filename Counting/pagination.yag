@@ -7,7 +7,7 @@
 	Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
 
-{{if and .Message.Embeds (eq .Message.Author.ID 204255221017214977)}}
+{{if and .Message.Embeds (eq .Message.Author.ID $.BotUser.ID)}}
 	{{$msg := index .Message.Embeds 0|structToSdict}}
 	{{if (reFind `\A(Snippet:|Counter Leaderboard)` $msg.Title)}}
 		{{range $k, $v := $msg}}

@@ -12,7 +12,7 @@
 {{$channel := .Channel.ID}}{{/*The channel it should be sending the message in, .Channel.ID = current channel*/}}
 
 {{$version := index (reFindAllSubmatches `YAGPDB Status, version (.+)` (exec "yagstatus").Title) 0 1}}
-{{$yagversion := sdict}}{{with dbGet 204255221017214977 "yagversion"}}{{$yagversion = .Value}}{{end}}
+{{$yagversion := sdict}}{{with dbGet $.BotUser.ID "yagversion"}}{{$yagversion = .Value}}{{end}}
 {{$firsttime := ""}}
 {{if not $yagversion.version}}
 	{{$yagversion = sdict "version" "No old versions recorded" "last_update" (toDuration "5329h"|(newDate 2015 1 1 0 0 0).Add|currentTime.Sub|(newDate 2015 1 1 0 0 0).Add)}}{{$firsttime = " - ❗Example❗ "}}
@@ -33,5 +33,5 @@
 		"author" (sdict "icon_url" "https://cdn.discordapp.com/emojis/708214342067421215.png" "name" (print "YAGPDB updated" $firsttime))
 		"color" 0x738BD7
 		"timestamp" currentTime)}}
-	{{dbSet 204255221017214977 "yagversion" (sdict "version" $version "last_update" currentTime)}}
+	{{dbSet $.BotUser.ID "yagversion" (sdict "version" $version "last_update" currentTime)}}
 {{end}}

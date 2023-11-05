@@ -13,7 +13,7 @@
 */}}
 
 {{/*Downtime*/}}
-{{$dbtime := (dbGet 204255221017214977 "downtime").Value}}{{$ctime := currentTime}}{{$firsttime := ""}}
+{{$dbtime := (dbGet $.BotUser.ID "downtime").Value}}{{$ctime := currentTime}}{{$firsttime := ""}}
 {{if not $dbtime}}
 	{{$firsttime = " - ❗Example❗"}}
 	{{$dbtime = mult -3510 .TimeSecond|toDuration|$ctime.Add}}
@@ -26,4 +26,4 @@
 	"timestamp" $ctime)}}
 {{end}}
 {{$dbtime := toDuration "90s"|$ctime.Add}}
-{{dbSet 204255221017214977 "downtime" $dbtime}}
+{{dbSet $.BotUser.ID "downtime" $dbtime}}

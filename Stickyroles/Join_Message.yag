@@ -21,7 +21,7 @@
 {{$db := dbGet .User.ID "stickyroles"}}{{if $db.ExpiresAt}}{{dbSet .User.ID "stickyroles" $db.Value}}{{end}}
 
 {{/*Yag's highest role position*/}}
-{{$yagpos := 0}}{{range (getMember 204255221017214977).Roles}}{{if gt ($_ := ($.Guild.GetRole .).Position) $yagpos}}{{$yagpos = $_}}{{end}}{{end}}
+{{$yagpos := 0}}{{range (getMember $.BotUser.ID).Roles}}{{if gt ($_ := ($.Guild.GetRole .).Position) $yagpos}}{{$yagpos = $_}}{{end}}{{end}}
 
 {{/*If another bot already gave roles they are included in setRoles*/}}
 {{$roles := cslice}}{{range .Member.Roles}}{{if gt $yagpos ($.Guild.GetRole .).Position}}{{$roles = $roles.Append .}}{{end}}{{end}}
