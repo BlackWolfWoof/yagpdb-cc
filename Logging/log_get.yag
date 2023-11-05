@@ -17,8 +17,8 @@
 "mute" "ManageRoles"
 "kick" "KickMembers"
 "ban" "BanMembers"
-"timeout" "ManageRoles"}}
-{{/*You can replace ManageMessages, ManageRoles, KickMembers and BanMembers with any of the following permissions if you want.
+"timeout" "ModerateMembers"}}
+{{/*You can replace ManageMessages, ModerateMembers, KickMembers and BanMembers with any of the following permissions if you want.
 You'll need these permissions to delete an entry or even view them, if $view is set to false.*/}}
 {{/*Permissions available: Administrator, ManageServer, ReadMessages, SendMessages, SendTTSMessages, ManageMessages, EmbedLinks, AttachFiles, ReadMessageHistory, MentionEveryone, VoiceConnect, VoiceSpeak, VoiceMuteMembers, VoiceDeafenMembers, VoiceMoveMembers, VoiceUseVAD, ManageNicknames, ManageRoles, ManageWebhooks, ManageEmojis, CreateInstantInvite, KickMembers, BanMembers, ManageChannels, AddReactions, ViewAuditLogs*/}}
 
