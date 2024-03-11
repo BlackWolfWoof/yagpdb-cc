@@ -43,10 +43,10 @@ You'll need these permissions to delete an entry or even view them, if $view is 
 		{{if not (inFold .Cmd `del`)}}{{$fix := false}}
 			{{/*Backwards compat fix for "ban" to "bans" :')*/ -}}
 			{{range $name, $value := $dblogs}}
-				{{- with reFindAllSubmatches `ban(\d+)` $name -}}
+				{{- with reFindAllSubmatches `bans(\d+)` $name -}}
 					{{- $fix = true -}}
 					{{- $dblogs.Del $name -}}
-					{{- $dblogs.Set (index . 0 1|print "bans") $value -}}
+					{{- $dblogs.Set (index . 0 1|print "ban") $value -}}
 				{{- end -}}
 			{{end}}
 			{{if $fix}}
