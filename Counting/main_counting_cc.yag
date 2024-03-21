@@ -81,7 +81,8 @@
 		{{end}}
 
 		{{/*Countingrole part*/}}
-		{{if and $countingrole (dbGet .User.ID "countingroleblock"|not)}}
+		{{$sdict := sdict}}{{with (dbGet 0 "countingroleblock")}}{{$sdict = .Value}}{{end}}
+		{{if and $countingrole ($sdict.Get (str .User.ID)|not)}}
 			{{if not $blockrole}}
 				{{addRoleID $countingrole}}
 				{{if ne $db.countingrole .User.ID}}
