@@ -26,6 +26,11 @@
 	{{if not $msg}}
 		{{sendMessage nil (cembed "title" "Something broke :(" "color" 0xDD2E44 "description" "<:cross:705738821110595607>OOPS! The message you are trying to quote doesn't exist!\nCheck if the channel and message exists.")}}
 	{{else}}
+        {{$permlist := sdict}}{{$v0 := sendTemplate $msg.ChannelID "perms" $permlist}}
+        {{if not (in (split (index (split $permlist.Out "\n" ) 2) ", ") "ReadMessages")}}
+            {{return (sendMessage nil (cembed "title" "Missing permissions" "description" (print "<:cross:705738821110595607> You don't have access to this channel.") "color" 0xDD2E44))}}
+        {{end}}
+
 		{{$content := $msg.Content}}
 		{{$mc := reReplace `(?:https?://)?(?:www\.)?(discord(?:app)?\.gg(?:/|\\+/+)|discord(?:app)?\.com(?:/|\\+/+)(?:invite/))\w{2,}|(?:https?://)?(?:www\.)?(?:discord(?:app)?\.(?:io|me|li)|invite\.gg|dsc\.gg|top\.gg\/servers|discordservers\.com\/(?:server|bump))(?:/|\\+/+)[A-z+0-9]{2,}` $msg.Content "[Invite Removed](https://example.com/)"}}
 		{{$e := sdict
@@ -122,3 +127,5 @@
 		{{end}}
 	{{end}}
 {{end}}
+
+{{define "perms"}}{{.TemplateArgs.Set "Out" (exec "viewperms")}}{{end}}
