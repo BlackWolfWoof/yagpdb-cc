@@ -10,6 +10,7 @@
     Repository: https://github.com/BlackWolfWoof/yagpdb-cc/
 */}}
 
+{{define "perms"}}{{.TemplateArgs.Set "Out" (exec "viewperms")}}{{end}}
 {{$m := reFindAllSubmatches `(?i)https://(?:\w+\.)?discord(?:app)?\.com/channels\/(\d+)\/(\d+)\/(\d+)` .Message.Content}}{{$reminder := true}}
 {{if not (eq (toInt64 (index $m 0 1)) .Guild.ID)}}
     {{sendMessage nil (cembed
@@ -127,5 +128,3 @@
         {{end}}
     {{end}}
 {{end}}
-
-{{define "perms"}}{{.TemplateArgs.Set "Out" (exec "viewperms")}}{{end}}
