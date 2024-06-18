@@ -108,12 +108,18 @@
 		{{with (dbGet 0 (print "snippet_" $r))}}
 			{{if or (not (dbGet $.Channel.ID (slice .Key 8|title))) (in (split (index (split (exec "viewperms") "\n") 2) ", ") "ManageMessages")}}
 				{{$i := .Value}}
-				{{$msg := sendMessageRetID nil (cembed
-					"title" (print "Snippet: " (slice .Key 8|title))
-					"description" $i.value
-					"image" (sdict "url" (or $i.image ""))
-					"footer" (sdict "text" (print "Author: " (or $i.author "Unknown User") "\nReact with 📱 to be DMed a mobile version.")))}}
-				{{addMessageReactions nil $msg "📱"}}
+                {{$embed := cembed
+                	"title" (print "Snippet: " (slice .Key 8|title))
+                	"description" $i.value
+                	"image" (sdict "url" (or $i.image ""))
+                	"footer" (sdict "text" (print "Author: " (or $i.author "Unknown User") "\nReact with 📱 to be DMed a mobile version, ⚙ to show snippet source."))}}
+				{{$msg := sdict "embed" $embed}}
+                {{$reference := false}}
+                {{with $.Message.ReferencedMessage}}
+                    {{$msg.Set "reply" .ID}}
+                {{end}}
+				{{$mID := sendMessageNoEscapeRetID nil (complexMessage $msg) }}
+				{{addMessageReactions nil $mID "📱"}}
 				{{$a := sdict}}{{with dbGet 2000 "snippetstats"}}{{$a = .Value}}{{end}}
 				{{$channel := sdict}}{{with $a.Get (str $.Channel.ID)}}{{$channel = .}}{{end}}
 				{{$channel.Set (randInt 0 1000000|str) (sdict "ExpiresAt" (currentTime.Add (toDuration (mult 604800 $.TimeSecond))) "snippet" (slice .Key 8|title))}}
